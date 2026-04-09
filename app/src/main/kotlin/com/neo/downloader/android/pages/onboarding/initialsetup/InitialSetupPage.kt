@@ -19,7 +19,6 @@ import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.neo.downloader.android.pages.onboarding.AppIcon
 import com.neo.downloader.android.pages.onboarding.StartUpPageActions
 import com.neo.downloader.android.pages.onboarding.StartUpPageHeader
 import com.neo.downloader.android.pages.onboarding.StartUpPageTemplate
@@ -76,12 +75,6 @@ fun InitialSetupPage(
                         .weight(1f)
                         .wrapContentHeight()
                 ) {
-                    AppIcon(
-                        Modifier
-                            .fillMaxWidth()
-                            .wrapContentWidth(),
-                        size = 72.dp,
-                    )
                     Spacer(Modifier.height(mySpacings.largeSpace))
                     Spacer(Modifier.height(mySpacings.largeSpace))
                     Text(
