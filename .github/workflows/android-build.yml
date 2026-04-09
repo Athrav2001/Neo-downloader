@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JBR
         uses: actions/setup-java@v4
@@ -21,14 +21,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ubuntu-android-gradle
-          enableCrossOsArchive: true
+      - name: Set up Gradle (with cache)
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
@@ -36,7 +30,7 @@ jobs:
       - name: Install Android SDK packages
         shell: bash
         run: |
-          yes | sdkmanager "platforms;android-36" "build-tools;36.1.0"
+          sdkmanager --install "platforms;android-36" "build-tools;36.1.0"
 
       - name: Build Debug APK
         shell: bash
