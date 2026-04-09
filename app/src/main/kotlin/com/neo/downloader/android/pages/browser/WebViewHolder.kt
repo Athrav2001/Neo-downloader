@@ -41,7 +41,11 @@ class WebViewRegistry(
                 tab = tab,
                 navigator = WebViewNavigator(scope),
                 webView = null,
-                client = NDMWebViewClient(browserComponent.downloadInterceptor, scope),
+                client = NDMWebViewClient(
+                    requestInterceptor = browserComponent.downloadInterceptor,
+                    scope = scope,
+                    browserComponent = browserComponent,
+                ),
                 chromeClient = NDMChromeClient(browserComponent, ::getWebViewHolder),
                 webViewFactory = this,
             )
@@ -150,6 +154,7 @@ interface WebViewFactory {
 class NDMWebViewClient(
     private val requestInterceptor: DownloadInterceptor,
     private val scope: CoroutineScope,
+    private val browserComponent: BrowserComponent,
 ) : AccompanistWebViewClient() {
     override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
         if (request != null) {
@@ -211,6 +216,15 @@ class NDMWebViewClient(
 
         return true
     }
+
+    override fun onPageFinished(view: WebView, url: String?) {
+        super.onPageFinished(view, url)
+        browserComponent.onTabPageFinished(
+            tabId = (view as? NDMWebView)?.tabId,
+            url = view.url ?: url,
+            title = view.title,
+        )
+    }
 }
 
 class NDMChromeClient(
@@ -236,6 +250,11 @@ class NDMChromeClient(
         transport.webView = newWebView
         resultMsg.sendToTarget()
         return true
+    }
+
+    override fun onReceivedTitle(view: WebView, title: String?) {
+        super.onReceivedTitle(view, title)
+        browserComponent.onTabTitleReceived((view as? NDMWebView)?.tabId)
     }
 }
 

@@ -12,4 +12,6 @@ class AndroidDefinedPaths(
     val onboardingFile = pagesStateDir.resolve("onboarding.json")
     val homePageFile = pagesStateDir.resolve("home.json")
     val browserBookmarksFile = pagesStateDir.resolve("browser_bookmarks.json")
+    val browserHistoryFile = pagesStateDir.resolve("browser_history.json")
+    val browserSessionFile = pagesStateDir.resolve("browser_session.json")
 }

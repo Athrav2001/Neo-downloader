@@ -17,6 +17,8 @@ import com.neo.downloader.android.storage.AndroidExtraQueueSettings
 import com.neo.downloader.android.storage.AndroidOnBoardingStorage
 import com.neo.downloader.android.storage.AppSettingsStorage
 import com.neo.downloader.android.storage.BrowserBookmarksStorage
+import com.neo.downloader.android.storage.BrowserHistoryStorage
+import com.neo.downloader.android.storage.BrowserSessionStorage
 import com.neo.downloader.android.storage.HomePageStorage
 import com.neo.downloader.android.storage.OnBoardingData
 import com.neo.downloader.android.util.NDMAppManager
@@ -90,6 +92,7 @@ import com.neo.downloader.shared.util.ui.IMyIcons
 import com.neo.downloader.shared.util.proxy.IProxyStorage
 import com.neo.downloader.shared.util.proxy.ProxyData
 import com.neo.downloader.shared.util.proxy.ProxyManager
+import com.neo.browser.logic.session.NeoBrowserSessionState
 import ir.amirab.downloader.DownloaderRegistry
 import ir.amirab.downloader.connection.UserAgentProvider
 import ir.amirab.downloader.connection.proxy.AutoConfigurableProxyProvider
@@ -622,6 +625,26 @@ fun getAppModule(context: NDMApp) = module {
                 paths.browserBookmarksFile.toFile(),
                 get(),
                 ::emptyList,
+            )
+        )
+    }
+    single {
+        val paths = get<AndroidDefinedPaths>()
+        BrowserHistoryStorage(
+            kotlinxSerializationDataStore(
+                paths.browserHistoryFile.toFile(),
+                get(),
+                ::emptyList,
+            )
+        )
+    }
+    single {
+        val paths = get<AndroidDefinedPaths>()
+        BrowserSessionStorage(
+            kotlinxSerializationDataStore(
+                paths.browserSessionFile.toFile(),
+                get(),
+                ::NeoBrowserSessionState,
             )
         )
     }

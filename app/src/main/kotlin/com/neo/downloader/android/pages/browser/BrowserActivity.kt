@@ -15,9 +15,13 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import androidx.core.net.toUri
 import com.neo.downloader.android.storage.BrowserBookmarksStorage
+import com.neo.downloader.android.storage.BrowserHistoryStorage
+import com.neo.downloader.android.storage.BrowserSessionStorage
 
 class BrowserActivity : NDMActivity() {
     private val browserBookmarksStorage: BrowserBookmarksStorage by inject()
+    private val browserHistoryStorage: BrowserHistoryStorage by inject()
+    private val browserSessionStorage: BrowserSessionStorage by inject()
     private val json: Json by inject()
     val component by lazy {
         BrowserComponent(
@@ -25,6 +29,8 @@ class BrowserActivity : NDMActivity() {
             context = applicationContext,
             json = json,
             browserBookmarksStorage = browserBookmarksStorage,
+            browserHistoryStorage = browserHistoryStorage,
+            browserSessionStorage = browserSessionStorage,
         )
     }
 
@@ -95,4 +101,3 @@ class BrowserActivity : NDMActivity() {
         }
     }
 }
-

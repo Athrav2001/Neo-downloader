@@ -3,11 +3,19 @@ package com.neo.downloader.android.pages.browser
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Stable
+import com.neo.browser.logic.history.NeoBrowserHistoryManager
+import com.neo.browser.logic.session.NeoBrowserSessionManager
+import com.neo.browser.logic.session.NeoBrowserSessionTab
+import com.neo.browser.logic.search.NeoSearchEngine
+import com.neo.browser.logic.search.NeoSearchEngineProvider
+import com.neo.browser.logic.url.NeoBrowserUrlResolver
 import com.neo.downloader.android.pages.add.multiple.AddMultiDownloadActivity
 import com.neo.downloader.android.pages.add.single.AddSingleDownloadActivity
 import com.neo.downloader.android.pages.browser.bookmark.EditBookmarkState
 import com.neo.downloader.android.storage.BrowserBookmark
 import com.neo.downloader.android.storage.BrowserBookmarksStorage
+import com.neo.downloader.android.storage.BrowserHistoryStorage
+import com.neo.downloader.android.storage.BrowserSessionStorage
 import com.neo.downloader.android.ui.widget.WebContent
 import com.neo.downloader.android.ui.widget.WebViewState
 import com.neo.downloader.resources.Res
@@ -18,7 +26,6 @@ import com.neo.downloader.shared.util.mvi.ContainsEffects
 import com.neo.downloader.shared.util.mvi.supportEffects
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.HttpUrlUtils
 import ir.amirab.util.compose.action.AnAction
 import ir.amirab.util.compose.action.MenuItem
 import ir.amirab.util.compose.action.buildMenu
@@ -37,7 +44,9 @@ class BrowserComponent(
     private val context: Context,
     private val json: Json,
     private val browserBookmarksStorage: BrowserBookmarksStorage,
-) : BaseComponent(
+    private val browserHistoryStorage: BrowserHistoryStorage,
+    private val browserSessionStorage: BrowserSessionStorage,
+    ) : BaseComponent(
     componentContext,
 ), ContainsEffects<BrowserComponent.Effects> by supportEffects() {
     val downloadInterceptor = DownloadInterceptor(
@@ -63,13 +72,21 @@ class BrowserComponent(
             }
         }
     )
-    private val currentSearchEngine = MutableStateFlow(
-        SearchEngines.DuckDuckGo
+    private val searchEngineProvider = NeoSearchEngineProvider(
+        selectedEngine = NeoSearchEngine.DUCK_DUCK_GO
+    )
+    private val urlResolver = NeoBrowserUrlResolver(searchEngineProvider)
+    private val historyManager = NeoBrowserHistoryManager(
+        browserHistoryStorage.historyFlow
+    )
+    private val sessionManager = NeoBrowserSessionManager(
+        browserSessionStorage.sessionFlow
     )
     val tabs = MutableStateFlow(
-        NDMTabs.createDefault()
+        createInitialTabs()
     )
     val bookmarks = browserBookmarksStorage.bookmarksFlow
+    val history = historyManager.history
     private val _mainMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
     val mainMenu = _mainMenu.asStateFlow()
     fun openMainMenu() {
@@ -133,6 +150,7 @@ class BrowserComponent(
                 activeTabIndex = newIndex
             )
         }
+        persistSessionSnapshot()
         return browserTab
     }
 
@@ -146,6 +164,7 @@ class BrowserComponent(
                 }.getOrElse { -1 },
             )
         }
+        persistSessionSnapshot()
     }
 
     fun addToBookmarks(
@@ -223,31 +242,64 @@ class BrowserComponent(
                 activeTabIndex = newIndex,
             )
         }
+        persistSessionSnapshot()
     }
 
-    private val websiteAndTLD by lazy {
-        """^[\w.-]+\.[a-zA-Z]{2,}(:\d{1,5})?$""".toRegex()
+    fun onTabPageFinished(
+        tabId: NDMBrowserTabId?,
+        url: String?,
+        title: String?,
+    ) {
+        if (tabId == null) return
+        historyManager.recordVisit(
+            rawUrl = url,
+            title = title,
+        )
+        persistSessionSnapshot()
+    }
+
+    fun onTabTitleReceived(tabId: NDMBrowserTabId?) {
+        if (tabId == null) return
+        persistSessionSnapshot()
     }
 
     fun createNewUrlFor(urlOrSearch: String): String {
-        val value = urlOrSearch.trim()
-        if (value.contains(' ')) {
-            return createSearchEngineUrl(value)
-        }
-        if (HttpUrlUtils.isValidUrl(value)) {
-            return value
-        }
-        if (websiteAndTLD.matches(value)) {
-            val withHttpScheme = "https://$value"
-            if (HttpUrlUtils.isValidUrl(withHttpScheme)) {
-                return withHttpScheme
-            }
-        }
-        return createSearchEngineUrl(value)
+        return urlResolver.resolve(urlOrSearch)
     }
 
-    private fun createSearchEngineUrl(searchText: String): String {
-        return currentSearchEngine.value.createSearchUrl(searchText)
+    private fun createInitialTabs(): NDMTabs {
+        val session = sessionManager.current()
+        val restoredTabs = session.tabs.mapNotNull { tab ->
+            val tabId = tab.tabId.ifBlank { UUID.randomUUID().toString() }
+            val content = WebContent.fromNullableUrl(tab.url)
+            NDMBrowserTab(
+                tabId = tabId,
+                tabState = WebViewState(content),
+            )
+        }
+        if (restoredTabs.isEmpty()) return NDMTabs.createDefault()
+        val restoredIndex = restoredTabs.indexOfFirst { it.tabId == session.activeTabId }
+            .takeIf { it >= 0 } ?: 0
+        return NDMTabs(
+            tabs = restoredTabs,
+            activeTabIndex = restoredIndex,
+        )
+    }
+
+    private fun persistSessionSnapshot() {
+        val tabsState = tabs.value
+        val tabsToPersist = tabsState.tabs.map { tab ->
+            val fallbackUrl = (tab.tabState.content as? WebContent.Url)?.url
+            NeoBrowserSessionTab(
+                tabId = tab.tabId,
+                url = tab.tabState.lastLoadedUrl ?: fallbackUrl,
+                title = tab.tabState.pageTitle,
+            )
+        }
+        sessionManager.persist(
+            tabs = tabsToPersist,
+            activeTabId = tabsState.activeTab?.tabId,
+        )
     }
 
     val contextMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
@@ -418,4 +470,3 @@ data class NDMTabs(
         )
     }
 }
-
