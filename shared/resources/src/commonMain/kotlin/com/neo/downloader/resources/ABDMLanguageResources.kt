@@ -5,7 +5,7 @@ import okio.FileSystem
 import okio.Path.Companion.toPath
 
 object NDMLanguageResources {
-    private const val LOCALES_DIRECTORY = "com/neo.downloader/resources/locales/"
+    private const val LOCALES_DIRECTORY = "com/neo/downloader/resources/locales/"
     val defaultLanguageResource = run {
         val defaultName = "en_US"
         MyLanguageResource.BundledLanguageResource(
@@ -45,6 +45,6 @@ internal object ResourceUtil {
 object NDMResources {
     fun getTranslatorsContent(): String {
         return ResourceUtil
-            .readResourceAsString("com/neo.downloader/resources/credits/translators.json")
+            .readResourceAsString("com/neo/downloader/resources/credits/translators.json")
     }
 }
