@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -74,6 +75,14 @@ fun MyTextField(
         modifier
             .ifThen(!enabled) {
                 alpha(0.5f)
+            }
+            .ifThen(isFocused && enabled) {
+                shadow(
+                    elevation = 10.dp,
+                    shape = shape,
+                    ambientColor = if (myColors.isLight) myColors.onBackground / 0.06f else myColors.glowColor,
+                    spotColor = if (myColors.isLight) myColors.onBackground / 0.06f else myColors.glowColor,
+                )
             }
             .clip(shape)
             .heightIn(mySpacings.thumbSize)

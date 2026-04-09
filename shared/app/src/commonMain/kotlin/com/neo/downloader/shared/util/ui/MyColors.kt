@@ -85,6 +85,7 @@ data class MyColors(
     }
 
     val focusedBorderColor = primary
+    val glowColor = if (isLight) onBackground / 0.10f else primary / 0.45f
 
 
     fun getContentColorFor(color: Color): Color {
@@ -107,7 +108,7 @@ private object AnimateMyColors {
     @Composable
     fun animatedColors(
         toBeAnimated: MyColors,
-        spec: FiniteAnimationSpec<Color> = tween(500),
+        spec: FiniteAnimationSpec<Color> = tween(220),
     ): MyColors {
         val primary by animated(toBeAnimated.primary, spec)
         val primaryVariant by animated(toBeAnimated.primaryVariant, spec)
@@ -166,7 +167,7 @@ private object AnimateMyColors {
     @Composable
     private fun animated(
         color: Color,
-        animationSpec: AnimationSpec<Color> = tween(500),
+        animationSpec: AnimationSpec<Color> = tween(220),
     ): State<Color> {
         return animateColorAsState(color, animationSpec = animationSpec)
     }
@@ -177,7 +178,7 @@ private object AnimateMyColorsWithSingleTransition {
     @Composable
     fun animatedColors(
         toBeAnimated: MyColors,
-        spec: FiniteAnimationSpec<Color> = tween(500)
+        spec: FiniteAnimationSpec<Color> = tween(220)
     ): MyColors {
         val spec: @Composable Transition.Segment<MyColors>.() -> FiniteAnimationSpec<Color> = { spec }
         val transition = updateTransition(toBeAnimated, "animateMyColors")

@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -49,6 +50,14 @@ fun ActionButton(
     val borderColor = if (isFocused) focusedBorderColor else borderColor
     Row(
         modifier
+            .ifThen(enabled) {
+                shadow(
+                    elevation = if (isFocused) 10.dp else 4.dp,
+                    shape = shape,
+                    ambientColor = if (myColors.isLight) myColors.onBackground / 0.06f else myColors.glowColor,
+                    spotColor = if (myColors.isLight) myColors.onBackground / 0.06f else myColors.glowColor,
+                )
+            }
             .heightIn(mySpacings.thumbSize)
             .border(1.dp, if (enabled) borderColor else disabledBorderColor, shape)
             .clip(shape)

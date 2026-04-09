@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.theme.myShapes
@@ -28,12 +29,18 @@ fun AddUrlButton(
     val downloadIcon = MyIcons.download
     Row(
         modifier
+            .shadow(
+                elevation = if (myColors.isLight) 3.dp else 8.dp,
+                shape = shape,
+                ambientColor = if (myColors.isLight) myColors.onBackground / 0.06f else myColors.glowColor,
+                spotColor = if (myColors.isLight) myColors.onBackground / 0.06f else myColors.glowColor,
+            )
             .clip(shape)
             .background(myColors.surface)
             .clickable(onClick = onClick)
-            .height(32.dp)
+            .height(36.dp)
 //            .width(120.dp)
-            .padding(horizontal = 8.dp),
+            .padding(horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
 
         ) {
@@ -53,12 +60,13 @@ fun AddUrlButton(
                 .clip(myShapes.defaultRounded)
                 .background(
                     myColors.primaryGradient
-                ).padding(4.dp)
+                )
+                .padding(5.dp)
         ) {
             MyIcon(
                 downloadIcon,
                 null,
-                Modifier.size(12.dp),
+                Modifier.size(13.dp),
                 tint = myColors.onPrimaryGradient,
             )
         }

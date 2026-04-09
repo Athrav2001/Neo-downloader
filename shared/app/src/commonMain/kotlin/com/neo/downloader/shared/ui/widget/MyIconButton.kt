@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.semantics.Role
@@ -64,6 +65,14 @@ fun IconActionButton(
             val isActiveOrFocused = indicateActive || isFocused
             Box(
                 modifier
+                    .ifThen(isActiveOrFocused && enabled) {
+                        shadow(
+                            elevation = 8.dp,
+                            shape = shape,
+                            ambientColor = if (myColors.isLight) myColors.onBackground / 0.08f else myColors.glowColor,
+                            spotColor = if (myColors.isLight) myColors.onBackground / 0.08f else myColors.glowColor,
+                        )
+                    }
                     .sizeIn(mySpacings.thumbSize, mySpacings.thumbSize)
                     .ifThen(!enabled) {
                         alpha(0.5f)
