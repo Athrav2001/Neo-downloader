@@ -171,6 +171,10 @@ class ThemeManager(
             _availableThemes.update {
                 it.plus(defaultThemes)
             }
+            if (osThemeDetector.isSupported) {
+                // Keep theme synchronized with OS mode (dark/light) by default.
+                appSettings.theme.value = systemThemeInfo.id
+            }
             setTheme(appSettings.theme.value)
         }
     }

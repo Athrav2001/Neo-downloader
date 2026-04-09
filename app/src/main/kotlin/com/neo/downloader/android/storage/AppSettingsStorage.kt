@@ -17,7 +17,7 @@ import org.koin.core.component.KoinComponent
 @optics([arrow.optics.OpticsTarget.LENS])
 @Serializable
 data class AppSettingsModel(
-    override val theme: String = "dark",
+    override val theme: String = "system",
     override val defaultDarkTheme: String = "dark",
     override val defaultLightTheme: String = "light",
     override val language: String? = null,

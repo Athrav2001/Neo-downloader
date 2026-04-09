@@ -19,7 +19,7 @@ fun NavigateableItem(
     onClick:()->Unit,
     content:@Composable ()->Unit,
 ){
-    val shape = RoundedCornerShape(12.dp)
+    val shape = RoundedCornerShape(18.dp)
     WithContentAlpha(if (isSelected)1f else 0.75f){
         Row(
             Modifier

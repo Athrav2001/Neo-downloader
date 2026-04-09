@@ -58,7 +58,7 @@ val LocalMenuDisabledItemBehavior = compositionLocalOf {
     MenuDisabledItemBehavior.LowerOpacity
 }
 val LocalMenuBoxClip = compositionLocalOf<Shape> {
-    RoundedCornerShape(6.dp)
+    RoundedCornerShape(16.dp)
 }
 
 /**
