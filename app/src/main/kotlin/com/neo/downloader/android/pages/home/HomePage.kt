@@ -52,7 +52,6 @@ import com.neo.downloader.android.ui.menu.RenderMenuInSinglePage
 import com.neo.downloader.android.ui.page.PageFooter
 import com.neo.downloader.android.ui.page.PageUi
 import com.neo.downloader.android.ui.page.PageHeader
-import com.neo.downloader.android.ui.page.PageTitle
 import com.neo.downloader.android.ui.page.rememberHeaderAlpha
 import com.neo.downloader.android.util.AndroidIntentUtils
 import com.neo.downloader.resources.Res
@@ -66,13 +65,10 @@ import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.mvi.HandleEffects
 import com.neo.downloader.shared.util.rememberChild
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
-import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import com.neo.downloader.shared.util.ui.widget.MyIcon
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.modifiers.silentClickable
-import ir.amirab.util.compose.resources.myStringResource
 import kotlinx.coroutines.launch
 
 
@@ -187,18 +183,7 @@ fun HomePage(component: HomeComponent) {
                         )
                         .statusBarsPadding()
                         .padding(horizontal = mySpacings.largeSpace),
-                    leadingIcon = {
-                        MyIcon(
-                            MyIcons.appIcon,
-                            null,
-                            Modifier.size(mySpacings.iconSize),
-                        )
-                    },
-                    headerTitle = {
-                        PageTitle(
-                            myStringResource(Res.string.app_title)
-                        )
-                    }
+                    headerTitle = {}
                 )
             },
             footer = {

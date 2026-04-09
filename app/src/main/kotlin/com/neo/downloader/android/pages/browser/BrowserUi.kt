@@ -42,8 +42,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -53,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import com.neo.downloader.android.pages.browser.bookmark.BookmarkList
 import com.neo.downloader.android.pages.browser.bookmark.EditBookmarkSheet
 import com.neo.downloader.android.storage.BrowserBookmark
+import com.neo.downloader.android.R
 import com.neo.downloader.android.ui.SheetHeader
 import com.neo.downloader.android.ui.SheetTitle
 import com.neo.downloader.android.ui.SheetUI
@@ -117,12 +121,16 @@ fun BrowserPage(
         header = {
             PageHeader(
                 leadingIcon = {
-                    TransparentIconActionButton(
-                        icon = MyIcons.appIcon,
-                        contentDescription = "Home".asStringSource(),
-                    ) {
-                        browserComponent.goHome()
-                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_browser_home_custom),
+                        contentDescription = "Home",
+                        colorFilter = ColorFilter.tint(Color.White),
+                        modifier = Modifier
+                            .size(mySpacings.iconSize)
+                            .clickable(
+                                onClick = browserComponent::goHome,
+                            )
+                    )
                 },
                 headerTitle = {},
                 modifier = Modifier
