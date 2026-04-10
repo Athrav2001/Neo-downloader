@@ -51,13 +51,11 @@ open class BaseEditDownloadComponent(
         val downloadItem = downloadSystem.getDownloadItemById(id = id)
         if (downloadItem == null) {
             onRequestClose()
-            println("item with id $id not found")
             return
         }
         val downloader = downloaderInUiRegistry.getDownloaderOf(downloadItem)
         if (downloader == null) {
             onRequestClose()
-            println("downloader for id $id not found")
             return
         }
         val httpEditDownloadInputs = downloader.createEditDownloadInputs(

@@ -5,7 +5,11 @@ import com.arthenica.ffmpegkit.ReturnCode
 
 internal actual object HlsRemuxBridge {
     actual fun remuxToMp4(inputPath: String, outputPath: String, timeoutMinutes: Long): Boolean {
+        val timeoutSeconds = (timeoutMinutes.coerceAtLeast(1L) * 60L)
         val command = buildString {
+            append("-timelimit ")
+            append(timeoutSeconds)
+            append(" ")
             append("-y -i ")
             append(quote(inputPath))
             append(" -c copy -movflags +faststart ")
@@ -19,4 +23,3 @@ internal actual object HlsRemuxBridge {
         return "'${path.replace("'", "'\\''")}'"
     }
 }
-

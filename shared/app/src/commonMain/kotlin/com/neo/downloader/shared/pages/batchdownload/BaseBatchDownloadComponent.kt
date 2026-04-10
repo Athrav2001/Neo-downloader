@@ -113,7 +113,6 @@ open class BaseBatchDownloadComponent(
 
     fun confirm() {
         if (!canConfirm.value) {
-            println(batch.value?.toList())
             return
         }
         val items = batch.value?.toList()?.takeIf { it.isNotEmpty() }

@@ -86,7 +86,7 @@ class HLSEditDownloadInputs(
                         runCatching {
                             FileChecksum.Companion.fromString(it)
                         }.onFailure {
-                            println(it.printStackTrace())
+                            it.printStackTrace()
                         }.getOrNull()
                     }
                 },

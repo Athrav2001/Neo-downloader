@@ -249,7 +249,11 @@ class NDMAppManager(
                             .takeIf { it > -1 }
                             ?.let {
                                 scope.launch {
-                                    TODO("Toggle action not implemented yet")
+                                    if (downloadSystem.isDownloadActive(it)) {
+                                        downloadSystem.manualPause(it)
+                                    } else {
+                                        downloadSystem.userManualResume(it)
+                                    }
                                 }
                             }
                     }

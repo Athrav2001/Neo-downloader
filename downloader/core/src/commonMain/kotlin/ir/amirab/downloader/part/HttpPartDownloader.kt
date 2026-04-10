@@ -132,8 +132,6 @@ class HttpPartDownloader(
             if (throwServerPartIsNotTheSameAsWeExpectException) {
                 conn.close()
                 throw serverPartIsNotTheSameAsWeExpectException
-            } else {
-                println("WARNING: ${serverPartIsNotTheSameAsWeExpectException.message}")
             }
         }
         return conn

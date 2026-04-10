@@ -644,7 +644,6 @@ class HLSDownloadJob(
                 timeoutMinutes = FFMPEG_TIMEOUT_MINUTES,
             )
             if (!success || !target.exists() || target.length() <= 0L) {
-                println("FFmpeg remux failed: ${source.absolutePath}")
                 return
             }
 
@@ -657,7 +656,7 @@ class HLSDownloadJob(
             }
             downloadItem.contentLength = if (replaceInPlace) source.length() else target.length()
         }.onFailure {
-            println("FFmpeg remux skipped: ${source.absolutePath} | ${it.message}")
+            it.printStackTrace()
         }
     }
 

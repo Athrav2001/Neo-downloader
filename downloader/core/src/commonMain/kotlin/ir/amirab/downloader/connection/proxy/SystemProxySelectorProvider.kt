@@ -8,7 +8,6 @@ interface SystemProxySelectorProvider {
 
 class NoopSystemProxySelectorProvider : SystemProxySelectorProvider {
     override fun getSystemProxySelector(): ProxySelector? {
-        println("System proxy not available")
         return null
     }
 }

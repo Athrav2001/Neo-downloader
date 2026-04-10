@@ -90,9 +90,6 @@ abstract class PartDownloader<
                             )
                         )
                     }
-                    if (part.isCompleted) {
-                        println("WARNING $part is completed")
-                    }
                     try {
                         download()
                     } catch (e: Exception) {
@@ -365,5 +362,4 @@ abstract class PartDownloader<
         data object NoAndStopDownloadJob : CanRetryResult
     }
 }
-
 
