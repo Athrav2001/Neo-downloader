@@ -157,7 +157,7 @@ fun BrowserPage(
                                 Brush.horizontalGradient(
                                     colors = listOf(
                                         Color.Transparent,
-                                        myColors.onSurface / 0.04f,
+                                        myColors.onSurface / if (myColors.isLight) 0.04f else 0f,
                                         Color.Transparent,
                                     )
                                 )
