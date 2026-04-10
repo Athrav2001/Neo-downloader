@@ -299,7 +299,7 @@ class NDMWebViewClient(
                 'pdf','epub','doc','docx','xls','xlsx','ppt','pptx',
                 'zip','rar','7z','tar','gz','bz2',
                 'apk','xapk','apkm',
-                'm3u8','mpd'
+                'm3u8'
               ]);
               const blockedExts = new Set([
                 'tmp','temp','bin','log',
@@ -328,7 +328,7 @@ class NDMWebViewClient(
 
               function isUseful(url) {
                 const lower = url.toLowerCase();
-                if (lower.includes('.m3u8') || lower.includes('.mpd')) return true;
+                if (lower.includes('.m3u8')) return true;
                 const ext = extFrom(url);
                 if (!ext) return false;
                 if (blockedExts.has(ext)) return false;

@@ -564,6 +564,7 @@ class HLSDownloadJob(
             }
             newPartsToSave.add(newPartToAdd)
         }
+        setParts(newPartsToSave)
     }
 
     private suspend fun initialParts(): HLSResponseInfo {

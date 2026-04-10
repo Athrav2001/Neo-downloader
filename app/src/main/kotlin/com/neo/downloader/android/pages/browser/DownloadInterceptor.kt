@@ -258,8 +258,8 @@ class DownloadInterceptor(
         val fileName = path.substringAfterLast('/', "")
         val ext = fileName.substringAfterLast('.', "")
 
-        // keep HLS/DASH playlists even if URL is non-standard.
-        if (path.contains(".m3u8") || path.contains(".mpd")) {
+        // keep HLS playlists even if URL is non-standard.
+        if (path.contains(".m3u8")) {
             return true
         }
         if (ext.isBlank()) {
@@ -273,7 +273,7 @@ class DownloadInterceptor(
 
     private fun isStreamUrl(url: String): Boolean {
         val lower = url.lowercase(Locale.US)
-        return lower.contains(".m3u8") || lower.contains(".mpd")
+        return lower.contains(".m3u8")
     }
 
     private fun requestExpandM3u8Variants(tabId: NDMBrowserTabId, request: NDMWebRequest) {
@@ -461,7 +461,7 @@ class DownloadInterceptor(
             "pdf", "epub", "doc", "docx", "xls", "xlsx", "ppt", "pptx",
             "zip", "rar", "7z", "tar", "gz", "bz2",
             "apk", "xapk", "apkm",
-            "m3u8", "mpd"
+            "m3u8"
         )
         private val BLOCKED_EXTENSIONS = setOf(
             "tmp", "temp", "bin", "log",
