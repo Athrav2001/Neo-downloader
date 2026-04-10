@@ -477,6 +477,11 @@ class HLSDownloadJob(
             return partDownloaderList.getOrPut(part.getID()) {
                 HLSPartDownloader(
                     baseURL = downloadItem.link,
+                    headers = downloadItem.headers,
+                    username = downloadItem.username,
+                    password = downloadItem.password,
+                    downloadPage = downloadItem.downloadPage,
+                    userAgent = downloadItem.userAgent,
                     part = part,
                     getDestWriter = {
                         destination.getWriterFor(part)

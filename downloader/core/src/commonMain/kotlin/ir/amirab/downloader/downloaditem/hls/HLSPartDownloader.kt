@@ -18,6 +18,11 @@ class HLSPartDownloader(
     part: MediaSegment,
     getDestWriter: () -> DestWriter,
     private val baseURL: String,
+    private val headers: Map<String, String>?,
+    private val username: String?,
+    private val password: String?,
+    private val downloadPage: String?,
+    private val userAgent: String?,
     private val client: HttpDownloaderClient,
     private val speedLimiters: List<Throttler>,
 ) : PartDownloader<
@@ -39,7 +44,14 @@ class HLSPartDownloader(
             "link is incorrect! ${part.link}"
         }
         val connect = client.connect(
-            HttpDownloadCredentials(fullLink.toString()),
+            HttpDownloadCredentials(
+                link = fullLink.toString(),
+                headers = headers,
+                username = username,
+                password = password,
+                downloadPage = downloadPage,
+                userAgent = userAgent,
+            ),
             null, null,
         )
         if (stop || !currentCoroutineContext().isActive) {
