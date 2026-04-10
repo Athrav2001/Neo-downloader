@@ -68,6 +68,7 @@ import com.neo.downloader.android.ui.page.PageUi
 import com.neo.downloader.android.ui.widget.LoadingState
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.ui.widget.ActionButton
+import com.neo.downloader.shared.ui.widget.CheckBox
 import com.neo.downloader.shared.ui.widget.MyTextField
 import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.ui.widget.TransparentIconActionButton
@@ -85,6 +86,7 @@ import com.neo.downloader.shared.util.ui.widget.MyIcon
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.resources.myStringResource
 import ir.amirab.util.ifThen
+import java.util.Locale
 
 @Composable
 fun BrowserPage(
@@ -206,6 +208,55 @@ fun BrowserPage(
             )
         }
     }
+    val showGrabberSheet by browserComponent.showGrabberSheet.collectAsState()
+    val showGrabberDownloadAllSheet by browserComponent.showGrabberDownloadAllSheet.collectAsState()
+    val detectedItemsByTab by browserComponent.grabberItemsByTab.collectAsState()
+    val activeTabId = tab?.tabId
+    val detectedItems = activeTabId?.let { detectedItemsByTab[it] }.orEmpty()
+    var selectedUrls by remember(activeTabId) { mutableStateOf(setOf<String>()) }
+
+    GrabberSheet(
+        visible = showGrabberSheet,
+        items = detectedItems,
+        onDismissRequest = browserComponent::closeGrabber,
+        onRefresh = {
+            tabWebViewHolder?.client?.requestGrabberScan(tabWebViewHolder.webView)
+            activeTabId?.let { browserComponent.onGrabberRefresh(it) }
+        },
+        onDownloadOne = { url ->
+            browserComponent.downloadGrabberUrls(listOf(url))
+        },
+        onDownloadAll = {
+            selectedUrls = detectedItems.map { it.url }.toSet()
+            browserComponent.openGrabberDownloadAll()
+        }
+    )
+
+    GrabberBulkDownloadSheet(
+        visible = showGrabberDownloadAllSheet,
+        items = detectedItems,
+        selectedUrls = selectedUrls,
+        onToggle = { url ->
+            selectedUrls = if (url in selectedUrls) {
+                selectedUrls - url
+            } else {
+                selectedUrls + url
+            }
+        },
+        onSelectAll = {
+            selectedUrls = detectedItems.map { it.url }.toSet()
+        },
+        onSelectNone = {
+            selectedUrls = emptySet()
+        },
+        onDismissRequest = browserComponent::closeGrabberDownloadAll,
+        onDownloadSelected = {
+            browserComponent.downloadGrabberUrls(selectedUrls.toList())
+            browserComponent.closeGrabberDownloadAll()
+            browserComponent.closeGrabber()
+        },
+    )
+
     RenderMenuInSheet(
         browserComponent.contextMenu.collectAsState().value,
         browserComponent::closeContextMenu
@@ -256,6 +307,216 @@ fun BrowserPage(
         browserComponent.mainMenu.collectAsState().value,
         browserComponent::closeMainMenu,
     )
+}
+
+@Composable
+private fun GrabberSheet(
+    visible: Boolean,
+    items: List<GrabberDetectedItem>,
+    onDismissRequest: () -> Unit,
+    onRefresh: () -> Unit,
+    onDownloadOne: (String) -> Unit,
+    onDownloadAll: () -> Unit,
+) {
+    val responsiveState = rememberResponsiveDialogState(visible)
+    LaunchedEffect(visible) {
+        if (visible) responsiveState.show() else responsiveState.hide()
+    }
+    val grouped = remember(items) {
+        items
+            .groupBy {
+                if (it.isStream) {
+                    "stream:" + it.name
+                        .replace(Regex("""(?i)\b(144p|240p|360p|480p|720p|1080p|1440p|2160p|4k)\b"""), "")
+                        .trim()
+                        .lowercase(Locale.US)
+                } else {
+                    "file:${it.url}"
+                }
+            }
+            .values
+            .map { groupItems ->
+                val first = groupItems.first()
+                val title = if (first.isStream) {
+                    first.name.replace(Regex("""(?i)\b(144p|240p|360p|480p|720p|1080p|1440p|2160p|4k)\b"""), "").trim()
+                        .ifBlank { first.name }
+                } else {
+                    first.name
+                }
+                title to groupItems.sortedBy { it.quality }
+            }
+    }
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = onDismissRequest,
+    ) {
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = { SheetTitle("Grabber") },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.refresh,
+                            Res.string.refresh.asStringSource(),
+                        ) { onRefresh() }
+                        TransparentIconActionButton(
+                            MyIcons.download,
+                            Res.string.download.asStringSource(),
+                        ) { onDownloadAll() }
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) { onDismissRequest() }
+                    }
+                )
+            }
+        ) {
+            if (grouped.isEmpty()) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(mySpacings.largeSpace),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No detected files yet. Tap refresh.")
+                }
+            } else {
+                LazyColumn {
+                    items(grouped) { (title, groupItems) ->
+                        val first = groupItems.first()
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = mySpacings.mediumSpace, vertical = mySpacings.smallSpace)
+                                .background(myColors.surface / 0.6f, myShapes.defaultRounded)
+                                .padding(mySpacings.mediumSpace)
+                        ) {
+                            Text(title, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            Spacer(Modifier.height(6.dp))
+                            if (first.isStream) {
+                                Text("Stream qualities", color = myColors.onSurface / 0.7f)
+                                Spacer(Modifier.height(6.dp))
+                                groupItems.forEach { item ->
+                                    Row(
+                                        Modifier
+                                            .fillMaxWidth()
+                                            .clickable { onDownloadOne(item.url) }
+                                            .padding(vertical = 6.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        MyIcon(MyIcons.download, null, Modifier.size(16.dp))
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(item.quality)
+                                        Spacer(Modifier.weight(1f))
+                                        Text(item.size, color = myColors.onSurface / 0.7f)
+                                    }
+                                }
+                            } else {
+                                Text("Quality: ${first.quality}", color = myColors.onSurface / 0.7f)
+                                Text("Size: ${first.size}", color = myColors.onSurface / 0.7f)
+                                Spacer(Modifier.height(8.dp))
+                                ActionButton(
+                                    text = myStringResource(Res.string.download),
+                                    onClick = { onDownloadOne(first.url) },
+                                    start = {
+                                        MyIcon(MyIcons.download, null, Modifier.size(mySpacings.iconSize))
+                                        Spacer(Modifier.width(8.dp))
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun GrabberBulkDownloadSheet(
+    visible: Boolean,
+    items: List<GrabberDetectedItem>,
+    selectedUrls: Set<String>,
+    onToggle: (String) -> Unit,
+    onSelectAll: () -> Unit,
+    onSelectNone: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onDownloadSelected: () -> Unit,
+) {
+    val responsiveState = rememberResponsiveDialogState(visible)
+    LaunchedEffect(visible) {
+        if (visible) responsiveState.show() else responsiveState.hide()
+    }
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = onDismissRequest,
+    ) {
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = { SheetTitle("Download All") },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.check,
+                            Res.string.select_all.asStringSource(),
+                        ) { onSelectAll() }
+                        TransparentIconActionButton(
+                            MyIcons.remove,
+                            "Clear".asStringSource(),
+                        ) { onSelectNone() }
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) { onDismissRequest() }
+                    }
+                )
+            }
+        ) {
+            Column(Modifier.fillMaxWidth()) {
+                LazyColumn(
+                    modifier = Modifier.weight(1f, fill = false)
+                ) {
+                    items(items) { item ->
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable { onToggle(item.url) }
+                                .padding(horizontal = mySpacings.mediumSpace, vertical = mySpacings.smallSpace),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            CheckBox(
+                                value = item.url in selectedUrls,
+                                onValueChange = { onToggle(item.url) },
+                            )
+                            Spacer(Modifier.width(mySpacings.mediumSpace))
+                            Column(Modifier.weight(1f)) {
+                                Text(item.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Text(
+                                    "Quality: ${item.quality}  •  Size: ${item.size}",
+                                    color = myColors.onSurface / 0.7f,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
+                        }
+                    }
+                }
+                Spacer(Modifier.height(mySpacings.mediumSpace))
+                ActionButton(
+                    text = "Download Selected (${selectedUrls.size})",
+                    onClick = onDownloadSelected,
+                    enabled = selectedUrls.isNotEmpty(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = mySpacings.mediumSpace, vertical = mySpacings.smallSpace),
+                    start = {
+                        MyIcon(MyIcons.download, null, Modifier.size(mySpacings.iconSize))
+                        Spacer(Modifier.width(mySpacings.smallSpace))
+                    }
+                )
+            }
+        }
+    }
 }
 
 @Composable

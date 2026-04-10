@@ -158,6 +158,12 @@ class NDMWebViewClient(
     private val scope: CoroutineScope,
     private val browserComponent: BrowserComponent,
 ) : AccompanistWebViewClient() {
+    fun requestGrabberScan(view: WebView?) {
+        if (view != null) {
+            injectUniversalGrabber(view)
+        }
+    }
+
     override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
         if (request != null) {
             scope.launch(Dispatchers.Main) {

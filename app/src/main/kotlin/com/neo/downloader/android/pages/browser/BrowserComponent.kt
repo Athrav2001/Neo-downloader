@@ -50,6 +50,13 @@ class BrowserComponent(
     ) : BaseComponent(
     componentContext,
 ), ContainsEffects<BrowserComponent.Effects> by supportEffects() {
+    private val _grabberItemsByTab = MutableStateFlow<Map<NDMBrowserTabId, List<GrabberDetectedItem>>>(emptyMap())
+    val grabberItemsByTab = _grabberItemsByTab.asStateFlow()
+    private val _showGrabberSheet = MutableStateFlow(false)
+    val showGrabberSheet = _showGrabberSheet.asStateFlow()
+    private val _showGrabberDownloadAllSheet = MutableStateFlow(false)
+    val showGrabberDownloadAllSheet = _showGrabberDownloadAllSheet.asStateFlow()
+
     val downloadInterceptor = DownloadInterceptor(
         scope, {
             val intent = when (it.size) {
@@ -70,6 +77,11 @@ class BrowserComponent(
             }
             intent?.let { intent ->
                 sendEffect(Effects.StartActivity(intent))
+            }
+        },
+        onDetectedListUpdated = { tabId, items ->
+            _grabberItemsByTab.update { old ->
+                old + (tabId to items)
             }
         }
     )
@@ -100,6 +112,7 @@ class BrowserComponent(
                 +createNewTabAction()
                 separator()
                 +createShowBookmarksAction()
+                +createOpenGrabberAction()
                 if (url != null) {
                     if (isBookmarked(url)) {
                         +createRemoveFromBookmarkAction(url)
@@ -165,6 +178,8 @@ class BrowserComponent(
                 }.getOrElse { -1 },
             )
         }
+        downloadInterceptor.clearDetectedItems(tabId)
+        _grabberItemsByTab.update { it - tabId }
         persistSessionSnapshot()
     }
 
@@ -248,6 +263,49 @@ class BrowserComponent(
 
     fun getTabById(tabId: NDMBrowserTabId): NDMBrowserTab? {
         return tabs.value.tabs.find { it.tabId == tabId }
+    }
+
+    fun getActiveTabDetectedItems(): List<GrabberDetectedItem> {
+        val tabId = tabs.value.activeTab?.tabId ?: return emptyList()
+        return _grabberItemsByTab.value[tabId].orEmpty()
+    }
+
+    fun openGrabber() {
+        val tabId = tabs.value.activeTab?.tabId ?: return
+        _grabberItemsByTab.update {
+            it + (tabId to downloadInterceptor.getDetectedItems(tabId))
+        }
+        _showGrabberSheet.value = true
+        closeMainMenu()
+    }
+
+    fun closeGrabber() {
+        _showGrabberSheet.value = false
+        _showGrabberDownloadAllSheet.value = false
+    }
+
+    fun openGrabberDownloadAll() {
+        _showGrabberDownloadAllSheet.value = true
+    }
+
+    fun closeGrabberDownloadAll() {
+        _showGrabberDownloadAllSheet.value = false
+    }
+
+    fun onGrabberRefresh(tabId: NDMBrowserTabId) {
+        _grabberItemsByTab.update {
+            it + (tabId to downloadInterceptor.getDetectedItems(tabId))
+        }
+    }
+
+    fun downloadGrabberUrls(urls: List<String>) {
+        val tab = tabs.value.activeTab ?: return
+        downloadInterceptor.triggerDownloadsByUrls(
+            urls = urls,
+            userAgent = null,
+            page = tab.tabState.lastLoadedUrl,
+            tab = tab,
+        )
     }
 
     fun onTabPageFinished(
@@ -438,6 +496,15 @@ class BrowserComponent(
             icon = MyIcons.hearth,
         ) {
             setShowBookmarkList(true)
+        }
+    }
+
+    fun createOpenGrabberAction(): AnAction {
+        return simpleAction(
+            title = "Grabber".asStringSource(),
+            icon = MyIcons.download,
+        ) {
+            openGrabber()
         }
     }
 
