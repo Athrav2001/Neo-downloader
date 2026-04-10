@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -16,6 +17,7 @@ import com.neo.downloader.shared.ui.widget.rememberMyPopupPositionProviderAtPosi
 import ir.amirab.util.compose.action.MenuItem
 
 @Composable
+@OptIn(ExperimentalComposeUiApi::class)
 actual fun WithContextMenu(
     menuProvider: () -> List<MenuItem>,
     modifier: Modifier,
