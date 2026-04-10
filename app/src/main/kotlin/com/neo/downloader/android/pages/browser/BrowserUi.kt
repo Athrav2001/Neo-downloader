@@ -106,6 +106,7 @@ fun BrowserPage(
     }
     val tabs by browserComponent.tabs.collectAsState()
     val userAgent by browserComponent.userAgent.collectAsState()
+    var previousUserAgent by remember { mutableStateOf<String?>(null) }
     val tab = tabs.activeTab
     val tabWebViewHolder = remember(tab?.tabId) {
         tab?.let {
@@ -127,6 +128,10 @@ fun BrowserPage(
         viewRegistry.applyUserAgentToAll(
             userAgent.takeIf { it.isNotBlank() }
         )
+        if (previousUserAgent != null && previousUserAgent != userAgent) {
+            tabWebViewHolder?.navigator?.reload()
+        }
+        previousUserAgent = userAgent
     }
     PageUi(
         header = {
@@ -299,7 +304,7 @@ fun BrowserPage(
                 ?: browserComponent.newTab(newLink)
         },
         onRemoveHistoryRequest = browserComponent::removeFromHistory,
-        onClearAllRequest = browserComponent::clearHistory,
+        onRemoveManyRequest = browserComponent::removeHistoryEntries,
     )
     val editBookmarkState by browserComponent.editBookmarkState.collectAsState()
     editBookmarkState?.let { s ->
@@ -589,9 +594,11 @@ private fun BrowserHistoryList(
     entries: List<NeoBrowserHistoryEntry>,
     onHistoryClick: (NeoBrowserHistoryEntry) -> Unit,
     onRemoveHistoryRequest: (NeoBrowserHistoryEntry) -> Unit,
-    onClearAllRequest: () -> Unit,
+    onRemoveManyRequest: (Set<NeoBrowserHistoryEntry>) -> Unit,
 ) {
     val responsiveState = rememberResponsiveDialogState(visible)
+    var selectionMode by remember(visible) { mutableStateOf(false) }
+    var selectedEntries by remember(visible, entries) { mutableStateOf(setOf<NeoBrowserHistoryEntry>()) }
     LaunchedEffect(visible) {
         if (visible) responsiveState.show() else responsiveState.hide()
     }
@@ -605,9 +612,18 @@ private fun BrowserHistoryList(
                     headerTitle = { SheetTitle("History") },
                     headerActions = {
                         TransparentIconActionButton(
-                            MyIcons.clear,
-                            "Clear".asStringSource(),
-                        ) { onClearAllRequest() }
+                            MyIcons.remove,
+                            "Delete".asStringSource(),
+                        ) {
+                            if (!selectionMode) {
+                                selectionMode = true
+                                selectedEntries = emptySet()
+                            } else if (selectedEntries.isNotEmpty()) {
+                                onRemoveManyRequest(selectedEntries)
+                                selectedEntries = emptySet()
+                                selectionMode = false
+                            }
+                        }
                         TransparentIconActionButton(
                             MyIcons.close,
                             Res.string.close.asStringSource(),
@@ -627,14 +643,63 @@ private fun BrowserHistoryList(
                 }
             } else {
                 LazyColumn {
+                    if (selectionMode) {
+                        item {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        selectedEntries = if (selectedEntries.size == entries.size) {
+                                            emptySet()
+                                        } else {
+                                            entries.toSet()
+                                        }
+                                    }
+                                    .padding(vertical = 8.dp, horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                CheckBox(
+                                    value = selectedEntries.size == entries.size && entries.isNotEmpty(),
+                                    onValueChange = {
+                                        selectedEntries = if (it) entries.toSet() else emptySet()
+                                    },
+                                )
+                                Spacer(Modifier.width(12.dp))
+                                Text("Select All")
+                            }
+                        }
+                    }
                     items(entries) { entry ->
                         Row(
                             modifier = Modifier
                                 .heightIn(mySpacings.thumbSize)
-                                .clickable { onHistoryClick(entry) }
+                                .clickable {
+                                    if (selectionMode) {
+                                        selectedEntries = if (entry in selectedEntries) {
+                                            selectedEntries - entry
+                                        } else {
+                                            selectedEntries + entry
+                                        }
+                                    } else {
+                                        onHistoryClick(entry)
+                                    }
+                                }
                                 .padding(vertical = 8.dp, horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
+                            if (selectionMode) {
+                                CheckBox(
+                                    value = entry in selectedEntries,
+                                    onValueChange = { checked ->
+                                        selectedEntries = if (checked) {
+                                            selectedEntries + entry
+                                        } else {
+                                            selectedEntries - entry
+                                        }
+                                    },
+                                )
+                                Spacer(Modifier.width(12.dp))
+                            }
                             MyIcon(
                                 MyIcons.clock,
                                 contentDescription = null,
@@ -655,12 +720,14 @@ private fun BrowserHistoryList(
                                     color = LocalContentColor.current / 0.75f,
                                 )
                             }
-                            WithContentAlpha(0.5f) {
-                                TransparentIconActionButton(
-                                    MyIcons.remove,
-                                    Res.string.remove.asStringSource(),
-                                ) {
-                                    onRemoveHistoryRequest(entry)
+                            if (!selectionMode) {
+                                WithContentAlpha(0.5f) {
+                                    TransparentIconActionButton(
+                                        MyIcons.remove,
+                                        Res.string.remove.asStringSource(),
+                                    ) {
+                                        onRemoveHistoryRequest(entry)
+                                    }
                                 }
                             }
                         }

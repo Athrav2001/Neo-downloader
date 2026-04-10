@@ -237,6 +237,13 @@ class BrowserComponent(
         browserHistoryStorage.historyFlow.value = emptyList()
     }
 
+    fun removeHistoryEntries(entries: Set<NeoBrowserHistoryEntry>) {
+        if (entries.isEmpty()) return
+        browserHistoryStorage.historyFlow.update { current ->
+            current.filterNot { it in entries }
+        }
+    }
+
     private val _editBookmarkState = MutableStateFlow<EditBookmarkState?>(null)
     val editBookmarkState = _editBookmarkState.asStateFlow()
     fun promptAddBookmark(
