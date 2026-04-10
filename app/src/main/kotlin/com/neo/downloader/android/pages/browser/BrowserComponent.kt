@@ -17,6 +17,7 @@ import com.neo.downloader.android.storage.BrowserBookmark
 import com.neo.downloader.android.storage.BrowserBookmarksStorage
 import com.neo.downloader.android.storage.BrowserHistoryStorage
 import com.neo.downloader.android.storage.BrowserSessionStorage
+import com.neo.downloader.android.storage.AppSettingsStorage
 import com.neo.downloader.android.ui.widget.WebContent
 import com.neo.downloader.android.ui.widget.WebViewState
 import com.neo.downloader.resources.Res
@@ -47,6 +48,7 @@ class BrowserComponent(
     private val browserBookmarksStorage: BrowserBookmarksStorage,
     private val browserHistoryStorage: BrowserHistoryStorage,
     private val browserSessionStorage: BrowserSessionStorage,
+    private val appSettingsStorage: AppSettingsStorage,
     ) : BaseComponent(
     componentContext,
 ), ContainsEffects<BrowserComponent.Effects> by supportEffects() {
@@ -100,6 +102,7 @@ class BrowserComponent(
     )
     val bookmarks = browserBookmarksStorage.bookmarksFlow
     val history = historyManager.history
+    val userAgent = appSettingsStorage.userAgent.asStateFlow()
     private val _mainMenu: MutableStateFlow<MenuItem.SubMenu?> = MutableStateFlow(null)
     val mainMenu = _mainMenu.asStateFlow()
     fun openMainMenu() {
@@ -112,6 +115,14 @@ class BrowserComponent(
                 +createNewTabAction()
                 separator()
                 +createShowBookmarksAction()
+                subMenu(
+                    title = "User Agent".asStringSource(),
+                    icon = MyIcons.earth,
+                ) {
+                    BrowserUserAgentPreset.entries.forEach { preset ->
+                        +createSelectUserAgentAction(preset)
+                    }
+                }
                 +createOpenGrabberAction()
                 if (url != null) {
                     if (isBookmarked(url)) {
@@ -307,10 +318,19 @@ class BrowserComponent(
         val tab = tabs.value.activeTab ?: return
         downloadInterceptor.triggerDownloadsByUrls(
             urls = urls,
-            userAgent = null,
+            userAgent = getEffectiveUserAgent(),
             page = tab.tabState.lastLoadedUrl,
             tab = tab,
         )
+    }
+
+    fun getEffectiveUserAgent(): String? {
+        return appSettingsStorage.userAgent.value.takeIf { it.isNotBlank() }
+    }
+
+    fun applyUserAgentPreset(preset: BrowserUserAgentPreset) {
+        appSettingsStorage.userAgent.value = preset.value
+        closeMainMenu()
     }
 
     fun onTabPageFinished(
@@ -432,7 +452,7 @@ class BrowserComponent(
                 ) {
                     downloadInterceptor.onDownloadStart(
                         url = link,
-                        userAgent = null,
+                        userAgent = getEffectiveUserAgent(),
                         page = null,
                         tab = tab,
                     )
@@ -513,6 +533,23 @@ class BrowserComponent(
         }
     }
 
+    private fun createSelectUserAgentAction(
+        preset: BrowserUserAgentPreset
+    ): AnAction {
+        val isActive = appSettingsStorage.userAgent.value == preset.value
+        val title = if (isActive) {
+            "${preset.title} (Active)".asStringSource()
+        } else {
+            preset.title.asStringSource()
+        }
+        return simpleAction(
+            title = title,
+            icon = if (isActive) MyIcons.check else null,
+        ) {
+            applyUserAgentPreset(preset)
+        }
+    }
+
     sealed interface Effects {
         data class StartActivity(
             val intent: Intent
@@ -524,6 +561,24 @@ class BrowserComponent(
 
         data object CloseCurrentPage : Effects
     }
+}
+
+enum class BrowserUserAgentPreset(
+    val title: String,
+    val value: String,
+) {
+    Android(
+        title = "Android",
+        value = "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36",
+    ),
+    IPhone(
+        title = "iPhone",
+        value = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1",
+    ),
+    Desktop(
+        title = "Desktop",
+        value = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    ),
 }
 
 typealias NDMBrowserTabId = String

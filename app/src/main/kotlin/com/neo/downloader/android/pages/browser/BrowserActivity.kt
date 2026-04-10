@@ -17,11 +17,13 @@ import androidx.core.net.toUri
 import com.neo.downloader.android.storage.BrowserBookmarksStorage
 import com.neo.downloader.android.storage.BrowserHistoryStorage
 import com.neo.downloader.android.storage.BrowserSessionStorage
+import com.neo.downloader.android.storage.AppSettingsStorage
 
 class BrowserActivity : NDMActivity() {
     private val browserBookmarksStorage: BrowserBookmarksStorage by inject()
     private val browserHistoryStorage: BrowserHistoryStorage by inject()
     private val browserSessionStorage: BrowserSessionStorage by inject()
+    private val appSettingsStorage: AppSettingsStorage by inject()
     private val json: Json by inject()
     val component by lazy {
         BrowserComponent(
@@ -31,6 +33,7 @@ class BrowserActivity : NDMActivity() {
             browserBookmarksStorage = browserBookmarksStorage,
             browserHistoryStorage = browserHistoryStorage,
             browserSessionStorage = browserSessionStorage,
+            appSettingsStorage = appSettingsStorage,
         )
     }
 

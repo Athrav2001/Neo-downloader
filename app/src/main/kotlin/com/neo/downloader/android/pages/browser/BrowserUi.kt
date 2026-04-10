@@ -102,6 +102,7 @@ fun BrowserPage(
         }
     }
     val tabs by browserComponent.tabs.collectAsState()
+    val userAgent by browserComponent.userAgent.collectAsState()
     val tab = tabs.activeTab
     val tabWebViewHolder = remember(tab?.tabId) {
         tab?.let {
@@ -118,6 +119,11 @@ fun BrowserPage(
     }
     LaunchedEffect(tabs) {
         viewRegistry.onTabsUpdated(tabs)
+    }
+    LaunchedEffect(userAgent) {
+        viewRegistry.applyUserAgentToAll(
+            userAgent.takeIf { it.isNotBlank() }
+        )
     }
     PageUi(
         header = {

@@ -66,6 +66,14 @@ class WebViewRegistry(
         viewHolders.clear()
     }
 
+    fun applyUserAgentToAll(userAgent: String?) {
+        viewHolders.values.forEach { holder ->
+            holder.webView?.let { webView ->
+                applyUserAgent(webView, userAgent)
+            }
+        }
+    }
+
     override fun createWebView(
         context: Context,
         tab: NDMBrowserTab,
@@ -78,6 +86,7 @@ class WebViewRegistry(
             webView.settings.builtInZoomControls = false
             webView.settings.setSupportMultipleWindows(true)
             webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            applyUserAgent(webView, browserComponent.getEffectiveUserAgent())
             webView.isLongClickable = true
             webView.setOnLongClickListener {
                 val hit = webView.hitTestResult
@@ -111,6 +120,14 @@ class WebViewRegistry(
             }
             webView.tabId = tab.tabId
         }
+    }
+
+    private fun applyUserAgent(
+        webView: NDMWebView,
+        userAgent: String?,
+    ) {
+        val resolved = userAgent ?: WebSettings.getDefaultUserAgent(webView.context)
+        webView.settings.userAgentString = resolved
     }
 
 }
