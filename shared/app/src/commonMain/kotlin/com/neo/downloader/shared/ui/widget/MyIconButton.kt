@@ -63,9 +63,10 @@ fun IconActionButton(
         WithContentColor(contentColor) {
             val isFocused by interactionSource.collectIsFocusedAsState()
             val isActiveOrFocused = indicateActive || isFocused
+            val shouldShowGlow = backgroundColor != Color.Transparent
             Box(
                 modifier
-                    .ifThen(isActiveOrFocused && enabled) {
+                    .ifThen(isActiveOrFocused && enabled && shouldShowGlow) {
                         shadow(
                             elevation = 8.dp,
                             shape = shape,
