@@ -150,7 +150,6 @@ class DownloadInterceptor(
                     webViewState = tab.tabState,
                 )
             }
-            .filter { markHandled(it.url) }
             .map { webRequest ->
                 AddDownloadCredentialsInUiProps(
                     createCredentialsFor(webRequest),
@@ -435,19 +434,34 @@ class DownloadInterceptor(
     }
 
     private fun createCredentialsFor(webRequest: NDMWebRequest): IDownloadCredentials {
+        val effectiveHeaders = buildDownloadHeaders(webRequest)
         return if (webRequest.url.lowercase(Locale.US).contains(".m3u8")) {
             HLSDownloadCredentials(
                 link = webRequest.url,
-                headers = webRequest.headers,
+                headers = effectiveHeaders,
                 downloadPage = webRequest.page,
             )
         } else {
             HttpDownloadCredentials(
                 link = webRequest.url,
-                headers = webRequest.headers,
+                headers = effectiveHeaders,
                 downloadPage = webRequest.page,
             )
         }
+    }
+
+    private fun buildDownloadHeaders(request: NDMWebRequest): Map<String, String> {
+        val headers = request.headers.toMutableMap()
+        val referer = request.page ?: request.url
+        headers.putIfAbsent("Referer", referer)
+        val origin = runCatching {
+            val u = URL(referer)
+            "${u.protocol}://${u.host}" + if (u.port > 0 && u.port != u.defaultPort) ":${u.port}" else ""
+        }.getOrNull()
+        if (origin != null) {
+            headers.putIfAbsent("Origin", origin)
+        }
+        return headers.toMap()
     }
 
     companion object {
