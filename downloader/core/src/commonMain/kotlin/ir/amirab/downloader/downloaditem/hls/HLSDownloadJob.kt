@@ -14,6 +14,7 @@ import ir.amirab.downloader.exception.DownloadValidationException
 import ir.amirab.downloader.exception.TooManyErrorException
 import ir.amirab.downloader.part.*
 import ir.amirab.downloader.utils.*
+import ir.amirab.util.tryAtomicMove
 import ir.amirab.util.tryLocked
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
@@ -22,7 +23,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import okio.Throttler
+import java.io.File
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -606,7 +609,62 @@ class HLSDownloadJob(
     }
 
     override fun onDownloadFinishedBeforeSave() {
+        maybeRemuxToMp4()
         downloadItem.contentLength = destination.outputFile.length()
+    }
+
+    private fun maybeRemuxToMp4() {
+        if (!downloadItem.remuxToMp4) return
+        val source = destination.outputFile
+        if (!source.exists() || source.length() <= 0L) return
+
+        val target = resolveRemuxTarget(source)
+        val replaceInPlace = target.name == TEMP_REMUX_FILE_NAME
+        val ffmpegCommand = listOf(
+            FFMPEG_BIN_NAME,
+            "-y",
+            "-i", source.absolutePath,
+            "-c", "copy",
+            "-movflags", "+faststart",
+            target.absolutePath
+        )
+
+        runCatching {
+            val process = ProcessBuilder(ffmpegCommand)
+                .redirectErrorStream(true)
+                .redirectOutput(ProcessBuilder.Redirect.DISCARD)
+                .start()
+            val finished = process.waitFor(FFMPEG_TIMEOUT_MINUTES, TimeUnit.MINUTES)
+            if (!finished) {
+                process.destroyForcibly()
+                return
+            }
+            if (process.exitValue() != 0 || !target.exists() || target.length() <= 0L) {
+                println("FFmpeg remux failed: ${source.absolutePath}")
+                return
+            }
+
+            if (replaceInPlace) {
+                source.delete()
+                target.tryAtomicMove(source)
+            } else {
+                source.delete()
+                downloadItem.name = target.name
+            }
+            downloadItem.contentLength = if (replaceInPlace) source.length() else target.length()
+        }.onFailure {
+            println("FFmpeg remux skipped: ${source.absolutePath} | ${it.message}")
+        }
+    }
+
+    private fun resolveRemuxTarget(source: File): File {
+        val name = source.name
+        return if (name.endsWith(".mp4", ignoreCase = true)) {
+            source.parentFile.resolve(TEMP_REMUX_FILE_NAME)
+        } else {
+            val baseName = name.substringBeforeLast('.', name)
+            source.parentFile.resolve("$baseName.mp4")
+        }
     }
 
     private var lastSavedDownloadItem: HLSDownloadItem? = null
@@ -655,5 +713,11 @@ class HLSDownloadJob(
             updateParts(it)
             saveParts()
         }
+    }
+
+    private companion object {
+        const val FFMPEG_BIN_NAME = "ffmpeg"
+        const val FFMPEG_TIMEOUT_MINUTES = 30L
+        const val TEMP_REMUX_FILE_NAME = ".ndm_ffmpeg_remux.mp4"
     }
 }

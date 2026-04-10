@@ -44,6 +44,7 @@ class DownloadInterceptor(
     private val requests = mutableMapOf<String, NDMWebRequest>()
     private val recentlyHandledUrls = mutableMapOf<String, Long>()
     private val detectedByTab = mutableMapOf<NDMBrowserTabId, MutableMap<String, GrabberDetectedItem>>()
+    private val detectedRequestsByTab = mutableMapOf<NDMBrowserTabId, MutableMap<String, NDMWebRequest>>()
     private val runningM3u8Expansion = mutableSetOf<String>()
 
     fun onDownloadStart(
@@ -90,7 +91,7 @@ class DownloadInterceptor(
         page: String?,
         tab: NDMBrowserTab,
     ) {
-        val items = urls
+        val requests = urls
             .filter(::isUsefulDownloadUrl)
             .map { url ->
                 getWebRequestOrDefault(
@@ -100,7 +101,7 @@ class DownloadInterceptor(
                     webViewState = tab.tabState,
                 )
             }
-            .map { webRequest ->
+        val items = requests.map { webRequest ->
                 GrabberDetectedItem(
                     url = webRequest.url,
                     name = extractName(webRequest.url),
@@ -112,17 +113,9 @@ class DownloadInterceptor(
 
         if (items.isEmpty()) return
         mergeDetectedItems(tab.tabId, items)
+        mergeDetectedRequests(tab.tabId, requests)
 
-        val streamRequests = urls
-            .filter { isStreamUrl(it) }
-            .map { url ->
-                getWebRequestOrDefault(
-                    url = url,
-                    userAgent = userAgent,
-                    page = page,
-                    webViewState = tab.tabState,
-                )
-            }
+        val streamRequests = requests.filter { isStreamUrl(it.url) }
         streamRequests.forEach { request ->
             requestExpandM3u8Variants(tab.tabId, request)
         }
@@ -139,6 +132,7 @@ class DownloadInterceptor(
         if (detectedByTab.remove(tabId) != null) {
             onDetectedListUpdated(tabId, emptyList())
         }
+        detectedRequestsByTab.remove(tabId)
     }
 
     fun triggerDownloadsByUrls(
@@ -151,7 +145,7 @@ class DownloadInterceptor(
             .distinct()
             .filter(::isUsefulDownloadUrl)
             .map { url ->
-                getWebRequestOrDefault(
+                getDetectedRequest(tab.tabId, url) ?: getWebRequestOrDefault(
                     url = url,
                     userAgent = userAgent,
                     page = page,
@@ -298,15 +292,17 @@ class DownloadInterceptor(
                 if (variants.isNotEmpty()) {
                     withContext(Dispatchers.Main) {
                         val inheritedHeaders = buildVariantHeaders(request)
+                        val variantRequests = mutableListOf<NDMWebRequest>()
                         variants.forEach { variant ->
-                            addToHeaders(
-                                NDMWebRequest(
-                                    url = variant.url,
-                                    headers = inheritedHeaders,
-                                    page = request.page,
-                                )
+                            val variantRequest = NDMWebRequest(
+                                url = variant.url,
+                                headers = inheritedHeaders,
+                                page = request.page,
                             )
+                            variantRequests += variantRequest
+                            addToHeaders(variantRequest)
                         }
+                        mergeDetectedRequests(tabId, variantRequests)
                         mergeDetectedItems(tabId, variants)
                     }
                 }
@@ -431,6 +427,17 @@ class DownloadInterceptor(
         if (changed) {
             onDetectedListUpdated(tabId, tabMap.values.toList())
         }
+    }
+
+    private fun mergeDetectedRequests(tabId: NDMBrowserTabId, requests: List<NDMWebRequest>) {
+        val tabMap = detectedRequestsByTab.getOrPut(tabId) { linkedMapOf() }
+        requests.forEach { request ->
+            tabMap[request.url] = request
+        }
+    }
+
+    private fun getDetectedRequest(tabId: NDMBrowserTabId, url: String): NDMWebRequest? {
+        return detectedRequestsByTab[tabId]?.get(url)
     }
 
     companion object {

@@ -236,6 +236,37 @@ fun <T1, T2, T3, T4, T5, T6, T7, R> combineStateFlows(
     )
 }
 
+fun <T1, T2, T3, T4, T5, T6, T7, T8, R> combineStateFlows(
+    a: StateFlow<T1>,
+    b: StateFlow<T2>,
+    c: StateFlow<T3>,
+    d: StateFlow<T4>,
+    e: StateFlow<T5>,
+    f: StateFlow<T6>,
+    g: StateFlow<T7>,
+    h: StateFlow<T8>,
+    transform: (a: T1, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7, h: T8) -> R
+): StateFlow<R> {
+    return DerivedStateFlow(
+        getValue = {
+            transform(a.value, b.value, c.value, d.value, e.value, f.value, g.value, h.value)
+        },
+        flow = combine(a, b, c, d, e, f, g, h) { array ->
+            @Suppress("UNCHECKED_CAST")
+            transform(
+                array[0] as T1,
+                array[1] as T2,
+                array[2] as T3,
+                array[3] as T4,
+                array[4] as T5,
+                array[5] as T6,
+                array[6] as T7,
+                array[7] as T8,
+            )
+        }
+    )
+}
+
 
 inline fun <reified T, R> combineStateFlows(
     flows: Iterable<StateFlow<T>>,
