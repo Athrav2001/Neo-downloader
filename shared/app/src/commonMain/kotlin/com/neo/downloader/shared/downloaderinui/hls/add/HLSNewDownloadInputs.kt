@@ -7,6 +7,7 @@ import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
 import com.neo.downloader.shared.downloaderinui.hls.HLSLinkChecker
 import ir.amirab.downloader.downloaditem.hls.HLSResponseInfo
 import com.neo.downloader.shared.downloaderinui.http.applyToHttpDownload
+import com.neo.downloader.shared.ui.configurable.item.BooleanConfigurable
 import com.neo.downloader.shared.ui.configurable.item.FileChecksumConfigurable
 import com.neo.downloader.shared.ui.configurable.item.IntConfigurable
 import com.neo.downloader.shared.ui.configurable.item.SpeedLimitConfigurable
@@ -49,6 +50,7 @@ class HLSNewDownloadInputs(
     private var threadCount = MutableStateFlow(null as Int?)
     private var speedLimit = MutableStateFlow(0L)
     private var fileChecksum = MutableStateFlow(null as FileChecksum?)
+    private var remuxToMp4 = MutableStateFlow(false)
     override val downloadItem: StateFlow<HLSDownloadItem> = combineStateFlows(
         this.credentials,
         this.folder,
@@ -57,13 +59,15 @@ class HLSNewDownloadInputs(
         this.speedLimit,
         this.threadCount,
         this.fileChecksum,
+        this.remuxToMp4,
     ) { credentials,
         folder,
         name,
         duration,
         speedLimit,
         threadCount,
-        fileChecksum
+        fileChecksum,
+        remuxToMp4
         ->
         HLSDownloadItem(
             id = -1,
@@ -78,12 +82,17 @@ class HLSNewDownloadInputs(
             speedLimit = speedLimit,
             fileChecksum = fileChecksum?.toString(),
             duration = duration?.duration,
+            remuxToMp4 = remuxToMp4,
         ).withCredentials(credentials)
     }
-    override val downloadJobConfig: StateFlow<DownloadJobExtraConfig?> = downloadUiChecker.responseInfo.mapStateFlow {
-        it?.let {
+    override val downloadJobConfig: StateFlow<DownloadJobExtraConfig?> = combineStateFlows(
+        downloadUiChecker.responseInfo,
+        remuxToMp4,
+    ) { responseInfo, remuxToMp4 ->
+        responseInfo?.let {
             HLSDownloadJobExtraConfig(
-                hlsManifest = it.hlsManifest
+                hlsManifest = it.hlsManifest,
+                remuxToMp4 = remuxToMp4,
             )
         }
     }
@@ -136,6 +145,14 @@ class HLSNewDownloadInputs(
                             count = it.toString()
                         )
                     )
+            }
+        ),
+        BooleanConfigurable(
+            title = "Use FFmpeg MP4 conversion".asStringSource(),
+            description = "Enable FFmpeg conversion for this HLS download".asStringSource(),
+            backedBy = remuxToMp4,
+            describe = {
+                if (it) "Enabled".asStringSource() else "Disabled".asStringSource()
             }
         ),
         StringConfigurable(

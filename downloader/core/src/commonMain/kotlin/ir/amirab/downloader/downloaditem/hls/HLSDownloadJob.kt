@@ -649,10 +649,11 @@ class HLSDownloadJob(
 
     override suspend fun extraConfigsReceived(config: DownloadJobExtraConfig) {
         if (config !is HLSDownloadJobExtraConfig) return
+        downloadItem.remuxToMp4 = config.remuxToMp4
+        saveDownloadItem()
         config.hlsManifest?.let {
             updateParts(it)
             saveParts()
         }
     }
 }
-

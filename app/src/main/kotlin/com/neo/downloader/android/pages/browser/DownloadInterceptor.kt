@@ -297,6 +297,16 @@ class DownloadInterceptor(
                 val variants = fetchM3u8Variants(request)
                 if (variants.isNotEmpty()) {
                     withContext(Dispatchers.Main) {
+                        val inheritedHeaders = buildVariantHeaders(request)
+                        variants.forEach { variant ->
+                            addToHeaders(
+                                NDMWebRequest(
+                                    url = variant.url,
+                                    headers = inheritedHeaders,
+                                    page = request.page,
+                                )
+                            )
+                        }
                         mergeDetectedItems(tabId, variants)
                     }
                 }
@@ -320,6 +330,20 @@ class DownloadInterceptor(
             manifest = body,
             baseUrl = request.url,
         )
+    }
+
+    private fun buildVariantHeaders(request: NDMWebRequest): Map<String, String> {
+        val headers = request.headers.toMutableMap()
+        val referer = request.page ?: request.url
+        headers.putIfAbsent("Referer", referer)
+        val origin = runCatching {
+            val u = URL(referer)
+            "${u.protocol}://${u.host}" + if (u.port > 0 && u.port != u.defaultPort) ":${u.port}" else ""
+        }.getOrNull()
+        if (origin != null) {
+            headers.putIfAbsent("Origin", origin)
+        }
+        return headers.toMap()
     }
 
     private fun parseM3u8Variants(

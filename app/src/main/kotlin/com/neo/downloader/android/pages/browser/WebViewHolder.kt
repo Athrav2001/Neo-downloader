@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
+import org.json.JSONTokener
 import java.util.UUID
 
 class WebViewRegistry(
@@ -270,7 +271,12 @@ class NDMWebViewClient(
             return emptyList()
         }
         return runCatching {
-            val json = JSONArray(jsResult)
+            val parsed = JSONTokener(jsResult).nextValue()
+            val json = when (parsed) {
+                is JSONArray -> parsed
+                is String -> JSONArray(parsed)
+                else -> JSONArray()
+            }
             buildList {
                 for (i in 0 until json.length()) {
                     val item = json.optJSONObject(i) ?: continue

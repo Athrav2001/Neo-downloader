@@ -10,6 +10,7 @@ import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
 import com.neo.downloader.shared.downloaderinui.hls.HLSLinkChecker
 import ir.amirab.downloader.downloaditem.hls.HLSResponseInfo
 import com.neo.downloader.shared.downloaderinui.hls.HlsItemToCredentialMapper
+import com.neo.downloader.shared.ui.configurable.item.BooleanConfigurable
 import com.neo.downloader.shared.ui.configurable.item.FileChecksumConfigurable
 import com.neo.downloader.shared.ui.configurable.item.IntConfigurable
 import com.neo.downloader.shared.ui.configurable.item.SpeedLimitConfigurable
@@ -24,6 +25,7 @@ import ir.amirab.downloader.downloaditem.hls.HLSDownloadJobExtraConfig
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.asStringSourceWithARgs
+import ir.amirab.util.flow.combineStateFlows
 import ir.amirab.util.flow.mapStateFlow
 import ir.amirab.util.flow.mapTwoWayStateFlow
 import kotlinx.coroutines.CoroutineScope
@@ -118,6 +120,17 @@ class HLSEditDownloadInputs(
                     )
             }
         ),
+        BooleanConfigurable(
+            title = "Use FFmpeg MP4 conversion".asStringSource(),
+            description = "Enable FFmpeg conversion for this HLS download".asStringSource(),
+            backedBy = editedDownloadItem.mapTwoWayStateFlow(
+                map = { it.remuxToMp4 },
+                unMap = { copy(remuxToMp4 = it) },
+            ),
+            describe = {
+                if (it) "Enabled".asStringSource() else "Disabled".asStringSource()
+            }
+        ),
         StringConfigurable(
             Res.string.username.asStringSource(),
             Res.string.download_item_settings_username_description.asStringSource(),
@@ -180,9 +193,15 @@ class HLSEditDownloadInputs(
         ),
     )
     val duration = linkChecker.duration
-    override val downloadJobConfig: StateFlow<DownloadJobExtraConfig?> = linkChecker.responseInfo.mapStateFlow {
-        it?.let {
-            HLSDownloadJobExtraConfig(it.hlsManifest)
+    override val downloadJobConfig: StateFlow<DownloadJobExtraConfig?> = combineStateFlows(
+        linkChecker.responseInfo,
+        editedDownloadItem.mapStateFlow { it.remuxToMp4 },
+    ) { responseInfo, remuxToMp4 ->
+        responseInfo?.let {
+            HLSDownloadJobExtraConfig(
+                hlsManifest = it.hlsManifest,
+                remuxToMp4 = remuxToMp4,
+            )
         }
     }
 
@@ -211,6 +230,7 @@ class HLSEditDownloadInputs(
 
         fileChecksum = edited.fileChecksum
         duration = edited.duration
+        remuxToMp4 = edited.remuxToMp4
     }
 
     override fun applyEditedItemTo(item: HLSDownloadItem) {

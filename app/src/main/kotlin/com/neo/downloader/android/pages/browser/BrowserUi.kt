@@ -45,6 +45,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
@@ -152,7 +153,15 @@ fun BrowserPage(
                         Modifier
                             .height(1.dp)
                             .fillMaxWidth()
-                            .background(myColors.onSurface / 0.1f)
+                            .background(
+                                Brush.horizontalGradient(
+                                    colors = listOf(
+                                        Color.Transparent,
+                                        myColors.onSurface / 0.04f,
+                                        Color.Transparent,
+                                    )
+                                )
+                            )
                     )
                     tab?.tabState?.loadingState?.let {
                         if (it is LoadingState.Loading) {
@@ -220,8 +229,8 @@ fun BrowserPage(
         items = detectedItems,
         onDismissRequest = browserComponent::closeGrabber,
         onRefresh = {
+            activeTabId?.let { browserComponent.clearGrabberItems(it) }
             tabWebViewHolder?.client?.requestGrabberScan(tabWebViewHolder.webView)
-            activeTabId?.let { browserComponent.onGrabberRefresh(it) }
         },
         onDownloadOne = { url ->
             browserComponent.downloadGrabberUrls(listOf(url))

@@ -298,6 +298,11 @@ class BrowserComponent(
         }
     }
 
+    fun clearGrabberItems(tabId: NDMBrowserTabId) {
+        downloadInterceptor.clearDetectedItems(tabId)
+        _grabberItemsByTab.update { it - tabId }
+    }
+
     fun downloadGrabberUrls(urls: List<String>) {
         val tab = tabs.value.activeTab ?: return
         downloadInterceptor.triggerDownloadsByUrls(
