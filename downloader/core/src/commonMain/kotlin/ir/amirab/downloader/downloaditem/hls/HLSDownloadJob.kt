@@ -633,7 +633,6 @@ class HLSDownloadJob(
         runCatching {
             val process = ProcessBuilder(ffmpegCommand)
                 .redirectErrorStream(true)
-                .redirectOutput(ProcessBuilder.Redirect.DISCARD)
                 .start()
             val finished = process.waitFor(FFMPEG_TIMEOUT_MINUTES, TimeUnit.MINUTES)
             if (!finished) {
