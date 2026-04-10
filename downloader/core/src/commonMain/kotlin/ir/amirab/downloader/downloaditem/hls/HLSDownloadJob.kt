@@ -25,7 +25,6 @@ import kotlinx.coroutines.sync.withLock
 import okio.Throttler
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -626,25 +625,13 @@ class HLSDownloadJob(
 
         val target = resolveRemuxTarget(source)
         val replaceInPlace = target.name == TEMP_REMUX_FILE_NAME
-        val ffmpegCommand = listOf(
-            FFMPEG_BIN_NAME,
-            "-y",
-            "-i", source.absolutePath,
-            "-c", "copy",
-            "-movflags", "+faststart",
-            target.absolutePath
-        )
-
         runCatching {
-            val process = ProcessBuilder(ffmpegCommand)
-                .redirectErrorStream(true)
-                .start()
-            val finished = process.waitFor(FFMPEG_TIMEOUT_MINUTES, TimeUnit.MINUTES)
-            if (!finished) {
-                process.destroyForcibly()
-                return
-            }
-            if (process.exitValue() != 0 || !target.exists() || target.length() <= 0L) {
+            val success = HlsRemuxBridge.remuxToMp4(
+                inputPath = source.absolutePath,
+                outputPath = target.absolutePath,
+                timeoutMinutes = FFMPEG_TIMEOUT_MINUTES,
+            )
+            if (!success || !target.exists() || target.length() <= 0L) {
                 println("FFmpeg remux failed: ${source.absolutePath}")
                 return
             }
@@ -721,7 +708,6 @@ class HLSDownloadJob(
     }
 
     private companion object {
-        const val FFMPEG_BIN_NAME = "ffmpeg"
         const val FFMPEG_TIMEOUT_MINUTES = 30L
         const val TEMP_REMUX_FILE_NAME = ".ndm_ffmpeg_remux.mp4"
     }

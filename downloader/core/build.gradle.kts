@@ -26,6 +26,11 @@ kotlin {
                 api("io.lindstrom:m3u8-parser:0.29")
             }
         }
+        val androidMain by getting {
+            dependencies {
+                implementation("com.moizhassan.ffmpeg:ffmpeg-kit-16kb:6.1.1")
+            }
+        }
     }
 }
 android {
