@@ -15,6 +15,7 @@ import com.neo.downloader.shared.ui.configurable.item.StringConfigurable
 import com.neo.downloader.shared.util.SizeAndSpeedUnitProvider
 import com.neo.downloader.shared.util.ThreadCountLimitation
 import com.neo.downloader.shared.util.FileChecksum
+import com.neo.downloader.shared.util.FilenameFixer
 import com.neo.downloader.shared.util.convertPositiveSpeedToHumanReadable
 import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsItem
 import ir.amirab.downloader.downloaditem.DownloadJobExtraConfig
@@ -108,10 +109,10 @@ class HLSNewDownloadInputs(
         useWebpageTitleAsFileName.onEach { enabled ->
             if (enabled) {
                 if (initialWebpageTitleName.isNotBlank()) {
-                    name.value = initialWebpageTitleName
+                    name.value = FilenameFixer.fix(initialWebpageTitleName)
                 }
             } else {
-                deriveNameFromLink(credentials.value.link)?.let { name.value = it }
+                deriveNameFromLink(credentials.value.link)?.let { name.value = FilenameFixer.fix(it) }
             }
         }.launchIn(scope)
     }
