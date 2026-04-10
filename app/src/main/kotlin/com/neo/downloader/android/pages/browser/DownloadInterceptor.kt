@@ -3,6 +3,8 @@ package com.neo.downloader.android.pages.browser
 import android.webkit.CookieManager
 import com.neo.downloader.android.ui.widget.WebViewState
 import com.neo.downloader.shared.pages.adddownload.AddDownloadCredentialsInUiProps
+import ir.amirab.downloader.downloaditem.IDownloadCredentials
+import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
 import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
 import ir.amirab.util.HttpUrlUtils
 import kotlinx.coroutines.CoroutineScope
@@ -74,11 +76,7 @@ class DownloadInterceptor(
         onNewDownload(
             listOf(
                 AddDownloadCredentialsInUiProps(
-                    HttpDownloadCredentials(
-                        link = webRequest.url,
-                        headers = webRequest.headers,
-                        downloadPage = webRequest.page,
-                    ),
+                    createCredentialsFor(webRequest),
                     AddDownloadCredentialsInUiProps.Configs()
                 )
             )
@@ -155,11 +153,7 @@ class DownloadInterceptor(
             .filter { markHandled(it.url) }
             .map { webRequest ->
                 AddDownloadCredentialsInUiProps(
-                    HttpDownloadCredentials(
-                        link = webRequest.url,
-                        headers = webRequest.headers,
-                        downloadPage = webRequest.page,
-                    ),
+                    createCredentialsFor(webRequest),
                     AddDownloadCredentialsInUiProps.Configs()
                 )
             }
@@ -438,6 +432,22 @@ class DownloadInterceptor(
 
     private fun getDetectedRequest(tabId: NDMBrowserTabId, url: String): NDMWebRequest? {
         return detectedRequestsByTab[tabId]?.get(url)
+    }
+
+    private fun createCredentialsFor(webRequest: NDMWebRequest): IDownloadCredentials {
+        return if (webRequest.url.lowercase(Locale.US).contains(".m3u8")) {
+            HLSDownloadCredentials(
+                link = webRequest.url,
+                headers = webRequest.headers,
+                downloadPage = webRequest.page,
+            )
+        } else {
+            HttpDownloadCredentials(
+                link = webRequest.url,
+                headers = webRequest.headers,
+                downloadPage = webRequest.page,
+            )
+        }
     }
 
     companion object {
