@@ -31,6 +31,7 @@ import com.neo.downloader.android.ui.page.PageUi
 import com.neo.downloader.shared.ui.widget.CheckBox
 import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.ui.widget.TransparentIconActionButton
+import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.WithContentAlpha
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
