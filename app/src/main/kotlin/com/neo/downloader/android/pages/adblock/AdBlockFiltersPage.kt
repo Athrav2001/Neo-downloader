@@ -80,6 +80,7 @@ fun AdBlockFiltersPage(component: AndroidAdBlockFiltersComponent) {
                 }
             )
         },
+        footer = {},
         modifier = Modifier
             .systemBarsPadding()
             .navigationBarsPadding(),
