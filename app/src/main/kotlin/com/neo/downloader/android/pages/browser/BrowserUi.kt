@@ -173,7 +173,7 @@ fun BrowserPage(
                                     Modifier
                                         .height(1.dp)
                                         .fillMaxWidth(it.progress)
-                                        .background(myColors.info),
+                                        .background(myColors.primary),
                                 )
                             }
                         }
@@ -489,6 +489,21 @@ private fun GrabberSheet(
     onDownloadOne: (String) -> Unit,
     onDownloadAll: () -> Unit,
 ) {
+    fun prettyValue(value: String): String {
+        return if (value.equals("Unknown", ignoreCase = true)) "—" else value
+    }
+    fun prettyParts(parts: Int?): String {
+        return parts?.let { "$it parts" } ?: "— parts"
+    }
+    fun prettyDuration(durationSeconds: Double?): String {
+        if (durationSeconds == null || durationSeconds <= 0.0) return ""
+        val total = durationSeconds.toInt()
+        val h = total / 3600
+        val m = (total % 3600) / 60
+        val s = total % 60
+        return if (h > 0) String.format(Locale.US, "%dh%02dm%02ds", h, m, s)
+        else String.format(Locale.US, "%dm%02ds", m, s)
+    }
     val responsiveState = rememberResponsiveDialogState(visible)
     LaunchedEffect(visible) {
         if (visible) responsiveState.show() else responsiveState.hide()
@@ -579,12 +594,18 @@ private fun GrabberSheet(
                                         Spacer(Modifier.width(8.dp))
                                         Text(item.quality)
                                         Spacer(Modifier.weight(1f))
-                                        Text(item.size, color = myColors.onSurface / 0.7f)
+                                        val durationLabel = prettyDuration(item.durationSeconds)
+                                        val suffix = if (durationLabel.isNotEmpty()) {
+                                            "${prettyValue(item.size)} • ${prettyParts(item.partsCount)} • $durationLabel"
+                                        } else {
+                                            "${prettyValue(item.size)} • ${prettyParts(item.partsCount)}"
+                                        }
+                                        Text(suffix, color = myColors.onSurface / 0.7f)
                                     }
                                 }
                             } else {
-                                Text("Quality: ${first.quality}", color = myColors.onSurface / 0.7f)
-                                Text("Size: ${first.size}", color = myColors.onSurface / 0.7f)
+                                Text("Quality: ${prettyValue(first.quality)}", color = myColors.onSurface / 0.7f)
+                                Text("Size: ${prettyValue(first.size)}", color = myColors.onSurface / 0.7f)
                                 Spacer(Modifier.height(8.dp))
                                 ActionButton(
                                     text = myStringResource(Res.string.download),
@@ -663,7 +684,7 @@ private fun GrabberBulkDownloadSheet(
                             Column(Modifier.weight(1f)) {
                                 Text(item.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
                                 Text(
-                                    "Quality: ${item.quality}  •  Size: ${item.size}",
+                                    "Quality: ${item.quality}  •  Size: ${item.size}  •  Parts: ${item.partsCount ?: "—"}",
                                     color = myColors.onSurface / 0.7f,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,

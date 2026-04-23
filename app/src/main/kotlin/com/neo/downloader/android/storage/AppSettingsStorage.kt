@@ -25,7 +25,7 @@ data class AppSettingsModel(
     override val uiScale: Float? = null,
     override val showIconLabels: Boolean = true,
     override val useRelativeDateTime: Boolean = true,
-    override val threadCount: Int = 8,
+    override val threadCount: Int = 32,
     override val maxConcurrentDownloads: Int = 0,
     override val maxDownloadRetryCount: Int = 3,
     override val dynamicPartCreation: Boolean = true,

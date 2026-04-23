@@ -24,6 +24,8 @@ data class GrabberDetectedItem(
     val size: String,
     val quality: String,
     val isStream: Boolean,
+    val partsCount: Int? = null,
+    val durationSeconds: Double? = null,
 )
 
 data class NDMWebRequest(
@@ -106,6 +108,8 @@ class DownloadInterceptor(
                     size = extractPossibleSizeFromUrl(webRequest.url),
                     quality = extractQuality(webRequest.url),
                     isStream = isStreamUrl(webRequest.url),
+                    partsCount = null,
+                    durationSeconds = null,
                 )
             }
 
@@ -311,13 +315,16 @@ class DownloadInterceptor(
 
     private fun fetchM3u8Variants(request: NDMWebRequest): List<GrabberDetectedItem> {
         val connection = URL(request.url).openConnection()
+        connection.connectTimeout = 8_000
+        connection.readTimeout = 12_000
         request.headers.forEach { (k, v) ->
             connection.setRequestProperty(k, v)
         }
         val body = connection.getInputStream().bufferedReader().use { it.readText() }
-        return parseM3u8Variants(
+        return parseMasterAndResolveVariantStats(
             manifest = body,
             baseUrl = request.url,
+            headers = request.headers,
         )
     }
 
@@ -335,9 +342,10 @@ class DownloadInterceptor(
         return headers.toMap()
     }
 
-    private fun parseM3u8Variants(
+    private fun parseMasterAndResolveVariantStats(
         manifest: String,
         baseUrl: String,
+        headers: Map<String, String>,
     ): List<GrabberDetectedItem> {
         val lines = manifest
             .lineSequence()
@@ -347,27 +355,122 @@ class DownloadInterceptor(
         if (lines.none { it.startsWith("#EXT-X-STREAM-INF", ignoreCase = true) }) {
             return emptyList()
         }
-        val output = mutableListOf<GrabberDetectedItem>()
+        val variants = mutableListOf<VariantCandidate>()
         var pendingQuality: String? = null
+        var pendingBandwidth: Int? = null
         for (line in lines) {
             if (line.startsWith("#EXT-X-STREAM-INF", ignoreCase = true)) {
                 pendingQuality = extractQualityFromStreamInf(line)
+                pendingBandwidth = extractBandwidthFromStreamInf(line)
                 continue
             }
             if (line.startsWith("#")) continue
             if (pendingQuality != null) {
                 val resolvedUrl = runCatching { URL(URL(baseUrl), line).toString() }.getOrNull() ?: continue
-                output += GrabberDetectedItem(
+                variants += VariantCandidate(
                     url = resolvedUrl,
-                    name = extractName(baseUrl),
-                    size = "Unknown",
                     quality = pendingQuality,
-                    isStream = true,
+                    bandwidth = pendingBandwidth,
                 )
                 pendingQuality = null
+                pendingBandwidth = null
             }
         }
-        return output
+        if (variants.isEmpty()) return emptyList()
+
+        val output = mutableListOf<GrabberDetectedItem>()
+        val bestByQuality = linkedMapOf<String, Pair<Int, GrabberDetectedItem>>()
+        val seenUnknownUrls = mutableSetOf<String>()
+        for (variant in variants) {
+            val stats = fetchVariantStats(
+                variantUrl = variant.url,
+                headers = headers,
+            )
+            val sizeBytes = stats.byteRangeSize ?: estimateBytesFromBandwidthAndDuration(
+                bandwidthBitsPerSecond = variant.bandwidth,
+                durationSeconds = stats.durationSeconds,
+            )
+            val sizeLabel = sizeBytes?.let(::formatBytes) ?: variant.bandwidth?.let(::formatBandwidth) ?: "—"
+            val item = GrabberDetectedItem(
+                url = variant.url,
+                name = extractName(baseUrl),
+                size = sizeLabel,
+                quality = variant.quality,
+                isStream = true,
+                partsCount = stats.partsCount,
+                durationSeconds = stats.durationSeconds,
+            )
+            if (variant.quality.equals("Unknown", ignoreCase = true)) {
+                if (seenUnknownUrls.add(variant.url)) {
+                    output += item
+                }
+            } else {
+                val current = bestByQuality[variant.quality]
+                val score = variant.bandwidth ?: 0
+                if (current == null || score > current.first) {
+                    bestByQuality[variant.quality] = score to item
+                }
+            }
+        }
+        return bestByQuality.values.map { it.second } + output
+    }
+
+    private fun fetchVariantStats(
+        variantUrl: String,
+        headers: Map<String, String>,
+    ): VariantStats {
+        return runCatching {
+            val connection = URL(variantUrl).openConnection()
+            connection.connectTimeout = 8_000
+            connection.readTimeout = 12_000
+            headers.forEach { (k, v) ->
+                connection.setRequestProperty(k, v)
+            }
+            val body = connection.getInputStream().bufferedReader().use { it.readText() }
+            parseVariantPlaylistStats(body)
+        }.getOrElse {
+            VariantStats(partsCount = null, durationSeconds = null, byteRangeSize = null)
+        }
+    }
+
+    private fun parseVariantPlaylistStats(manifest: String): VariantStats {
+        val lines = manifest
+            .lineSequence()
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+            .toList()
+        var partCount = 0
+        var durationSeconds = 0.0
+        var byteRangeBytes = 0L
+        lines.forEach { line ->
+            if (line.startsWith("#EXTINF:", ignoreCase = true)) {
+                val value = line.substringAfter(":", "").substringBefore(",").trim()
+                durationSeconds += value.toDoubleOrNull() ?: 0.0
+                return@forEach
+            }
+            if (line.startsWith("#EXT-X-BYTERANGE:", ignoreCase = true)) {
+                val value = line.substringAfter(":", "").substringBefore("@").trim()
+                byteRangeBytes += value.toLongOrNull() ?: 0L
+                return@forEach
+            }
+            if (!line.startsWith("#")) {
+                partCount += 1
+            }
+        }
+        return VariantStats(
+            partsCount = partCount.takeIf { it > 0 },
+            durationSeconds = durationSeconds.takeIf { it > 0.0 },
+            byteRangeSize = byteRangeBytes.takeIf { it > 0L },
+        )
+    }
+
+    private fun estimateBytesFromBandwidthAndDuration(
+        bandwidthBitsPerSecond: Int?,
+        durationSeconds: Double?,
+    ): Long? {
+        if (bandwidthBitsPerSecond == null || durationSeconds == null || durationSeconds <= 0.0) return null
+        val bits = bandwidthBitsPerSecond.toDouble() * durationSeconds
+        return (bits / 8.0).toLong().takeIf { it > 0L }
     }
 
     private fun extractQualityFromStreamInf(streamInfLine: String): String {
@@ -385,6 +488,32 @@ class DownloadInterceptor(
             return "${kbps}kbps"
         }
         return "Unknown"
+    }
+
+    private fun extractBandwidthFromStreamInf(streamInfLine: String): Int? {
+        return Regex("""BANDWIDTH=(\d+)""", RegexOption.IGNORE_CASE)
+            .find(streamInfLine)
+            ?.groupValues
+            ?.getOrNull(1)
+            ?.toIntOrNull()
+    }
+
+    private fun formatBandwidth(bitsPerSecond: Int): String {
+        val kbps = (bitsPerSecond / 1000).coerceAtLeast(1)
+        return "${kbps} kbps"
+    }
+
+    private fun formatBytes(bytes: Long): String {
+        val value = bytes.toDouble()
+        val kb = 1024.0
+        val mb = kb * 1024.0
+        val gb = mb * 1024.0
+        return when {
+            value >= gb -> String.format(Locale.US, "%.2f GB", value / gb)
+            value >= mb -> String.format(Locale.US, "%.1f MB", value / mb)
+            value >= kb -> String.format(Locale.US, "%.0f KB", value / kb)
+            else -> "$bytes B"
+        }
     }
 
     private fun extractName(url: String): String {
@@ -535,3 +664,15 @@ class DownloadInterceptor(
         )
     }
 }
+
+private data class VariantCandidate(
+    val url: String,
+    val quality: String,
+    val bandwidth: Int?,
+)
+
+private data class VariantStats(
+    val partsCount: Int?,
+    val durationSeconds: Double?,
+    val byteRangeSize: Long?,
+)

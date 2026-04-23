@@ -10,8 +10,9 @@ internal actual object HlsRemuxBridge {
             append("-timelimit ")
             append(timeoutSeconds)
             append(" ")
-            append("-y -i ")
+            append("-y -fflags +genpts -avoid_negative_ts make_zero -i ")
             append(quote(inputPath))
+            append(" -map 0:v:0? -map 0:a:0? -map 0:s:0? -dn ")
             append(" -c copy -movflags +faststart ")
             append(quote(outputPath))
         }

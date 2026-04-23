@@ -54,11 +54,9 @@ class HLSNewDownloadInputs(
     private var threadCount = MutableStateFlow(null as Int?)
     private var speedLimit = MutableStateFlow(0L)
     private var fileChecksum = MutableStateFlow(null as FileChecksum?)
-    private var remuxToMp4 = MutableStateFlow(false)
+    private var remuxToMp4 = MutableStateFlow(true)
     private val initialWebpageTitleName = name.value
-    private var useWebpageTitleAsFileName = MutableStateFlow(
-        initialWebpageTitleName.isNotBlank() && credentials.value.downloadPage != null
-    )
+    private var useWebpageTitleAsFileName = MutableStateFlow(true)
     override val downloadItem: StateFlow<HLSDownloadItem> = combineStateFlows(
         this.credentials,
         this.folder,
