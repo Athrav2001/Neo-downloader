@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -27,7 +26,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.ifThen
 
 @Composable
 fun ActionButton(
@@ -49,17 +47,8 @@ fun ActionButton(
     val isFocused by interactionSource.collectIsFocusedAsState()
     val shape = myShapes.defaultRounded
     val borderColor = if (isFocused) focusedBorderColor else borderColor
-    val glowColor = if (myColors.isLight) myColors.onBackground / 0.06f else myColors.glowColor
     Row(
         modifier
-            .ifThen(enabled) {
-                shadow(
-                    elevation = if (isFocused) 10.dp else 4.dp,
-                    shape = shape,
-                    ambientColor = glowColor,
-                    spotColor = glowColor,
-                )
-            }
             .heightIn(mySpacings.thumbSize)
             .border(1.dp, if (enabled) borderColor else disabledBorderColor, shape)
             .clip(shape)
