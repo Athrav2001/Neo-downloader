@@ -51,6 +51,9 @@ data class AppSettingsModel(
     override val ignoreSSLCertificates: Boolean = false,
     override val useCategoryByDefault: Boolean = true,
     override val userAgent: String = "",
+    override val browserAdBlockEnabled: Boolean = true,
+    override val adBlockAutoUpdateEnabled: Boolean = true,
+    override val adBlockLastUpdatedAt: Long = 0L,
     val browserIconInLauncher: Boolean = false,
 ) : IAppSettingsModel {
     companion object {
@@ -93,6 +96,9 @@ data class AppSettingsModel(
             val ignoreSSLCertificates = booleanKeyOf("ignoreSSLCertificates")
             val useCategoryByDefault = booleanKeyOf("useCategoryByDefault")
             val userAgent = stringKeyOf("userAgent")
+            val browserAdBlockEnabled = booleanKeyOf("browserAdBlockEnabled")
+            val adBlockAutoUpdateEnabled = booleanKeyOf("adBlockAutoUpdateEnabled")
+            val adBlockLastUpdatedAt = longKeyOf("adBlockLastUpdatedAt")
             val browserIconInLauncher = booleanKeyOf("browserIconInLauncher")
         }
 
@@ -138,6 +144,9 @@ data class AppSettingsModel(
                 ignoreSSLCertificates = source.get(Keys.ignoreSSLCertificates) ?: default.ignoreSSLCertificates,
                 useCategoryByDefault = source.get(Keys.useCategoryByDefault) ?: default.useCategoryByDefault,
                 userAgent = source.get(Keys.userAgent) ?: default.userAgent,
+                browserAdBlockEnabled = source.get(Keys.browserAdBlockEnabled) ?: default.browserAdBlockEnabled,
+                adBlockAutoUpdateEnabled = source.get(Keys.adBlockAutoUpdateEnabled) ?: default.adBlockAutoUpdateEnabled,
+                adBlockLastUpdatedAt = source.get(Keys.adBlockLastUpdatedAt) ?: default.adBlockLastUpdatedAt,
                 browserIconInLauncher = source.get(Keys.browserIconInLauncher) ?: default.browserIconInLauncher,
             )
         }
@@ -175,6 +184,9 @@ data class AppSettingsModel(
                 put(Keys.ignoreSSLCertificates, focus.ignoreSSLCertificates)
                 put(Keys.useCategoryByDefault, focus.useCategoryByDefault)
                 put(Keys.userAgent, focus.userAgent)
+                put(Keys.browserAdBlockEnabled, focus.browserAdBlockEnabled)
+                put(Keys.adBlockAutoUpdateEnabled, focus.adBlockAutoUpdateEnabled)
+                put(Keys.adBlockLastUpdatedAt, focus.adBlockLastUpdatedAt)
                 put(Keys.browserIconInLauncher, focus.browserIconInLauncher)
             }
         }
@@ -248,6 +260,9 @@ class AppSettingsStorage(
     override val ignoreSSLCertificates = from(AppSettingsModel.ignoreSSLCertificates)
     override val useCategoryByDefault = from(AppSettingsModel.useCategoryByDefault)
     override val userAgent = from(AppSettingsModel.userAgent)
+    override val browserAdBlockEnabled = from(AppSettingsModel.browserAdBlockEnabled)
+    override val adBlockAutoUpdateEnabled = from(AppSettingsModel.adBlockAutoUpdateEnabled)
+    override val adBlockLastUpdatedAt = from(AppSettingsModel.adBlockLastUpdatedAt)
 
     val browserIconInLauncher = from(AppSettingsModel.browserIconInLauncher)
 }

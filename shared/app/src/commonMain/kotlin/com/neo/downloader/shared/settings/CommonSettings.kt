@@ -1,6 +1,7 @@
 package com.neo.downloader.shared.settings
 
 import com.neo.downloader.resources.Res
+import com.neo.downloader.shared.pagemanager.AdBlockFiltersPageManager
 import com.neo.downloader.shared.pagemanager.PerHostSettingsPageManager
 import com.neo.downloader.shared.repository.BaseAppRepository
 import com.neo.downloader.shared.storage.BaseAppSettingsStorage
@@ -323,6 +324,42 @@ object CommonSettings {
             description = Res.string.settings_per_host_settings_descriptions.asStringSource(),
             onRequestNavigate = {
                 perHostSettingsPageManager.openPerHostSettings(null)
+            },
+        )
+    }
+
+    fun browserAdBlockEnabled(appSettings: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_browser_ad_block.asStringSource(),
+            description = Res.string.settings_browser_ad_block_description.asStringSource(),
+            backedBy = appSettings.browserAdBlockEnabled,
+            renderMode = BooleanConfigurable.RenderMode.Switch,
+            describe = {
+                if (it) Res.string.enabled.asStringSource()
+                else Res.string.disabled.asStringSource()
+            }
+        )
+    }
+
+    fun adBlockAutoUpdateEnabled(appSettings: BaseAppSettingsStorage): BooleanConfigurable {
+        return BooleanConfigurable(
+            title = Res.string.settings_ad_block_auto_update.asStringSource(),
+            description = Res.string.settings_ad_block_auto_update_description.asStringSource(),
+            backedBy = appSettings.adBlockAutoUpdateEnabled,
+            renderMode = BooleanConfigurable.RenderMode.Switch,
+            describe = {
+                if (it) Res.string.enabled.asStringSource()
+                else Res.string.disabled.asStringSource()
+            }
+        )
+    }
+
+    fun adBlockHostsAndFilters(adBlockFiltersPageManager: AdBlockFiltersPageManager): NavigatableConfigurable {
+        return NavigatableConfigurable(
+            title = Res.string.settings_ad_block_hosts_filters.asStringSource(),
+            description = Res.string.settings_ad_block_hosts_filters_description.asStringSource(),
+            onRequestNavigate = {
+                adBlockFiltersPageManager.openAdBlockFiltersPage()
             },
         )
     }

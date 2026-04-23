@@ -18,12 +18,14 @@ import com.neo.downloader.android.storage.BrowserBookmarksStorage
 import com.neo.downloader.android.storage.BrowserHistoryStorage
 import com.neo.downloader.android.storage.BrowserSessionStorage
 import com.neo.downloader.android.storage.AppSettingsStorage
+import com.neo.downloader.android.pages.browser.adblock.AdBlockFiltersManager
 
 class BrowserActivity : NDMActivity() {
     private val browserBookmarksStorage: BrowserBookmarksStorage by inject()
     private val browserHistoryStorage: BrowserHistoryStorage by inject()
     private val browserSessionStorage: BrowserSessionStorage by inject()
     private val browserAppSettingsStorage: AppSettingsStorage by inject()
+    private val adBlockFiltersManager: AdBlockFiltersManager by inject()
     private val json: Json by inject()
     val component by lazy {
         BrowserComponent(
@@ -34,11 +36,13 @@ class BrowserActivity : NDMActivity() {
             browserHistoryStorage = browserHistoryStorage,
             browserSessionStorage = browserSessionStorage,
             appSettingsStorage = browserAppSettingsStorage,
+            adBlockFiltersManager = adBlockFiltersManager,
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        adBlockFiltersManager.initialize()
         setNDMContent {
             HandleEffects(component) {
                 when (it) {

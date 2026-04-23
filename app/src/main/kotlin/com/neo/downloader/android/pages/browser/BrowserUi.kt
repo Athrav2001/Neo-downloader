@@ -106,6 +106,7 @@ fun BrowserPage(
     }
     val tabs by browserComponent.tabs.collectAsState()
     val userAgent by browserComponent.userAgent.collectAsState()
+    val pendingPopupWindow by browserComponent.pendingPopupWindow.collectAsState()
     var previousUserAgent by remember { mutableStateOf<String?>(null) }
     val tab = tabs.activeTab
     val tabWebViewHolder = remember(tab?.tabId) {
@@ -326,10 +327,157 @@ fun BrowserPage(
             }
         )
     }
+    PopupWindowRequestSheet(
+        request = pendingPopupWindow,
+        onDismissRequest = browserComponent::dismissPopupWindow,
+        onPreview = { openInBackgroundTab, closeCurrentTabAfterOpen ->
+            browserComponent.respondPopupWindow(
+                action = PopupWindowAction.Preview,
+                openInBackgroundTab = openInBackgroundTab,
+                closeCurrentTabAfterOpen = closeCurrentTabAfterOpen,
+            )
+        },
+        onNo = {
+            browserComponent.respondPopupWindow(
+                action = PopupWindowAction.Deny,
+                openInBackgroundTab = false,
+                closeCurrentTabAfterOpen = false,
+            )
+        },
+        onYes = { openInBackgroundTab, closeCurrentTabAfterOpen ->
+            browserComponent.respondPopupWindow(
+                action = PopupWindowAction.Open,
+                openInBackgroundTab = openInBackgroundTab,
+                closeCurrentTabAfterOpen = closeCurrentTabAfterOpen,
+            )
+        },
+    )
     RenderMenuInSheet(
         browserComponent.mainMenu.collectAsState().value,
         browserComponent::closeMainMenu,
     )
+}
+
+@Composable
+private fun PopupWindowRequestSheet(
+    request: PendingPopupWindowRequest?,
+    onDismissRequest: () -> Unit,
+    onPreview: (openInBackgroundTab: Boolean, closeCurrentTabAfterOpen: Boolean) -> Unit,
+    onNo: () -> Unit,
+    onYes: (openInBackgroundTab: Boolean, closeCurrentTabAfterOpen: Boolean) -> Unit,
+) {
+    val visible = request != null
+    val responsiveState = rememberResponsiveDialogState(visible)
+    var openInBackgroundTab by remember(request) { mutableStateOf(false) }
+    var closeCurrentTabAfterOpen by remember(request) { mutableStateOf(false) }
+
+    LaunchedEffect(visible) {
+        if (visible) {
+            responsiveState.show()
+        } else {
+            responsiveState.hide()
+        }
+    }
+    if (!visible) return
+
+    ResponsiveDialog(
+        state = responsiveState,
+        onDismiss = onDismissRequest,
+    ) {
+        SheetUI(
+            header = {
+                SheetHeader(
+                    headerTitle = {
+                        SheetTitle("Popup Alert")
+                    },
+                    headerActions = {
+                        TransparentIconActionButton(
+                            MyIcons.close,
+                            Res.string.close.asStringSource(),
+                        ) {
+                            onDismissRequest()
+                        }
+                    }
+                )
+            }
+        ) {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    (request.targetUrlHint?.takeIf { it.isNotBlank() }?.let { target ->
+                        "This page wants to open a new window:\n$target"
+                    } ?: "This page wants to open a new window.")
+                )
+                request.sourceUrl?.takeIf { it.isNotBlank() }?.let { source ->
+                    WithContentAlpha(0.7f) {
+                        Text("From: $source", maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    }
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { openInBackgroundTab = !openInBackgroundTab }
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    CheckBox(
+                        value = openInBackgroundTab,
+                        onValueChange = {
+                            openInBackgroundTab = it
+                        },
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Open in background tab")
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { closeCurrentTabAfterOpen = !closeCurrentTabAfterOpen }
+                        .padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    CheckBox(
+                        value = closeCurrentTabAfterOpen,
+                        onValueChange = {
+                            closeCurrentTabAfterOpen = it
+                        },
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Close current tab after opening new tab")
+                }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    ActionButton(
+                        text = "Preview",
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            onPreview(openInBackgroundTab, closeCurrentTabAfterOpen)
+                        },
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    ActionButton(
+                        text = "No",
+                        modifier = Modifier.weight(1f),
+                        onClick = onNo,
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    ActionButton(
+                        text = "Yes",
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            onYes(openInBackgroundTab, closeCurrentTabAfterOpen)
+                        },
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.neo.downloader.UpdateManager
+import com.neo.downloader.android.pages.browser.adblock.AdBlockFiltersManager
 import com.neo.downloader.android.pages.onboarding.permissions.PermissionManager
 import com.neo.downloader.android.util.activity.NDMActivity
 import com.neo.downloader.shared.downloaderinui.DownloaderInUiRegistry
@@ -29,6 +30,7 @@ class MainActivity : NDMActivity() {
     private val json: Json by inject()
     private val updateManager: UpdateManager by inject()
     private val permissionManager: PermissionManager by inject()
+    private val adBlockFiltersManager: AdBlockFiltersManager by inject()
     val mainComponent by lazy {
         retainedComponent {
             // make sure to not pass any activity to retained component
@@ -50,6 +52,7 @@ class MainActivity : NDMActivity() {
                 permissionManager = permissionManager,
                 languageManager = languageManager,
                 themeManager = themeManager,
+                adBlockFiltersManager = adBlockFiltersManager,
                 ndmAppManager = ndmAppManager,
                 onBoardingStorage = onBoardingStorage,
                 homePageStorage = homePageStorage,

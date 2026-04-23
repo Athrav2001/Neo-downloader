@@ -2,6 +2,7 @@ package com.neo.downloader.android.pages.settings
 
 import com.neo.downloader.android.storage.AppSettingsStorage
 import com.neo.downloader.android.util.pagemanager.PermissionsPageManager
+import com.neo.downloader.shared.pagemanager.AdBlockFiltersPageManager
 import com.neo.downloader.shared.pagemanager.PerHostSettingsPageManager
 import com.neo.downloader.shared.repository.BaseAppRepository
 import com.neo.downloader.shared.settings.BaseSettingsComponent
@@ -21,6 +22,7 @@ import kotlin.getValue
 class AndroidSettingsComponent(
     ctx: ComponentContext,
     perHostSettingsPageManager: PerHostSettingsPageManager,
+    adBlockFiltersPageManager: AdBlockFiltersPageManager,
     permissionsPageManager: PermissionsPageManager,
 ) : BaseSettingsComponent(
     ctx
@@ -98,11 +100,14 @@ class AndroidSettingsComponent(
             ConfigurableGroup(
                 nestedConfigurable = listOf(
                     CommonSettings.perHostSettings(perHostSettingsPageManager),
+                    CommonSettings.adBlockHostsAndFilters(adBlockFiltersPageManager),
+                    CommonSettings.adBlockAutoUpdateEnabled(appSettings),
                 )
             ),
             ConfigurableGroup(
                 nestedConfigurable = listOf(
                     CommonSettings.proxyConfig(proxyManager),
+                    CommonSettings.browserAdBlockEnabled(appSettings),
                     CommonSettings.userAgent(appSettings),
                     CommonSettings.ignoreSSLCertificates(appSettings),
                     CommonSettings.useServerLastModified(appRepository),

@@ -10,6 +10,11 @@ import com.neo.downloader.android.NDMApp
 import com.neo.downloader.android.pages.home.HomePageStateToPersist
 import com.neo.downloader.android.pages.onboarding.permissions.NDMPermissions
 import com.neo.downloader.android.pages.onboarding.permissions.PermissionManager
+import com.neo.downloader.android.pages.browser.adblock.AdBlockFilterSource
+import com.neo.downloader.android.pages.browser.adblock.AdBlockFiltersManager
+import com.neo.downloader.android.pages.browser.adblock.AdBlockSourceDatastoreStorage
+import com.neo.downloader.android.pages.browser.adblock.IAdBlockSourceStorage
+import com.neo.downloader.android.pages.browser.adblock.defaultAdBlockSources
 import com.neo.downloader.android.receiver.StartOnBootBroadcastReceiver
 import com.neo.downloader.android.repository.AppRepository
 import com.neo.downloader.android.storage.AndroidExtraDownloadItemSettings
@@ -580,6 +585,24 @@ fun getAppModule(context: NDMApp) = module {
     }
     single {
         PerHostSettingsManager(get())
+    }
+    single<IAdBlockSourceStorage> {
+        val definedPaths = get<DefinedPaths>()
+        AdBlockSourceDatastoreStorage(
+            kotlinxSerializationDataStore<List<AdBlockFilterSource>>(
+                definedPaths.adBlockSourcesFile.toFile(),
+                get(),
+                ::defaultAdBlockSources,
+            )
+        )
+    }
+    single {
+        AdBlockFiltersManager(
+            appScope = get(),
+            appSettingsStorage = get(),
+            sourceStorage = get(),
+            definedPaths = get(),
+        )
     }
     single { context }.apply {
         bind<NDMApp>()

@@ -5,8 +5,10 @@ import android.content.Intent
 import com.neo.downloader.UpdateManager
 import com.neo.downloader.android.pages.add.multiple.AddMultiDownloadActivity
 import com.neo.downloader.android.pages.add.single.AddSingleDownloadActivity
+import com.neo.downloader.android.pages.adblock.AndroidAdBlockFiltersComponent
 import com.neo.downloader.android.pages.batchdownload.AndroidBatchDownloadComponent
 import com.neo.downloader.android.pages.browser.BrowserActivity
+import com.neo.downloader.android.pages.browser.adblock.AdBlockFiltersManager
 import com.neo.downloader.android.pages.checksum.AndroidFileChecksumComponent
 import com.neo.downloader.android.pages.editdownload.AndroidEditDownloadComponent
 import com.neo.downloader.android.pages.home.HomeComponent
@@ -25,6 +27,7 @@ import com.neo.downloader.android.util.pagemanager.IBrowserPageManager
 import com.neo.downloader.android.util.pagemanager.PermissionsPageManager
 import com.neo.downloader.shared.downloaderinui.DownloaderInUiRegistry
 import com.neo.downloader.shared.pagemanager.AboutPageManager
+import com.neo.downloader.shared.pagemanager.AdBlockFiltersPageManager
 import com.neo.downloader.shared.pagemanager.AddDownloadDialogManager
 import com.neo.downloader.shared.pagemanager.BatchDownloadPageManager
 import com.neo.downloader.shared.pagemanager.CategoryDialogManager
@@ -100,6 +103,10 @@ sealed interface Screen {
         val component: AndroidPerHostSettingsComponent,
     ) : Screen
 
+    data class AdBlockFilters(
+        val component: AndroidAdBlockFiltersComponent,
+    ) : Screen
+
     data class FileChecksum(
         val component: AndroidFileChecksumComponent,
     ) : Screen
@@ -136,6 +143,9 @@ sealed interface ScreenConfig {
     ) : ScreenConfig
 
     @Serializable
+    data object AdBlockFilters : ScreenConfig
+
+    @Serializable
     data class FileChecksum(
         val config: AndroidFileChecksumComponent.Config
     ) : ScreenConfig
@@ -166,6 +176,7 @@ class MainComponent(
     private val permissionManager: PermissionManager,
     private val languageManager: LanguageManager,
     private val themeManager: ThemeManager,
+    private val adBlockFiltersManager: AdBlockFiltersManager,
     val ndmAppManager: NDMAppManager,
     val onBoardingStorage: AndroidOnBoardingStorage,
     val homePageStorage: HomePageStorage,
@@ -184,9 +195,14 @@ class MainComponent(
     AboutPageManager,
     BatchDownloadPageManager,
     PerHostSettingsPageManager,
+    AdBlockFiltersPageManager,
     PermissionsPageManager,
     IBrowserPageManager,
     ContainsEffects<MainComponent.MainAppEffects> by supportEffects() {
+    init {
+        adBlockFiltersManager.initialize()
+    }
+
     val categoryComponentNavigation = SlotNavigation<Long>()
     val categorySlot = childSlot(
         source = categoryComponentNavigation,
@@ -349,6 +365,7 @@ class MainComponent(
                         AndroidSettingsComponent(
                             ctx = ctx,
                             perHostSettingsPageManager = this,
+                            adBlockFiltersPageManager = this,
                             permissionsPageManager = this,
                         )
                     )
@@ -374,6 +391,16 @@ class MainComponent(
                             appRepository = appRepository,
                             appScope = applicationScope,
                             closeRequested = ::closePerHostSettings
+                        )
+                    )
+                }
+
+                ScreenConfig.AdBlockFilters -> {
+                    AdBlockFilters(
+                        AndroidAdBlockFiltersComponent(
+                            ctx = ctx,
+                            adBlockFiltersManager = adBlockFiltersManager,
+                            closeRequested = ::closeAdBlockFiltersPage,
                         )
                     )
                 }
@@ -680,6 +707,22 @@ class MainComponent(
             stackNavigation.navigate {
                 it.filterNot { config ->
                     config is ScreenConfig.PerHostSettings
+                }
+            }
+        }
+    }
+
+    override fun openAdBlockFiltersPage() {
+        scope.launch {
+            stackNavigation.pushToFront(ScreenConfig.AdBlockFilters)
+        }
+    }
+
+    override fun closeAdBlockFiltersPage() {
+        scope.launch {
+            stackNavigation.navigate {
+                it.filterNot { config ->
+                    config is ScreenConfig.AdBlockFilters
                 }
             }
         }

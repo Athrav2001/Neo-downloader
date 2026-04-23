@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.android.pages.about.AboutPage
+import com.neo.downloader.android.pages.adblock.AdBlockFiltersPage
 import com.neo.downloader.android.pages.batchdownload.BatchDownloadSheet
 import com.neo.downloader.android.pages.category.CategorySheet
 import com.neo.downloader.android.pages.checksum.FileChecksumPage
@@ -111,6 +112,10 @@ fun MainContent(
 
                 is Screen.PerHostSettings -> {
                     PerHostSettingsPage(component = screen.component)
+                }
+
+                is Screen.AdBlockFilters -> {
+                    AdBlockFiltersPage(component = screen.component)
                 }
 
                 is Screen.FileChecksum -> {

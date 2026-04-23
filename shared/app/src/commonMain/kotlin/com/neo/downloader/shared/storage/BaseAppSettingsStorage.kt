@@ -36,6 +36,9 @@ interface IAppSettingsModel {
     val ignoreSSLCertificates: Boolean
     val useCategoryByDefault: Boolean
     val userAgent: String
+    val browserAdBlockEnabled: Boolean
+    val adBlockAutoUpdateEnabled: Boolean
+    val adBlockLastUpdatedAt: Long
 }
 
 
@@ -73,4 +76,7 @@ interface BaseAppSettingsStorage :
     val ignoreSSLCertificates: MutableStateFlow<Boolean>
     val useCategoryByDefault: MutableStateFlow<Boolean>
     val userAgent: MutableStateFlow<String>
+    val browserAdBlockEnabled: MutableStateFlow<Boolean>
+    val adBlockAutoUpdateEnabled: MutableStateFlow<Boolean>
+    val adBlockLastUpdatedAt: MutableStateFlow<Long>
 }

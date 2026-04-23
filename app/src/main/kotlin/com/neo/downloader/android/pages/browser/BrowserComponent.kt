@@ -19,6 +19,7 @@ import com.neo.downloader.android.storage.BrowserBookmarksStorage
 import com.neo.downloader.android.storage.BrowserHistoryStorage
 import com.neo.downloader.android.storage.BrowserSessionStorage
 import com.neo.downloader.android.storage.AppSettingsStorage
+import com.neo.downloader.android.pages.browser.adblock.AdBlockFiltersManager
 import com.neo.downloader.android.ui.widget.WebContent
 import com.neo.downloader.android.ui.widget.WebViewState
 import com.neo.downloader.resources.Res
@@ -50,6 +51,7 @@ class BrowserComponent(
     private val browserHistoryStorage: BrowserHistoryStorage,
     private val browserSessionStorage: BrowserSessionStorage,
     private val appSettingsStorage: AppSettingsStorage,
+    private val adBlockFiltersManager: AdBlockFiltersManager,
     ) : BaseComponent(
     componentContext,
 ), ContainsEffects<BrowserComponent.Effects> by supportEffects() {
@@ -108,6 +110,9 @@ class BrowserComponent(
     val mainMenu = _mainMenu.asStateFlow()
     private val _showHistoryList: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val showHistoryList = _showHistoryList.asStateFlow()
+    val adBlockEnabled = appSettingsStorage.browserAdBlockEnabled.asStateFlow()
+    private val _pendingPopupWindow = MutableStateFlow<PendingPopupWindowRequest?>(null)
+    val pendingPopupWindow = _pendingPopupWindow.asStateFlow()
     fun openMainMenu() {
         val tab = tabs.value.activeTab
         val url = tab?.tabState?.lastLoadedUrl
@@ -128,6 +133,7 @@ class BrowserComponent(
                     }
                 }
                 +createOpenGrabberAction()
+                +createToggleAdBlockAction()
                 if (url != null) {
                     if (isBookmarked(url)) {
                         +createRemoveFromBookmarkAction(url)
@@ -224,6 +230,14 @@ class BrowserComponent(
     fun setShowHistoryList(show: Boolean) {
         _showHistoryList.value = show
     }
+
+    fun isAdBlockEnabled(): Boolean = appSettingsStorage.browserAdBlockEnabled.value
+
+    fun setAdBlockEnabled(enabled: Boolean) {
+        appSettingsStorage.browserAdBlockEnabled.value = enabled
+    }
+
+    fun adBlockHosts(): Set<String> = adBlockFiltersManager.hostsFlow.value
 
     fun removeFromHistory(entry: NeoBrowserHistoryEntry) {
         browserHistoryStorage.historyFlow.update { current ->
@@ -328,6 +342,51 @@ class BrowserComponent(
 
     fun closeGrabberDownloadAll() {
         _showGrabberDownloadAllSheet.value = false
+    }
+
+    fun requestPopupWindow(
+        sourceTabId: NDMBrowserTabId?,
+        sourceUrl: String?,
+        targetUrlHint: String?,
+        onDecision: (PopupWindowDecision) -> Unit,
+    ) {
+        _pendingPopupWindow.value?.onDecision?.invoke(
+            PopupWindowDecision(
+                action = PopupWindowAction.Deny,
+                openInBackgroundTab = false,
+                closeCurrentTabAfterOpen = false,
+            )
+        )
+        _pendingPopupWindow.value = PendingPopupWindowRequest(
+            sourceTabId = sourceTabId,
+            sourceUrl = sourceUrl,
+            targetUrlHint = targetUrlHint,
+            onDecision = onDecision,
+        )
+    }
+
+    fun respondPopupWindow(
+        action: PopupWindowAction,
+        openInBackgroundTab: Boolean,
+        closeCurrentTabAfterOpen: Boolean,
+    ) {
+        val request = _pendingPopupWindow.value ?: return
+        _pendingPopupWindow.value = null
+        request.onDecision(
+            PopupWindowDecision(
+                action = action,
+                openInBackgroundTab = openInBackgroundTab,
+                closeCurrentTabAfterOpen = closeCurrentTabAfterOpen,
+            )
+        )
+    }
+
+    fun dismissPopupWindow() {
+        respondPopupWindow(
+            action = PopupWindowAction.Deny,
+            openInBackgroundTab = false,
+            closeCurrentTabAfterOpen = false,
+        )
     }
 
     fun onGrabberRefresh(tabId: NDMBrowserTabId) {
@@ -569,6 +628,17 @@ class BrowserComponent(
         }
     }
 
+    fun createToggleAdBlockAction(): AnAction {
+        val enabled = adBlockEnabled.value
+        return simpleAction(
+            title = if (enabled) "Ad Block: ON".asStringSource() else "Ad Block: OFF".asStringSource(),
+            icon = if (enabled) MyIcons.check else null,
+        ) {
+            setAdBlockEnabled(!enabled)
+            closeMainMenu()
+        }
+    }
+
     private fun createSelectUserAgentAction(
         preset: BrowserUserAgentPreset
     ): AnAction {
@@ -651,3 +721,22 @@ data class NDMTabs(
         )
     }
 }
+
+enum class PopupWindowAction {
+    Preview,
+    Open,
+    Deny,
+}
+
+data class PopupWindowDecision(
+    val action: PopupWindowAction,
+    val openInBackgroundTab: Boolean,
+    val closeCurrentTabAfterOpen: Boolean,
+)
+
+data class PendingPopupWindowRequest(
+    val sourceTabId: NDMBrowserTabId?,
+    val sourceUrl: String?,
+    val targetUrlHint: String?,
+    val onDecision: (PopupWindowDecision) -> Unit,
+)

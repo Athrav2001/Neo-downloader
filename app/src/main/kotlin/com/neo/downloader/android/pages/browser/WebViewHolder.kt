@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONTokener
+import java.io.ByteArrayInputStream
 import java.util.UUID
 
 class WebViewRegistry(
@@ -48,6 +49,9 @@ class WebViewRegistry(
                     requestInterceptor = browserComponent.downloadInterceptor,
                     scope = scope,
                     browserComponent = browserComponent,
+                    adBlocker = AdBlocker(),
+                    isAdBlockEnabled = { browserComponent.isAdBlockEnabled() },
+                    adBlockHosts = { browserComponent.adBlockHosts() },
                 ),
                 chromeClient = NDMChromeClient(browserComponent, ::getWebViewHolder),
                 webViewFactory = this,
@@ -175,6 +179,9 @@ class NDMWebViewClient(
     private val requestInterceptor: DownloadInterceptor,
     private val scope: CoroutineScope,
     private val browserComponent: BrowserComponent,
+    private val adBlocker: AdBlocker,
+    private val isAdBlockEnabled: () -> Boolean,
+    private val adBlockHosts: () -> Set<String>,
 ) : AccompanistWebViewClient() {
     fun requestGrabberScan(view: WebView?) {
         if (view != null) {
@@ -183,6 +190,17 @@ class NDMWebViewClient(
     }
 
     override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
+        if (request != null && isAdBlockEnabled()) {
+            val shouldBlock = adBlocker.shouldBlock(
+                requestUrl = request.url.toString(),
+                pageUrl = view?.originalUrl ?: view?.url,
+                isMainFrame = request.isForMainFrame,
+                dynamicHosts = adBlockHosts(),
+            )
+            if (shouldBlock) {
+                return EMPTY_RESPONSE
+            }
+        }
         if (request != null) {
             scope.launch(Dispatchers.Main) {
                 requestInterceptor.interceptRequest(
@@ -308,6 +326,12 @@ class NDMWebViewClient(
     }
 
     companion object {
+        private val EMPTY_RESPONSE = WebResourceResponse(
+            "text/plain",
+            "utf-8",
+            ByteArrayInputStream(ByteArray(0)),
+        )
+
         private const val UNIVERSAL_GRABBER_SCRIPT = """
             (function() {
               const foundFiles = [];
@@ -413,16 +437,45 @@ class NDMChromeClient(
     ): Boolean {
         if (view == null) return false
         val transport = (resultMsg?.obj as? WebView.WebViewTransport) ?: return false
-        val newTab = browserComponent.newTab(
-            id = UUID.randomUUID().toString(),
-            switch = true,
-            url = null,
-            openedBy = (view as? NDMWebView)?.tabId
+        val sourceTabId = (view as? NDMWebView)?.tabId
+        browserComponent.requestPopupWindow(
+            sourceTabId = sourceTabId,
+            sourceUrl = view.originalUrl ?: view.url,
+            targetUrlHint = view.hitTestResult?.extra,
+            onDecision = { decision ->
+                when (decision.action) {
+                    PopupWindowAction.Deny -> {
+                        val cancelWebView = WebView(view.context)
+                        transport.webView = cancelWebView
+                        resultMsg.sendToTarget()
+                        cancelWebView.stopLoading()
+                        cancelWebView.destroy()
+                    }
+
+                    PopupWindowAction.Preview,
+                    PopupWindowAction.Open -> {
+                        val switchToNewTab = when (decision.action) {
+                            PopupWindowAction.Preview -> true
+                            PopupWindowAction.Open -> !decision.openInBackgroundTab
+                            PopupWindowAction.Deny -> false
+                        }
+                        val newTab = browserComponent.newTab(
+                            id = UUID.randomUUID().toString(),
+                            switch = switchToNewTab,
+                            url = null,
+                            openedBy = sourceTabId,
+                        )
+                        val newWebView = createWebViewHolder(newTab).activate(view.context)
+                        newWebView.openedBy = view.originalUrl ?: view.url
+                        transport.webView = newWebView
+                        resultMsg.sendToTarget()
+                        if (decision.closeCurrentTabAfterOpen && sourceTabId != null) {
+                            browserComponent.closeTab(sourceTabId)
+                        }
+                    }
+                }
+            },
         )
-        val newWebView = createWebViewHolder(newTab).activate(view.context)
-        newWebView.openedBy = view.originalUrl ?: view.url
-        transport.webView = newWebView
-        resultMsg.sendToTarget()
         return true
     }
 
