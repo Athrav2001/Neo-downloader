@@ -191,9 +191,10 @@ class NDMWebViewClient(
 
     override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse? {
         if (request != null && isAdBlockEnabled()) {
+            val pageUrlFromHeaders = request.requestHeaders["Referer"]
             val shouldBlock = adBlocker.shouldBlock(
                 requestUrl = request.url.toString(),
-                pageUrl = view?.originalUrl ?: view?.url,
+                pageUrl = pageUrlFromHeaders,
                 isMainFrame = request.isForMainFrame,
                 dynamicHosts = adBlockHosts(),
             )

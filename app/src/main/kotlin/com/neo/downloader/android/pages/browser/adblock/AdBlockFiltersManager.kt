@@ -1,7 +1,6 @@
 package com.neo.downloader.android.pages.browser.adblock
 
 import com.neo.downloader.android.storage.AppSettingsStorage
-import com.neo.downloader.shared.util.DefinedPaths
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +21,6 @@ class AdBlockFiltersManager(
     private val appScope: CoroutineScope,
     private val appSettingsStorage: AppSettingsStorage,
     private val sourceStorage: IAdBlockSourceStorage,
-    private val definedPaths: DefinedPaths,
 ) {
     private val _hostsFlow = MutableStateFlow<Set<String>>(emptySet())
     val hostsFlow: StateFlow<Set<String>> = _hostsFlow.asStateFlow()
@@ -87,7 +85,7 @@ class AdBlockFiltersManager(
     }
 
     private fun loadHostsFromDisk() {
-        val file = definedPaths.adBlockHostsFile.toFile()
+        val file = AdBlockStoragePaths.hostsFile()
         if (!file.exists()) {
             _hostsFlow.value = emptySet()
             return
@@ -100,7 +98,7 @@ class AdBlockFiltersManager(
     }
 
     private fun persistHosts(hosts: Set<String>) {
-        val file = definedPaths.adBlockHostsFile.toFile()
+        val file = AdBlockStoragePaths.hostsFile()
         file.parentFile?.mkdirs()
         file.writeText(hosts.joinToString("\n"))
     }
@@ -163,7 +161,7 @@ class AdBlockFiltersManager(
 
     private fun sourceCacheFile(sourceId: String): File {
         val safe = sourceId.replace(Regex("[^a-zA-Z0-9._-]"), "_")
-        return definedPaths.adBlockSourceHostsDir.toFile().resolve("$safe.txt")
+        return AdBlockStoragePaths.sourceHostsDir().resolve("$safe.txt")
     }
 
     private fun fetchRemoteMetadata(url: String): Pair<String?, String?>? {
