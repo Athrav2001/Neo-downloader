@@ -173,7 +173,10 @@ private fun BottonNavigationItem(
     isSelected: Boolean,
     iconSize: androidx.compose.ui.unit.Dp = BottomNavigationConstants.DEFAULT_ICON_SIZE.dp,
 ) {
-    Box(modifier) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
         MyIcon(
             icon = icon,
             contentDescription = contentDescription.rememberString(),
