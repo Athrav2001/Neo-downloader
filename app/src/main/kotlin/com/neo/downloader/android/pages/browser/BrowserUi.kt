@@ -92,6 +92,7 @@ import com.neo.downloader.shared.util.ui.widget.MyIcon
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.resources.myStringResource
 import ir.amirab.util.ifThen
+import java.net.URI
 import java.util.Locale
 
 @Composable
@@ -119,8 +120,8 @@ fun BrowserPage(
         }
     }
     val canGoBack = tabWebViewHolder?.navigator?.canGoBack ?: false
-    val currentUrl = tab?.tabState?.lastLoadedUrl
-    val isBrowserHomeLike = currentUrl.isNullOrBlank() || currentUrl.startsWith("about:blank", ignoreCase = true)
+    val currentUrl = tab?.tabState?.lastLoadedUrl ?: (tab?.tabState?.content as? WebContent.Url)?.url
+    val isBrowserHomeLike = isHomeLikeUrl(currentUrl)
     BackHandler(canGoBack) {
         tabWebViewHolder?.webView?.goBack()
     }
@@ -198,24 +199,13 @@ fun BrowserPage(
             }
         }
     ) {
-        if (tabWebViewHolder != null && !isBrowserHomeLike) {
+        tabWebViewHolder?.let { holder ->
             NDMWebView(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(myColors.background)
                     .padding(it.paddingValues),
-                webViewHolder = tabWebViewHolder,
-            )
-        } else {
-            EmptyPage(
-                Modifier
-                    .fillMaxSize()
-                    .background(myColors.background)
-                    .padding(it.paddingValues),
-                onRequestSearch = { query ->
-                    val url = browserComponent.createNewUrlFor(query)
-                    browserComponent.newTab(url)
-                },
+                webViewHolder = holder,
             )
         }
     }
@@ -1042,9 +1032,9 @@ fun AddressBar(
 ) {
     val webViewState = currentWebViewHolder?.tab?.tabState
     val navigator = currentWebViewHolder?.navigator
-    val currentURL = webViewState?.lastLoadedUrl
+    val currentURL = webViewState?.lastLoadedUrl ?: (webViewState?.content as? WebContent.Url)?.url
     val currentTitle = webViewState?.pageTitle
-    val isHomeLike = currentURL.isNullOrBlank() || currentURL.startsWith("about:blank", ignoreCase = true)
+    val isHomeLike = isHomeLikeUrl(currentURL)
     var isTabListVisible by remember { mutableStateOf(false) }
 
     Column(
@@ -1171,6 +1161,14 @@ fun AddressBar(
         tabs = tabs,
         currentTabId = currentWebViewHolder?.tab?.tabId,
     )
+}
+
+private fun isHomeLikeUrl(url: String?): Boolean {
+    if (url.isNullOrBlank()) return true
+    val normalized = url.trim()
+    if (normalized.startsWith("about:blank", ignoreCase = true)) return true
+    val host = runCatching { URI(normalized).host?.lowercase(Locale.US).orEmpty() }.getOrDefault("")
+    return host == "google.com" || host == "www.google.com"
 }
 
 @Composable
