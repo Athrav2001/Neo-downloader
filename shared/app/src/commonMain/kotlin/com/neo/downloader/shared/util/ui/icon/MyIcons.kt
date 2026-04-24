@@ -3,6 +3,7 @@ package com.neo.downloader.shared.util.ui.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import com.neo.downloader.resources.icons.NDMIcons
+import com.neo.downloader.resources.icons.AppIcon
 import com.neo.downloader.shared.util.ui.BaseMyColors
 import ir.amirab.util.compose.IconSource
 
