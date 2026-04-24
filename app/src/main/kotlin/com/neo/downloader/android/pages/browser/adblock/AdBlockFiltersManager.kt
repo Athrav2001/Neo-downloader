@@ -146,11 +146,12 @@ class AdBlockFiltersManager(
 
     private fun loadHostsFromDisk() {
         val file = AdBlockStoragePaths.hostsFile()
-        if (!file.exists()) {
+        if (!file.exists() || !file.canRead()) {
             _hostsFlow.value = emptySet()
             return
         }
-        val hosts = file.readLines()
+        val hosts = readLinesSafely(file)
+            .orEmpty()
             .map { it.trim().lowercase(Locale.US) }
             .filter { it.isNotEmpty() }
             .toSet()
@@ -159,8 +160,7 @@ class AdBlockFiltersManager(
 
     private fun persistHosts(hosts: Set<String>) {
         val file = AdBlockStoragePaths.hostsFile()
-        file.parentFile?.mkdirs()
-        file.writeText(hosts.joinToString("\n"))
+        writeTextSafely(file, hosts.joinToString("\n"))
     }
 
     private fun buildHostsFromEnabledSources(): Set<String> {
@@ -190,7 +190,7 @@ class AdBlockFiltersManager(
         val currentMeta = fetchRemoteMetadata(source.url)
         val remoteEtag = currentMeta?.first?.takeIf { it.isNotBlank() }
         val remoteLastModified = currentMeta?.second?.takeIf { it.isNotBlank() }
-        val hasCache = cacheFile.exists()
+        val hasCache = cacheFile.exists() && cacheFile.canRead()
         val etagMatches = remoteEtag != null && source.etag != null && source.etag == remoteEtag
         val lastModifiedMatches = remoteLastModified != null &&
             source.lastModified != null &&
@@ -200,7 +200,8 @@ class AdBlockFiltersManager(
         val unchanged = hasCache && hasComparableMetadata && (etagMatches || lastModifiedMatches)
 
         if (unchanged) {
-            val fromCache = cacheFile.readLines()
+            val fromCache = readLinesSafely(cacheFile)
+                .orEmpty()
                 .asSequence()
                 .map { it.trim().lowercase(Locale.US) }
                 .filter { it.isNotEmpty() }
@@ -210,8 +211,7 @@ class AdBlockFiltersManager(
 
         val bytes = URL(source.url).openStream().use { it.readBytes() }
         val parsed = parseBytesToHosts(bytes)
-        cacheFile.parentFile?.mkdirs()
-        cacheFile.writeText(parsed.joinToString("\n"))
+        writeTextSafely(cacheFile, parsed.joinToString("\n"))
         val updated = source.copy(
             etag = remoteEtag ?: source.etag,
             lastModified = remoteLastModified ?: source.lastModified,
@@ -322,5 +322,17 @@ class AdBlockFiltersManager(
         return runCatching { URI("https://$candidate").host }.getOrNull()
             ?.removePrefix("www.")
             ?.lowercase(Locale.US)
+    }
+
+    private fun readLinesSafely(file: File): List<String>? {
+        return runCatching { file.readLines() }.getOrNull()
+    }
+
+    private fun writeTextSafely(file: File, value: String): Boolean {
+        return runCatching {
+            file.parentFile?.mkdirs()
+            file.writeText(value)
+            true
+        }.getOrElse { false }
     }
 }
