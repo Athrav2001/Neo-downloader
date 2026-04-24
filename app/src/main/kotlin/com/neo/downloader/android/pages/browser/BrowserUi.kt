@@ -784,7 +784,7 @@ private fun BookmarkQuickRow(
     onRequestAddBookmark: () -> Unit,
 ) {
     val itemShape = RoundedCornerShape(14.dp)
-    val itemSize = 56.dp
+    val itemSize = 44.dp
     if (bookmarks.isEmpty()) {
         Box(
             modifier = Modifier
@@ -821,7 +821,7 @@ private fun BookmarkQuickRow(
             ) {
                 BookmarkSiteIcon(
                     bookmark = bookmark,
-                    size = 28.dp,
+                    size = 22.dp,
                 )
             }
         }

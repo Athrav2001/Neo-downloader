@@ -1,8 +1,12 @@
 package com.neo.downloader.android.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.neo.downloader.UpdateManager
 import com.neo.downloader.android.pages.browser.adblock.AdBlockFiltersManager
 import com.neo.downloader.android.pages.onboarding.permissions.PermissionManager
@@ -62,6 +66,7 @@ class MainActivity : NDMActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestBrowserCapturePermissions()
         setNDMContent {
             MainContent(
                 mainComponent = mainComponent,
@@ -78,6 +83,7 @@ class MainActivity : NDMActivity() {
     }
 
     companion object {
+        private const val REQUEST_CAPTURE_PERMISSIONS = 1102
         private const val DOWNLOAD_ID_KEY = "downloadId"
         private const val ACTION_REVEAL_DOWNLOAD_IN_LIST = "revealDownloadList"
         fun createRevelDownloadIntent(
@@ -88,6 +94,23 @@ class MainActivity : NDMActivity() {
                 action = ACTION_REVEAL_DOWNLOAD_IN_LIST
                 putExtra(DOWNLOAD_ID_KEY, downloadId)
             }
+        }
+    }
+
+    private fun requestBrowserCapturePermissions() {
+        val required = listOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+        )
+        val pending = required.filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+        if (pending.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                pending.toTypedArray(),
+                REQUEST_CAPTURE_PERMISSIONS,
+            )
         }
     }
 }
