@@ -51,7 +51,7 @@ class HLSNewDownloadInputs(
 ) {
 
     //extra settings
-    private var threadCount = MutableStateFlow(null as Int?)
+    private var threadCount = MutableStateFlow(ThreadCountLimitation.MAX_NORMAL_VALUE as Int?)
     private var speedLimit = MutableStateFlow(0L)
     private var fileChecksum = MutableStateFlow(null as FileChecksum?)
     private var remuxToMp4 = MutableStateFlow(true)
