@@ -209,8 +209,31 @@ class AdBlockFiltersManager(
             return fromCache to source
         }
 
-        val bytes = URL(source.url).openStream().use { it.readBytes() }
+        val bytes = runCatching { URL(source.url).openStream().use { it.readBytes() } }
+            .getOrNull()
+        if (bytes == null) {
+            val fromCache = if (hasCache) {
+                readLinesSafely(cacheFile)
+                    .orEmpty()
+                    .asSequence()
+                    .map { it.trim().lowercase(Locale.US) }
+                    .filter { it.isNotEmpty() }
+                    .toSet()
+            } else {
+                emptySet()
+            }
+            return fromCache to source
+        }
         val parsed = parseBytesToHosts(bytes)
+        if (parsed.isEmpty() && hasCache) {
+            val fromCache = readLinesSafely(cacheFile)
+                .orEmpty()
+                .asSequence()
+                .map { it.trim().lowercase(Locale.US) }
+                .filter { it.isNotEmpty() }
+                .toSet()
+            return fromCache to source
+        }
         writeTextSafely(cacheFile, parsed.joinToString("\n"))
         val updated = source.copy(
             etag = remoteEtag ?: source.etag,
