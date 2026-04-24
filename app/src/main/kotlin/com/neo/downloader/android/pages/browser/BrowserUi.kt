@@ -70,6 +70,7 @@ import com.neo.downloader.android.ui.page.PageFooter
 import com.neo.downloader.android.ui.page.PageHeader
 import com.neo.downloader.android.ui.page.PageUi
 import com.neo.downloader.android.ui.widget.LoadingState
+import com.neo.downloader.android.ui.widget.WebContent
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.ui.widget.ActionButton
 import com.neo.downloader.shared.ui.widget.CheckBox
