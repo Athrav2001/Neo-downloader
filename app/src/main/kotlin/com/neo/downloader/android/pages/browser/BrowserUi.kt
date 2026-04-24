@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -49,7 +48,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -941,7 +939,7 @@ fun AddressBar(
                         .padding(12.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_browser_home_custom),
+                        painter = painterResource(id = R.drawable.ic_browser_home_nav),
                         contentDescription = "Home",
                         colorFilter = ColorFilter.tint(LocalContentColor.current),
                         modifier = Modifier.size(mySpacings.iconSize),
@@ -949,27 +947,25 @@ fun AddressBar(
                 }
             }
             BrowserBottomBarSlot {
-                val shape = myShapes.defaultRounded
                 Box(
-                    Modifier
-                        .sizeIn(mySpacings.thumbSize, mySpacings.thumbSize)
-                        .clip(shape)
-                        .border(
-                            1.dp, myColors.onBackground / 0.1f, shape
-                        )
-                        .clickable(
-                            role = Role.Button,
-                            onClick = {
-                                isTabListVisible = !isTabListVisible
-                            },
-                        )
-                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    modifier = Modifier
+                        .clickable { isTabListVisible = !isTabListVisible }
+                        .padding(12.dp),
                     contentAlignment = Alignment.Center,
                 ) {
+                    MyIcon(
+                        icon = MyIcons.activeCount,
+                        contentDescription = Res.string.browser_tabs.asStringSource().rememberString(),
+                        modifier = Modifier.size(mySpacings.iconSize),
+                    )
                     Text(
                         text = "${tabs.tabsSize}",
                         maxLines = 1,
+                        fontSize = myTextSizes.xs,
                         fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(top = 1.dp, end = 1.dp),
                     )
                 }
             }
