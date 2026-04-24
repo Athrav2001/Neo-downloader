@@ -80,6 +80,7 @@ class DownloadInterceptor(
                 createAddDownloadProps(
                     webRequest = webRequest,
                     pageTitle = tab.tabState.pageTitle,
+                    detectedItem = detectedByTab[tab.tabId]?.get(webRequest.url),
                 )
             )
         )
@@ -158,6 +159,7 @@ class DownloadInterceptor(
                 createAddDownloadProps(
                     webRequest = webRequest,
                     pageTitle = tab.tabState.pageTitle,
+                    detectedItem = detectedByTab[tab.tabId]?.get(webRequest.url),
                 )
             }
 
@@ -582,6 +584,7 @@ class DownloadInterceptor(
     private fun createAddDownloadProps(
         webRequest: NDMWebRequest,
         pageTitle: String?,
+        detectedItem: GrabberDetectedItem? = null,
     ): AddDownloadCredentialsInUiProps {
         return AddDownloadCredentialsInUiProps(
             credentials = createCredentialsFor(webRequest),
@@ -589,7 +592,10 @@ class DownloadInterceptor(
                 suggestedName = buildSuggestedName(
                     url = webRequest.url,
                     pageTitle = pageTitle,
-                )
+                ),
+                prefetchedSizeLabel = detectedItem?.size,
+                prefetchedPartsCount = detectedItem?.partsCount,
+                prefetchedDurationSeconds = detectedItem?.durationSeconds,
             )
         )
     }

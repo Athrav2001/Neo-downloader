@@ -54,7 +54,7 @@ data class AppSettingsModel(
     override val browserAdBlockEnabled: Boolean = true,
     override val adBlockAutoUpdateEnabled: Boolean = true,
     override val adBlockLastUpdatedAt: Long = 0L,
-    val browserIconInLauncher: Boolean = false,
+    val browserIconInLauncher: Boolean = true,
 ) : IAppSettingsModel {
     companion object {
         val default: AppSettingsModel get() = AppSettingsModel()

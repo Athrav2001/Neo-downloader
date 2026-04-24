@@ -73,6 +73,8 @@ abstract class BaseAddSingleDownloadComponent(
         initialCredentials = initialCredentials.credentials,
     )
     val downloadChecker = downloadInputsComponent.downloadUiChecker
+    val downloadSize = downloadInputsComponent.downloadSize
+    val prefetchedMetaLabel = initialCredentials.extraConfig.getPrefetchedMetaLabel()
 
     val categories = categoryManager.categoriesFlow
     private val _selectedCategory: MutableStateFlow<Category?> = MutableStateFlow(categories.value.firstOrNull())

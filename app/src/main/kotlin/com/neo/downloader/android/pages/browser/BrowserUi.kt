@@ -56,15 +56,14 @@ import androidx.compose.ui.unit.dp
 import com.neo.downloader.android.pages.browser.bookmark.BookmarkList
 import com.neo.downloader.android.pages.browser.bookmark.EditBookmarkSheet
 import com.neo.browser.logic.history.NeoBrowserHistoryEntry
-import com.neo.downloader.android.storage.BrowserBookmark
 import com.neo.downloader.android.R
+import com.neo.downloader.android.storage.BrowserBookmark
 import com.neo.downloader.android.ui.SheetHeader
 import com.neo.downloader.android.ui.SheetTitle
 import com.neo.downloader.android.ui.SheetUI
 import com.neo.downloader.android.ui.menu.RenderMenuInSheet
 import com.neo.downloader.android.ui.page.PageFooter
 import com.neo.downloader.android.ui.page.PageHeader
-import com.neo.downloader.android.ui.page.PageTitle
 import com.neo.downloader.android.ui.page.PageUi
 import com.neo.downloader.android.ui.widget.LoadingState
 import com.neo.downloader.resources.Res
@@ -137,18 +136,6 @@ fun BrowserPage(
     PageUi(
         header = {
             PageHeader(
-                leadingIcon = {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_browser_home_custom),
-                        contentDescription = "Home",
-                        colorFilter = ColorFilter.tint(Color.White),
-                        modifier = Modifier
-                            .size(mySpacings.iconSize)
-                            .clickable(
-                                onClick = browserComponent::goHome,
-                            )
-                    )
-                },
                 headerTitle = {},
                 modifier = Modifier
                     .statusBarsPadding()
@@ -916,8 +903,6 @@ fun AddressBar(
 ) {
     val webViewState = currentWebViewHolder?.tab?.tabState
     val navigator = currentWebViewHolder?.navigator
-    val canGoBack = navigator?.canGoBack ?: false
-    val canGoForward = navigator?.canGoForward ?: false
     val currentURL = webViewState?.lastLoadedUrl
     val currentTitle = webViewState?.pageTitle
     var isTabListVisible by remember { mutableStateOf(false) }
@@ -943,67 +928,72 @@ fun AddressBar(
             }
         )
         Spacer(Modifier.height(mySpacings.mediumSpace))
-        Row {
-            TransparentIconActionButton(
-                enabled = canGoBack,
-                icon = MyIcons.back,
-                contentDescription = Res.string.back.asStringSource()
-            ) {
-                navigator?.navigateBack()
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            BrowserBottomBarSlot {
+                Box(
+                    modifier = Modifier
+                        .clickable(onClick = browserComponent::goHome)
+                        .padding(12.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_browser_home_custom),
+                        contentDescription = "Home",
+                        colorFilter = ColorFilter.tint(LocalContentColor.current),
+                        modifier = Modifier.size(mySpacings.iconSize),
+                    )
+                }
             }
-            TransparentIconActionButton(
-                enabled = canGoForward,
-                icon = MyIcons.next,
-                contentDescription = Res.string.next.asStringSource()
-            ) {
-                navigator?.navigateForward()
+            BrowserBottomBarSlot {
+                val shape = myShapes.defaultRounded
+                Box(
+                    Modifier
+                        .sizeIn(mySpacings.thumbSize, mySpacings.thumbSize)
+                        .clip(shape)
+                        .border(
+                            1.dp, myColors.onBackground / 0.1f, shape
+                        )
+                        .clickable(
+                            role = Role.Button,
+                            onClick = {
+                                isTabListVisible = !isTabListVisible
+                            },
+                        )
+                        .padding(vertical = 8.dp, horizontal = 16.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = "${tabs.tabsSize}",
+                        maxLines = 1,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
-            Spacer(Modifier.width(16.dp))
-            webViewState?.let {
+            BrowserBottomBarSlot {
                 TransparentIconActionButton(
-                    icon = if (webViewState.isLoading) {
+                    icon = if (webViewState?.isLoading == true) {
                         MyIcons.close
                     } else {
                         MyIcons.refresh
                     },
-                    contentDescription = Res.string.next.asStringSource()
+                    contentDescription = Res.string.refresh.asStringSource()
                 ) {
-                    if (webViewState.isLoading) {
+                    if (webViewState?.isLoading == true) {
                         navigator?.stopLoading()
                     } else {
                         navigator?.reload()
                     }
                 }
             }
-            Spacer(Modifier.weight(1f))
-            val shape = myShapes.defaultRounded
-            Box(
-                Modifier
-                    .sizeIn(mySpacings.thumbSize, mySpacings.thumbSize)
-                    .clip(shape)
-                    .border(
-                        1.dp, myColors.onBackground / 0.1f, shape
-                    )
-                    .clickable(
-                        role = Role.Button,
-                        onClick = {
-                            isTabListVisible = !isTabListVisible
-                        },
-                    )
-                    .padding(vertical = 8.dp, horizontal = 16.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = "${tabs.tabsSize}",
-                    maxLines = 1,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-            TransparentIconActionButton(
-                MyIcons.menu,
-                contentDescription = Res.string.menu.asStringSource()
-            ) {
-                browserComponent.openMainMenu()
+            BrowserBottomBarSlot {
+                TransparentIconActionButton(
+                    MyIcons.menu,
+                    contentDescription = Res.string.menu.asStringSource()
+                ) {
+                    browserComponent.openMainMenu()
+                }
             }
         }
     }
@@ -1029,6 +1019,17 @@ fun AddressBar(
         },
         tabs = tabs,
         currentTabId = currentWebViewHolder?.tab?.tabId,
+    )
+}
+
+@Composable
+private fun BrowserBottomBarSlot(
+    content: @Composable BoxScope.() -> Unit,
+) {
+    Box(
+        modifier = Modifier.weight(1f),
+        contentAlignment = Alignment.Center,
+        content = content,
     )
 }
 

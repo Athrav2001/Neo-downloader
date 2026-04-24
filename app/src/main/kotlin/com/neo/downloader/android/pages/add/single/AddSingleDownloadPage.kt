@@ -538,6 +538,7 @@ fun RenderFileTypeAndSize(
 ) {
     val isLinkLoading by component.isLinkLoading.collectAsState()
     val fileInfo by component.linkResponseInfo.collectAsState()
+    val downloadSize by component.downloadSize.collectAsState()
     val fileIconProvider = component.iconProvider
     val iconModifier = Modifier.size(mySpacings.iconSize)
     Box(
@@ -576,10 +577,13 @@ fun RenderFileTypeAndSize(
                                     null,
                                     iconModifier
                                 )
-                                val size = component.getLengthString()
+                                val sizeLabel = when {
+                                    downloadSize != null -> component.getLengthString().rememberString()
+                                    else -> component.prefetchedMetaLabel ?: component.getLengthString().rememberString()
+                                }
                                 Spacer(Modifier.width(8.dp))
                                 Text(
-                                    size.rememberString(),
+                                    sizeLabel,
                                     fontSize = myTextSizes.sm,
                                 )
                             } else {
@@ -588,6 +592,13 @@ fun RenderFileTypeAndSize(
                                     contentDescription = null,
                                     modifier = iconModifier,
                                 )
+                                component.prefetchedMetaLabel?.let { prefetched ->
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(
+                                        prefetched,
+                                        fontSize = myTextSizes.sm,
+                                    )
+                                }
                             }
                         }
                     }
@@ -635,4 +646,3 @@ private fun NameTextField(
         errorText = errorText,
     )
 }
-

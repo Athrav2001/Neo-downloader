@@ -3,30 +3,20 @@ package com.neo.downloader.android.pages.home
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
-import com.neo.downloader.android.action.createOpenBrowserAction
 import com.neo.downloader.android.pages.enterurl.AndroidEnterNewURLComponent
 import com.neo.downloader.android.pages.home.sections.sort.DownloadSortBy
 import com.neo.downloader.android.storage.HomePageStorage
-import com.neo.downloader.android.util.AppInfo
 import com.neo.downloader.android.util.pagemanager.IBrowserPageManager
 import com.neo.downloader.resources.Res
-import com.neo.downloader.shared.action.createCheckForUpdateAction
 import com.neo.downloader.shared.action.createDownloadFromClipboardAction
-import com.neo.downloader.shared.action.createDummyMessageAction
 import com.neo.downloader.shared.action.createNewDownloadAction
-import com.neo.downloader.shared.action.createOpenAboutPage
 import com.neo.downloader.shared.action.createOpenBatchDownloadAction
-import com.neo.downloader.shared.action.createOpenOpenSourceThirdPartyLibrariesPage
 import com.neo.downloader.shared.action.createOpenSettingsAction
-import com.neo.downloader.shared.action.createOpenTranslatorsPageAction
 import com.neo.downloader.shared.action.createPerHostSettingsPage
 import com.neo.downloader.shared.action.createStartQueueGroupAction
 import com.neo.downloader.shared.action.createStopAllAction
 import com.neo.downloader.shared.action.createStopQueueGroupAction
-import com.neo.downloader.shared.action.donate
-import com.neo.downloader.shared.action.supportActionGroup
 import com.neo.downloader.shared.downloaderinui.DownloaderInUiRegistry
-import com.neo.downloader.shared.pagemanager.AboutPageManager
 import com.neo.downloader.shared.pagemanager.AddDownloadDialogManager
 import com.neo.downloader.shared.pagemanager.BatchDownloadPageManager
 import com.neo.downloader.shared.pagemanager.CategoryDialogManager
@@ -35,16 +25,13 @@ import com.neo.downloader.shared.pagemanager.EditDownloadDialogManager
 import com.neo.downloader.shared.pagemanager.EnterNewURLDialogManager
 import com.neo.downloader.shared.pagemanager.FileChecksumDialogManager
 import com.neo.downloader.shared.pagemanager.NotificationSender
-import com.neo.downloader.shared.pagemanager.OpenSourceLibrariesPageManager
 import com.neo.downloader.shared.pagemanager.PerHostSettingsPageManager
 import com.neo.downloader.shared.pagemanager.QueuePageManager
 import com.neo.downloader.shared.pagemanager.SettingsPageManager
-import com.neo.downloader.shared.pagemanager.TranslatorsPageManager
 import com.neo.downloader.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import com.neo.downloader.shared.pages.home.BaseHomeComponent
 import com.neo.downloader.shared.pages.home.category.DefinedStatusCategories
 import com.neo.downloader.shared.pages.home.category.DownloadStatusCategoryFilter
-import com.neo.downloader.shared.pages.updater.UpdateComponent
 import com.neo.downloader.shared.ui.widget.sort.Sort
 import com.neo.downloader.shared.ui.widget.sort.sorted
 import com.neo.downloader.shared.util.DownloadItemOpener
@@ -94,17 +81,13 @@ class HomeComponent(
     downloadSystem: DownloadSystem,
     categoryManager: CategoryManager,
     queueManager: QueueManager,
-    openSourceLibrariesPageManager: OpenSourceLibrariesPageManager,
-    translatorsPageManager: TranslatorsPageManager,
     settingsPageManager: SettingsPageManager,
     perHostSettingsPageManager: PerHostSettingsPageManager,
-    browserPageManager: IBrowserPageManager,
-    aboutPageManager: AboutPageManager,
+    private val browserPageManager: IBrowserPageManager,
     batchDownloadPageManager: BatchDownloadPageManager,
     defaultCategories: DefaultCategories,
     fileIconProvider: FileIconProvider,
     downloaderInUiRegistry: DownloaderInUiRegistry,
-    private val updateComponent: UpdateComponent,
     private val homePageStorage: HomePageStorage,
 ) : BaseHomeComponent(
     componentContext,
@@ -328,8 +311,6 @@ class HomeComponent(
     val activeQueuesFlow = queueManager.activeQueuesFlow()
         .stateIn(scope, SharingStarted.Eagerly, emptyList())
     val mainMenu = buildMenu {
-        +createOpenBrowserAction(browserPageManager = browserPageManager)
-        separator()
         +createStopAllAction(scope, downloadSystem, {}, activeQueuesFlow)
         separator()
         subMenu(
@@ -352,27 +333,9 @@ class HomeComponent(
         separator()
         +createStartQueueGroupAction(scope, queueManager)
         +createStopQueueGroupAction(scope, activeQueuesFlow)
-        if (AppInfo.isInDebugMode) {
-            separator()
-            +createDummyMessageAction(notificationSender)
-        }
         separator()
         +createPerHostSettingsPage(perHostSettingsPageManager = perHostSettingsPageManager)
         +createOpenSettingsAction(settingsPageManager = settingsPageManager)
-        separator()
-        subMenu(
-            Res.string.help.asStringSource(),
-            MyIcons.question,
-        ) {
-            +supportActionGroup
-            separator()
-            +createOpenOpenSourceThirdPartyLibrariesPage(openSourceLibrariesPageManager = openSourceLibrariesPageManager)
-            +createOpenTranslatorsPageAction(opeTranslatorsPageManager = translatorsPageManager)
-            +donate
-            separator()
-            +createCheckForUpdateAction(updateComponent)
-            +createOpenAboutPage(aboutPageManager)
-        }
     }
     val addMenu = buildMenu {
         +createDownloadFromClipboardAction(addDownloadDialogManager = addDownloadDialogManager)
@@ -390,6 +353,10 @@ class HomeComponent(
         DownloadSortBy.Size,
         DownloadSortBy.Status,
     )
+
+    fun openBrowser() {
+        browserPageManager.openBrowser(null)
+    }
 
     fun startQueue(id: Long) {
         scope.launch {
