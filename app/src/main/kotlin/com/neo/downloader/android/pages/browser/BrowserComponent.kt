@@ -456,7 +456,11 @@ class BrowserComponent(
         val session = sessionManager.current()
         val restoredTabs = session.tabs.mapNotNull { tab ->
             val tabId = tab.tabId.ifBlank { UUID.randomUUID().toString() }
-            val content = WebContent.fromNullableUrl(tab.url ?: NDMBrowserTab.blankPage)
+            val restoredUrl = tab.url
+                ?.trim()
+                ?.takeIf { it.isNotEmpty() }
+                ?: NDMBrowserTab.blankPage
+            val content = WebContent.fromNullableUrl(restoredUrl)
             NDMBrowserTab(
                 tabId = tabId,
                 tabState = WebViewState(content),
@@ -480,9 +484,15 @@ class BrowserComponent(
         val tabsState = tabs.value
         val tabsToPersist = tabsState.tabs.map { tab ->
             val fallbackUrl = (tab.tabState.content as? WebContent.Url)?.url
+                ?.trim()
+                ?.takeIf { it.isNotEmpty() }
             NeoBrowserSessionTab(
                 tabId = tab.tabId,
-                url = tab.tabState.lastLoadedUrl ?: fallbackUrl,
+                url = tab.tabState.lastLoadedUrl
+                    ?.trim()
+                    ?.takeIf { it.isNotEmpty() }
+                    ?: fallbackUrl
+                    ?: NDMBrowserTab.blankPage,
                 title = tab.tabState.pageTitle,
             )
         }

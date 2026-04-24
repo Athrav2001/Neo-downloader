@@ -188,7 +188,10 @@ fun BrowserPage(
                             bookmarks = bookmarks,
                             onRequestOpenBookmark = { bookmark ->
                                 val url = browserComponent.createNewUrlFor(bookmark.url)
-                                browserComponent.newTab(url)
+                                tabWebViewHolder
+                                    ?.navigator
+                                    ?.loadUrl(url)
+                                    ?: browserComponent.newTab(url)
                             },
                             onRequestAddBookmark = {
                                 browserComponent.promptAddBookmark(BrowserBookmark("", ""))
