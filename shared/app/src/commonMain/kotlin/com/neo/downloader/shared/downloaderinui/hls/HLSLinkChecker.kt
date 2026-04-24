@@ -2,9 +2,9 @@ package com.neo.downloader.shared.downloaderinui.hls
 
 import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.downloaderinui.LinkChecker
-import ir.amirab.downloader.connection.HttpDownloaderClient
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
-import ir.amirab.downloader.downloaditem.hls.HLSResponseInfo
+import com.neo.downloader.connection.HttpDownloaderClient
+import com.neo.downloader.downloaditem.hls.HLSDownloadCredentials
+import com.neo.downloader.downloaditem.hls.HLSResponseInfo
 import ir.amirab.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

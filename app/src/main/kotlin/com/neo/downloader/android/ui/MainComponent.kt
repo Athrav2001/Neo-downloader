@@ -70,9 +70,9 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.navigate
 import com.arkivanov.decompose.router.stack.pushToFront
-import ir.amirab.downloader.monitor.isDownloadActiveFlow
-import ir.amirab.downloader.queue.DefaultQueueInfo
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.monitor.isDownloadActiveFlow
+import com.neo.downloader.queue.DefaultQueueInfo
+import com.neo.downloader.queue.QueueManager
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.localizationmanager.LanguageManager
 import ir.amirab.util.flow.mapStateFlow

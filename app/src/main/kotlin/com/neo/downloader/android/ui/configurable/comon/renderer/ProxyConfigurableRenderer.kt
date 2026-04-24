@@ -67,8 +67,8 @@ import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.downloader.connection.proxy.Proxy
-import ir.amirab.downloader.connection.proxy.ProxyType
+import com.neo.downloader.connection.proxy.Proxy
+import com.neo.downloader.connection.proxy.ProxyType
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.resources.myStringResource

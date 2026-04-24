@@ -3,9 +3,9 @@ package com.neo.downloader.shared.downloaderinui.edit
 import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.downloaderinui.LinkChecker
 import com.neo.downloader.shared.downloaderinui.http.edit.EditDownloadChecker
-import ir.amirab.downloader.connection.IResponseInfo
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.downloaditem.IDownloadItem
+import com.neo.downloader.connection.IResponseInfo
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 

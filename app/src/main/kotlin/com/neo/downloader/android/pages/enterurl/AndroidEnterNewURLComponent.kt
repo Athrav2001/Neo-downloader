@@ -3,7 +3,7 @@ package com.neo.downloader.android.pages.enterurl
 import com.neo.downloader.shared.downloaderinui.DownloaderInUiRegistry
 import com.neo.downloader.shared.pages.enterurl.BaseEnterNewURLComponent
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadCredentials
 
 class AndroidEnterNewURLComponent(
     ctx: ComponentContext,

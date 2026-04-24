@@ -21,10 +21,10 @@ import com.neo.downloader.shared.util.category.Category
 import com.neo.downloader.shared.util.extractors.linkextractor.DownloadCredentialFromStringExtractor
 import com.neo.downloader.shared.util.extractors.linkextractor.DownloadCredentialsFromCurl
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.queue.DownloadQueue
-import ir.amirab.downloader.queue.QueueManager
-import ir.amirab.downloader.queue.inactiveQueuesFlow
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.queue.DownloadQueue
+import com.neo.downloader.queue.QueueManager
+import com.neo.downloader.queue.inactiveQueuesFlow
 import ir.amirab.util.URLOpener
 import ir.amirab.util.compose.action.AnAction
 import ir.amirab.util.compose.action.MenuItem

@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.util.proxy
 
-import ir.amirab.downloader.connection.proxy.Proxy
+import com.neo.downloader.connection.proxy.Proxy
 import ir.amirab.util.platform.Platform
 import ir.amirab.util.platform.isAndroid
 import kotlinx.serialization.SerialName

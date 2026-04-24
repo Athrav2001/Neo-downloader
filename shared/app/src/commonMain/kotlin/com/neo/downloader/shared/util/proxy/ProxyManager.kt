@@ -1,9 +1,9 @@
 package com.neo.downloader.shared.util.proxy
 
-import ir.amirab.downloader.connection.proxy.Proxy
-import ir.amirab.downloader.connection.proxy.ProxyStrategy
-import ir.amirab.downloader.connection.proxy.ProxyStrategyProvider
-import ir.amirab.downloader.connection.proxy.ProxyType
+import com.neo.downloader.connection.proxy.Proxy
+import com.neo.downloader.connection.proxy.ProxyStrategy
+import com.neo.downloader.connection.proxy.ProxyStrategyProvider
+import com.neo.downloader.connection.proxy.ProxyType
 import ir.amirab.util.HttpUrlUtils
 import ir.amirab.util.wildcardMatch
 import java.net.Authenticator

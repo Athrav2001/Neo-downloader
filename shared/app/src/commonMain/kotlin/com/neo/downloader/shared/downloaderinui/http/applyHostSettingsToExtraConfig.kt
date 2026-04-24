@@ -1,8 +1,8 @@
 package com.neo.downloader.shared.downloaderinui.http
 
 import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsItem
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
-import ir.amirab.downloader.downloaditem.http.HttpDownloadItem
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.downloaditem.http.HttpDownloadItem
 
 fun PerHostSettingsItem.applyToHttpDownload(
     downloadCredentials: HttpDownloadCredentials

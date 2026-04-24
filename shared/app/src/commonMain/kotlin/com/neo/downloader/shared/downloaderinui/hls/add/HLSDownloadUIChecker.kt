@@ -3,9 +3,9 @@ package com.neo.downloader.shared.downloaderinui.hls.add
 import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.downloaderinui.DownloadUiChecker
 import com.neo.downloader.shared.downloaderinui.LinkCheckerFactory
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
+import com.neo.downloader.downloaditem.hls.HLSDownloadCredentials
 import com.neo.downloader.shared.downloaderinui.hls.HLSLinkChecker
-import ir.amirab.downloader.downloaditem.hls.HLSResponseInfo
+import com.neo.downloader.downloaditem.hls.HLSResponseInfo
 import com.neo.downloader.shared.util.DownloadSystem
 import kotlinx.coroutines.CoroutineScope
 

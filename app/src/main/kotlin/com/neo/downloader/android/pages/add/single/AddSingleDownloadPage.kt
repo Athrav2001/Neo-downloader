@@ -48,7 +48,7 @@ import com.neo.downloader.shared.util.OnFullyDismissed
 import com.neo.downloader.shared.util.ResponsiveDialogScope
 import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.downloader.utils.OnDuplicateStrategy
+import com.neo.downloader.utils.OnDuplicateStrategy
 import ir.amirab.util.compose.asStringSource
 
 @Composable

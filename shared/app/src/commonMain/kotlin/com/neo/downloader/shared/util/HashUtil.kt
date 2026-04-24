@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.util
 
-import ir.amirab.downloader.utils.calcPercent
+import com.neo.downloader.utils.calcPercent
 import java.io.File
 import java.io.InputStream
 import java.security.MessageDigest

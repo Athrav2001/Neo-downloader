@@ -6,10 +6,10 @@ import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.downloaderinui.LinkChecker
 import com.neo.downloader.shared.downloaderinui.LinkCheckerFactory
 import com.neo.downloader.shared.ui.configurable.Configurable
-import ir.amirab.downloader.connection.IResponseInfo
-import ir.amirab.downloader.downloaditem.DownloadJobExtraConfig
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.downloaditem.IDownloadItem
+import com.neo.downloader.connection.IResponseInfo
+import com.neo.downloader.downloaditem.DownloadJobExtraConfig
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadItem
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.flow.mapStateFlow

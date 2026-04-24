@@ -7,7 +7,7 @@ import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.shared.util.autoremove.RemovedDownloadsFromDiskTracker
 import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.proxy.ProxyManager
-import ir.amirab.downloader.DownloadSettings
+import com.neo.downloader.DownloadSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged

@@ -13,8 +13,8 @@ import com.neo.downloader.shared.pages.adddownload.AddDownloadConfig
 import com.neo.downloader.shared.pages.adddownload.AddDownloadCredentialsInUiProps
 import com.neo.downloader.shared.pages.adddownload.ImportOptions
 import com.neo.downloader.shared.util.extractors.linkextractor.DownloadCredentialFromStringExtractor
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 import kotlinx.serialization.json.Json
 import org.koin.core.component.inject
 

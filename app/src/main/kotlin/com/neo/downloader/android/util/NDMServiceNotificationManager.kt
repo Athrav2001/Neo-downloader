@@ -30,10 +30,10 @@ import com.neo.downloader.shared.util.SizeAndSpeedUnitProvider
 import com.neo.downloader.shared.util.TimeNames
 import com.neo.downloader.shared.util.convertPositiveSpeedToHumanReadable
 import com.neo.downloader.shared.util.convertTimeRemainingToHumanReadable
-import ir.amirab.downloader.DownloadManagerMinimalControl
-import ir.amirab.downloader.downloaditem.DownloadJobStatus
-import ir.amirab.downloader.monitor.IDownloadMonitor
-import ir.amirab.downloader.monitor.ProcessingDownloadItemState
+import com.neo.downloader.DownloadManagerMinimalControl
+import com.neo.downloader.downloaditem.DownloadJobStatus
+import com.neo.downloader.monitor.IDownloadMonitor
+import com.neo.downloader.monitor.ProcessingDownloadItemState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

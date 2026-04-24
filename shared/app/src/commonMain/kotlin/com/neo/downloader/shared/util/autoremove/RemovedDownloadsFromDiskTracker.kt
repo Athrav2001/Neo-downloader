@@ -3,9 +3,9 @@ package com.neo.downloader.shared.util.autoremove
 import com.neo.downloader.shared.util.DownloadSystem
 import io.github.irgaly.kfswatch.KfsDirectoryWatcher
 import io.github.irgaly.kfswatch.KfsEvent
-import ir.amirab.downloader.downloaditem.contexts.CanPerformRemove
-import ir.amirab.downloader.downloaditem.contexts.RemovedBy
-import ir.amirab.downloader.monitor.*
+import com.neo.downloader.downloaditem.contexts.CanPerformRemove
+import com.neo.downloader.downloaditem.contexts.RemovedBy
+import com.neo.downloader.monitor.*
 import ir.amirab.util.flow.withPrevious
 import ir.amirab.util.ifThen
 import ir.amirab.util.osfileutil.FileUtils

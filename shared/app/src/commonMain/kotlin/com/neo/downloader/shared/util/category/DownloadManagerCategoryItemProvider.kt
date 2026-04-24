@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.util.category
 
-import ir.amirab.downloader.DownloadManager
+import com.neo.downloader.DownloadManager
 
 class DownloadManagerCategoryItemProvider(
     private val dowManager: DownloadManager,

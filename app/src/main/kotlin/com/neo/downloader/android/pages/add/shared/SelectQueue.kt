@@ -34,7 +34,7 @@ import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import io.github.oikvpqya.compose.fastscroller.rememberScrollbarAdapter
 import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.downloader.queue.DownloadQueue
+import com.neo.downloader.queue.DownloadQueue
 import ir.amirab.util.compose.action.AnAction
 import ir.amirab.util.compose.asStringSource
 

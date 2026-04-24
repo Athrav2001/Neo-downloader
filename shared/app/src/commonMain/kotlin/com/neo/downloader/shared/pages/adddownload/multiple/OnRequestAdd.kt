@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.pages.adddownload.multiple
 
 import com.neo.downloader.shared.util.category.CategorySelectionMode
-import ir.amirab.downloader.NewDownloadItemProps
+import com.neo.downloader.NewDownloadItemProps
 import kotlinx.coroutines.Deferred
 
 fun interface OnRequestAdd {

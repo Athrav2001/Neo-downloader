@@ -28,8 +28,8 @@ import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.mvi.HandleEffects
 import com.neo.downloader.shared.util.rememberChild
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.queue.QueueManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json

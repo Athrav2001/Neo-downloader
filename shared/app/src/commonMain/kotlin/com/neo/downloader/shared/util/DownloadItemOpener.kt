@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.util
 
-import ir.amirab.downloader.downloaditem.IDownloadItem
+import com.neo.downloader.downloaditem.IDownloadItem
 
 interface DownloadItemOpener {
     suspend fun openDownloadItem(id:Long)

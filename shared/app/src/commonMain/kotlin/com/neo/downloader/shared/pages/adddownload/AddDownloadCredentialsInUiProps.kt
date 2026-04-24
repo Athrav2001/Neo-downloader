@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.pages.adddownload
 
 import com.neo.downloader.shared.util.FilenameFixer
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadCredentials
 import kotlinx.serialization.Serializable
 
 @Serializable

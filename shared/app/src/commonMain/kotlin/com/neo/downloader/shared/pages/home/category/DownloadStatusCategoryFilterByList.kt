@@ -1,8 +1,8 @@
 package com.neo.downloader.shared.pages.home.category
 
-import ir.amirab.downloader.downloaditem.DownloadStatus
-import ir.amirab.downloader.monitor.IDownloadItemState
-import ir.amirab.downloader.monitor.statusOrFinished
+import com.neo.downloader.downloaditem.DownloadStatus
+import com.neo.downloader.monitor.IDownloadItemState
+import com.neo.downloader.monitor.statusOrFinished
 import ir.amirab.util.compose.IconSource
 import ir.amirab.util.compose.StringSource
 

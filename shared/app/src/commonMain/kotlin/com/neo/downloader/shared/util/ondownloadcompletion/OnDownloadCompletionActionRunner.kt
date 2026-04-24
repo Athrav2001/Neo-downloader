@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.util.ondownloadcompletion
 
-import ir.amirab.downloader.DownloadManagerEvents
-import ir.amirab.downloader.DownloadManagerMinimalControl
+import com.neo.downloader.DownloadManagerEvents
+import com.neo.downloader.DownloadManagerMinimalControl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel

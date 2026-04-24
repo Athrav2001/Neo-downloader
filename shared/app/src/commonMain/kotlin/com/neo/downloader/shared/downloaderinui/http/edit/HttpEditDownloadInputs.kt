@@ -16,10 +16,10 @@ import com.neo.downloader.shared.util.SizeAndSpeedUnitProvider
 import com.neo.downloader.shared.util.ThreadCountLimitation
 import com.neo.downloader.shared.util.FileChecksum
 import com.neo.downloader.shared.util.convertPositiveSpeedToHumanReadable
-import ir.amirab.downloader.connection.response.HttpResponseInfo
-import ir.amirab.downloader.downloaditem.DownloadJobExtraConfig
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
-import ir.amirab.downloader.downloaditem.http.HttpDownloadItem
+import com.neo.downloader.connection.response.HttpResponseInfo
+import com.neo.downloader.downloaditem.DownloadJobExtraConfig
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.downloaditem.http.HttpDownloadItem
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.asStringSourceWithARgs

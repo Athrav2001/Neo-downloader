@@ -1,11 +1,11 @@
 package com.neo.downloader.shared.singledownloadpage
 
 import com.neo.downloader.resources.Res
-import ir.amirab.downloader.downloaditem.DownloadJobStatus
-import ir.amirab.downloader.monitor.IDownloadItemState
-import ir.amirab.downloader.monitor.ProcessingDownloadItemState
-import ir.amirab.downloader.monitor.statusOrFinished
-import ir.amirab.downloader.utils.ExceptionUtils
+import com.neo.downloader.downloaditem.DownloadJobStatus
+import com.neo.downloader.monitor.IDownloadItemState
+import com.neo.downloader.monitor.ProcessingDownloadItemState
+import com.neo.downloader.monitor.statusOrFinished
+import com.neo.downloader.utils.ExceptionUtils
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 

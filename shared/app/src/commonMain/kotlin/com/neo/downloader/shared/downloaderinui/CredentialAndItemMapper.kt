@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.downloaderinui
 
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.downloaditem.IDownloadItem
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadItem
 
 /**
  * the resulting value is a copied object so implementations doesn't have side effects

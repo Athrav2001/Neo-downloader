@@ -26,7 +26,7 @@ kotlin {
 }
 android {
     compileSdk = 36
-    namespace = "ir.amirab.downloader.monitor"
+    namespace = "com.neo.downloader.monitor"
     defaultConfig {
         minSdk = 26
     }

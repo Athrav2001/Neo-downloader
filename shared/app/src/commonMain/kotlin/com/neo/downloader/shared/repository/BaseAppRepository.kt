@@ -8,9 +8,9 @@ import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.shared.util.autoremove.RemovedDownloadsFromDiskTracker
 import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.proxy.ProxyManager
-import ir.amirab.downloader.DownloadManager
-import ir.amirab.downloader.DownloadSettings
-import ir.amirab.downloader.monitor.IDownloadMonitor
+import com.neo.downloader.DownloadManager
+import com.neo.downloader.DownloadSettings
+import com.neo.downloader.monitor.IDownloadMonitor
 import ir.amirab.util.datasize.ConvertSizeConfig
 import ir.amirab.util.flow.mapStateFlow
 import ir.amirab.util.flow.withPrevious

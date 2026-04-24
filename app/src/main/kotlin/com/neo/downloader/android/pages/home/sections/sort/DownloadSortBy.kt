@@ -3,8 +3,8 @@ package com.neo.downloader.android.pages.home.sections.sort
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.ui.widget.sort.ComparatorProvider
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.downloader.monitor.IDownloadItemState
-import ir.amirab.downloader.monitor.statusOrFinished
+import com.neo.downloader.monitor.IDownloadItemState
+import com.neo.downloader.monitor.statusOrFinished
 import ir.amirab.util.compose.IconSource
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource

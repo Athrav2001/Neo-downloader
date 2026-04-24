@@ -4,10 +4,10 @@ import com.neo.downloader.UpdateDownloadLocationProvider
 import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.updateapplier.UpdateDownloader
 import com.neo.downloader.updatechecker.UpdateSource
-import ir.amirab.downloader.NewDownloadItemProps
-import ir.amirab.downloader.downloaditem.EmptyContext
-import ir.amirab.downloader.downloaditem.http.HttpDownloadItem
-import ir.amirab.downloader.utils.OnDuplicateStrategy
+import com.neo.downloader.NewDownloadItemProps
+import com.neo.downloader.downloaditem.EmptyContext
+import com.neo.downloader.downloaditem.http.HttpDownloadItem
+import com.neo.downloader.utils.OnDuplicateStrategy
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import java.io.File

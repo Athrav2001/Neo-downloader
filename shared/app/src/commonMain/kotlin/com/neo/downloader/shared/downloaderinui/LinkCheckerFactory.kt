@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.downloaderinui
 
-import ir.amirab.downloader.connection.IResponseInfo
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.connection.IResponseInfo
+import com.neo.downloader.downloaditem.IDownloadCredentials
 
 interface LinkCheckerFactory<
         TCredentials : IDownloadCredentials,

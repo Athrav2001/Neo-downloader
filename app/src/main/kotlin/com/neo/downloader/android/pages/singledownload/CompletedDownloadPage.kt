@@ -21,7 +21,7 @@ import com.neo.downloader.shared.util.div
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.WithContentColor
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.downloader.monitor.CompletedDownloadItemState
+import com.neo.downloader.monitor.CompletedDownloadItemState
 import ir.amirab.util.compose.resources.myStringResource
 
 @Composable

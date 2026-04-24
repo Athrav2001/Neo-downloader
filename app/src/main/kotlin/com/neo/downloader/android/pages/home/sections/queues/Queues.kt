@@ -60,8 +60,8 @@ import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.downloader.db.QueueModel
-import ir.amirab.downloader.queue.DownloadQueue
+import com.neo.downloader.db.QueueModel
+import com.neo.downloader.queue.DownloadQueue
 import ir.amirab.util.compose.action.MenuItem
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.resources.myStringResource

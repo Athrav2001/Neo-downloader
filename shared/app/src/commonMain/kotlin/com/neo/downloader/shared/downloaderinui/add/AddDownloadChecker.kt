@@ -3,9 +3,9 @@ package com.neo.downloader.shared.downloaderinui.add
 import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.downloaderinui.LinkChecker
 import com.neo.downloader.shared.util.DownloadSystem
-import ir.amirab.downloader.connection.IResponseInfo
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.utils.DuplicateFilterByPath
+import com.neo.downloader.connection.IResponseInfo
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.utils.DuplicateFilterByPath
 import ir.amirab.util.FileNameValidator
 import ir.amirab.util.osfileutil.FileUtils
 import ir.amirab.util.flow.mapStateFlow

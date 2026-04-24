@@ -1,8 +1,8 @@
 package com.neo.downloader.shared.downloaderinui.hls
 
 import com.neo.downloader.shared.downloaderinui.CredentialAndItemMapper
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadItem
+import com.neo.downloader.downloaditem.hls.HLSDownloadCredentials
+import com.neo.downloader.downloaditem.hls.HLSDownloadItem
 
 class HlsItemToCredentialMapper : CredentialAndItemMapper<
         HLSDownloadCredentials, HLSDownloadItem> {

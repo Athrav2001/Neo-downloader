@@ -43,10 +43,10 @@ import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.VerticalScrollableContent
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.downloader.downloaditem.DownloadJobStatus
-import ir.amirab.downloader.monitor.*
-import ir.amirab.downloader.part.PartDownloadStatus
-import ir.amirab.downloader.utils.ExceptionUtils
+import com.neo.downloader.downloaditem.DownloadJobStatus
+import com.neo.downloader.monitor.*
+import com.neo.downloader.part.PartDownloadStatus
+import com.neo.downloader.utils.ExceptionUtils
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.resources.myStringResource

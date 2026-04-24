@@ -18,7 +18,7 @@ import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.util.FileIconProvider
 import com.neo.downloader.shared.util.ui.WithContentAlpha
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.downloader.monitor.IDownloadItemState
+import com.neo.downloader.monitor.IDownloadItemState
 import ir.amirab.util.compose.resources.myStringResource
 
 

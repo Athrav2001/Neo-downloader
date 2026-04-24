@@ -2,8 +2,8 @@ package com.neo.downloader.shared.pages.home.category
 
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.downloader.downloaditem.DownloadStatus
-import ir.amirab.downloader.monitor.IDownloadItemState
+import com.neo.downloader.downloaditem.DownloadStatus
+import com.neo.downloader.monitor.IDownloadItemState
 import ir.amirab.util.compose.asStringSource
 
 object DefinedStatusCategories {

@@ -14,7 +14,7 @@ import com.neo.downloader.shared.util.FileIconProvider
 import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.category.DefaultCategories
 import com.arkivanov.decompose.retainedComponent
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.queue.QueueManager
 import kotlinx.serialization.json.Json
 import org.koin.core.component.inject
 

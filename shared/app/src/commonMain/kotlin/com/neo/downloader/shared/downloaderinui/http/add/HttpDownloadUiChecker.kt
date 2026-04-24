@@ -4,8 +4,8 @@ import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.shared.downloaderinui.DownloadUiChecker
 import com.neo.downloader.shared.downloaderinui.LinkCheckerFactory
-import ir.amirab.downloader.connection.response.HttpResponseInfo
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.connection.response.HttpResponseInfo
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 import kotlinx.coroutines.CoroutineScope
 
 class HttpDownloadUiChecker(

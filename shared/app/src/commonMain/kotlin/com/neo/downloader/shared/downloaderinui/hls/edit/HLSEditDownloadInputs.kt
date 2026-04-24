@@ -6,9 +6,9 @@ import com.neo.downloader.shared.downloaderinui.LinkCheckerFactory
 import com.neo.downloader.shared.downloaderinui.edit.DownloadConflictDetector
 import com.neo.downloader.shared.downloaderinui.edit.EditDownloadCheckerFactory
 import com.neo.downloader.shared.downloaderinui.edit.EditDownloadInputs
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
+import com.neo.downloader.downloaditem.hls.HLSDownloadCredentials
 import com.neo.downloader.shared.downloaderinui.hls.HLSLinkChecker
-import ir.amirab.downloader.downloaditem.hls.HLSResponseInfo
+import com.neo.downloader.downloaditem.hls.HLSResponseInfo
 import com.neo.downloader.shared.downloaderinui.hls.HlsItemToCredentialMapper
 import com.neo.downloader.shared.ui.configurable.item.BooleanConfigurable
 import com.neo.downloader.shared.ui.configurable.item.FileChecksumConfigurable
@@ -19,9 +19,9 @@ import com.neo.downloader.shared.util.SizeAndSpeedUnitProvider
 import com.neo.downloader.shared.util.ThreadCountLimitation
 import com.neo.downloader.shared.util.FileChecksum
 import com.neo.downloader.shared.util.convertPositiveSpeedToHumanReadable
-import ir.amirab.downloader.downloaditem.DownloadJobExtraConfig
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadItem
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadJobExtraConfig
+import com.neo.downloader.downloaditem.DownloadJobExtraConfig
+import com.neo.downloader.downloaditem.hls.HLSDownloadItem
+import com.neo.downloader.downloaditem.hls.HLSDownloadJobExtraConfig
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.asStringSourceWithARgs

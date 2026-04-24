@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import com.neo.downloader.shared.pages.home.category.DefinedStatusCategories
 import com.neo.downloader.shared.pages.home.category.DownloadStatusCategoryFilter
 import com.neo.downloader.shared.util.category.Category
-import ir.amirab.downloader.db.QueueModel
+import com.neo.downloader.db.QueueModel
 
 @Stable
 class FilterState {

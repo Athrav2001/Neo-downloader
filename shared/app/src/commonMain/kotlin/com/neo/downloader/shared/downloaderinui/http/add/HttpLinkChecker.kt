@@ -3,9 +3,9 @@ package com.neo.downloader.shared.downloaderinui.http.add
 import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.util.FilenameFixer
 import com.neo.downloader.shared.downloaderinui.LinkChecker
-import ir.amirab.downloader.connection.HttpDownloaderClient
-import ir.amirab.downloader.connection.response.HttpResponseInfo
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.connection.HttpDownloaderClient
+import com.neo.downloader.connection.response.HttpResponseInfo
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 import ir.amirab.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

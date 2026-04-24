@@ -7,8 +7,8 @@ import com.neo.downloader.shared.util.mvi.supportEffects
 import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.shared.util.FileIconProvider
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.downloader.downloaditem.DownloadJobExtraConfig
-import ir.amirab.downloader.downloaditem.IDownloadItem
+import com.neo.downloader.downloaditem.DownloadJobExtraConfig
+import com.neo.downloader.downloaditem.IDownloadItem
 import kotlinx.coroutines.flow.*
 
 class AndroidEditDownloadComponent(

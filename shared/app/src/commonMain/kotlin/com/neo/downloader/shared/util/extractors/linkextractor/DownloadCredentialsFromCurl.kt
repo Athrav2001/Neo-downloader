@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.util.extractors.linkextractor
 
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 
 object DownloadCredentialsFromCurl : DownloadCredentialExtractor<String> {
     override fun extract(input: String): List<HttpDownloadCredentials> {

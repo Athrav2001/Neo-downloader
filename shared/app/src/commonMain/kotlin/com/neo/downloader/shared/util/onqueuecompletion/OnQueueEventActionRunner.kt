@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.util.onqueuecompletion
 
-import ir.amirab.downloader.queue.QueueEvent
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.queue.QueueEvent
+import com.neo.downloader.queue.QueueManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn

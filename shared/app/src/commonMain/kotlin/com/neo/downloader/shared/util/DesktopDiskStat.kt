@@ -1,5 +1,5 @@
 package com.neo.downloader.shared.util
 
-import ir.amirab.downloader.utils.IDiskStat
+import com.neo.downloader.utils.IDiskStat
 
 expect class PlatformDiskStat : IDiskStat

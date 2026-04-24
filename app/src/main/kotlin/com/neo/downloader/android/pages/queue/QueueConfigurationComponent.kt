@@ -10,8 +10,8 @@ import com.neo.downloader.shared.ui.configurable.item.TimeConfigurable
 import com.neo.downloader.shared.util.BaseComponent
 import com.neo.downloader.shared.util.newScopeBasedOn
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.downloader.queue.DownloadQueue
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.queue.DownloadQueue
+import com.neo.downloader.queue.QueueManager
 import ir.amirab.util.compose.asStringSource
 import ir.amirab.util.compose.asStringSourceWithARgs
 import ir.amirab.util.flow.combineStateFlows

@@ -26,10 +26,10 @@ import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsManager
 import com.neo.downloader.shared.util.perhostsettings.getSettingsForURL
 import com.arkivanov.decompose.ComponentContext
 import ir.amirab.SelectionUtil
-import ir.amirab.downloader.NewDownloadItemProps
-import ir.amirab.downloader.downloaditem.EmptyContext
-import ir.amirab.downloader.queue.QueueManager
-import ir.amirab.downloader.utils.OnDuplicateStrategy
+import com.neo.downloader.NewDownloadItemProps
+import com.neo.downloader.downloaditem.EmptyContext
+import com.neo.downloader.queue.QueueManager
+import com.neo.downloader.utils.OnDuplicateStrategy
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.ifThen
 import ir.amirab.util.wildcardMatch

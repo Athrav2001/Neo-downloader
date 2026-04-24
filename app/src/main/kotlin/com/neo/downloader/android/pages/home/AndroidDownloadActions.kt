@@ -8,11 +8,11 @@ import com.neo.downloader.shared.pages.home.AbstractDownloadActions
 import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.downloader.downloaditem.DownloadJobStatus
-import ir.amirab.downloader.monitor.CompletedDownloadItemState
-import ir.amirab.downloader.monitor.IDownloadItemState
-import ir.amirab.downloader.monitor.statusOrFinished
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.downloaditem.DownloadJobStatus
+import com.neo.downloader.monitor.CompletedDownloadItemState
+import com.neo.downloader.monitor.IDownloadItemState
+import com.neo.downloader.monitor.statusOrFinished
+import com.neo.downloader.queue.QueueManager
 import ir.amirab.util.compose.action.buildMenu
 import ir.amirab.util.compose.action.simpleAction
 import ir.amirab.util.compose.asStringSource

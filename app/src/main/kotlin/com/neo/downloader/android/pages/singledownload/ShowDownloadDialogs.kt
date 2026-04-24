@@ -12,9 +12,9 @@ import com.neo.downloader.shared.util.OnFullyDismissed
 import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.downloader.monitor.CompletedDownloadItemState
-import ir.amirab.downloader.monitor.IDownloadItemState
-import ir.amirab.downloader.monitor.ProcessingDownloadItemState
+import com.neo.downloader.monitor.CompletedDownloadItemState
+import com.neo.downloader.monitor.IDownloadItemState
+import com.neo.downloader.monitor.ProcessingDownloadItemState
 import ir.amirab.util.compose.asStringSource
 import kotlinx.coroutines.delay
 

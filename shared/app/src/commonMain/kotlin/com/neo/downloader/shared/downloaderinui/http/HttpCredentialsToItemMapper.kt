@@ -1,9 +1,9 @@
 package com.neo.downloader.shared.downloaderinui.http
 
 import com.neo.downloader.shared.downloaderinui.CredentialAndItemMapper
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
-import ir.amirab.downloader.downloaditem.http.HttpDownloadItem
-import ir.amirab.downloader.downloaditem.http.withHttpCredentials
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.downloaditem.http.HttpDownloadItem
+import com.neo.downloader.downloaditem.http.withHttpCredentials
 
 object HttpCredentialsToItemMapper : CredentialAndItemMapper<HttpDownloadCredentials, HttpDownloadItem> {
     override fun itemToCredentials(item: HttpDownloadItem): HttpDownloadCredentials {

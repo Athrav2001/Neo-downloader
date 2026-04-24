@@ -1,10 +1,10 @@
 package com.neo.downloader.shared.downloaderinui.hls
 
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadJob
-import ir.amirab.downloader.monitor.DurationBasedProcessingDownloadItemState
-import ir.amirab.downloader.monitor.ProcessingDownloadItemFactoryInputs
-import ir.amirab.downloader.monitor.UiDurationBasedPart
-import ir.amirab.downloader.part.PartDownloadStatus
+import com.neo.downloader.downloaditem.hls.HLSDownloadJob
+import com.neo.downloader.monitor.DurationBasedProcessingDownloadItemState
+import com.neo.downloader.monitor.ProcessingDownloadItemFactoryInputs
+import com.neo.downloader.monitor.UiDurationBasedPart
+import com.neo.downloader.part.PartDownloadStatus
 
 object UiProcessingItemForHSLFactory {
     fun create(

@@ -3,9 +3,9 @@ package com.neo.downloader.android.pages.browser
 import android.webkit.CookieManager
 import com.neo.downloader.android.ui.widget.WebViewState
 import com.neo.downloader.shared.pages.adddownload.AddDownloadCredentialsInUiProps
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
-import ir.amirab.downloader.downloaditem.http.HttpDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.hls.HLSDownloadCredentials
+import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 import ir.amirab.util.HttpUrlUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

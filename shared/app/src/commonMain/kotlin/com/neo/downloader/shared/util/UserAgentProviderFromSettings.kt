@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.util
 
 import com.neo.downloader.shared.storage.BaseAppSettingsStorage
-import ir.amirab.downloader.connection.UserAgentProvider
+import com.neo.downloader.connection.UserAgentProvider
 
 class UserAgentProviderFromSettings(
     private val appSettingsStorage: BaseAppSettingsStorage

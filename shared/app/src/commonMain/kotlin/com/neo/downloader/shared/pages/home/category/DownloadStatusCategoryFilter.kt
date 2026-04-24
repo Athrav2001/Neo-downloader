@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.pages.home.category
 
-import ir.amirab.downloader.monitor.IDownloadItemState
+import com.neo.downloader.monitor.IDownloadItemState
 import ir.amirab.util.compose.IconSource
 import ir.amirab.util.compose.StringSource
 

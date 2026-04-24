@@ -2,15 +2,15 @@ package com.neo.downloader.shared.downloaderinui
 
 import com.neo.downloader.shared.downloaderinui.add.NewDownloadInputs
 import com.neo.downloader.shared.downloaderinui.edit.EditDownloadInputs
-import ir.amirab.downloader.Downloader
-import ir.amirab.downloader.connection.IResponseInfo
-import ir.amirab.downloader.downloaditem.DownloadJob
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.downloader.downloaditem.IDownloadItem
-import ir.amirab.downloader.monitor.CompletedDownloadItemState
-import ir.amirab.downloader.monitor.DownloadItemStateFactory
-import ir.amirab.downloader.monitor.ProcessingDownloadItemFactoryInputs
-import ir.amirab.downloader.monitor.ProcessingDownloadItemState
+import com.neo.downloader.Downloader
+import com.neo.downloader.connection.IResponseInfo
+import com.neo.downloader.downloaditem.DownloadJob
+import com.neo.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.downloaditem.IDownloadItem
+import com.neo.downloader.monitor.CompletedDownloadItemState
+import com.neo.downloader.monitor.DownloadItemStateFactory
+import com.neo.downloader.monitor.ProcessingDownloadItemFactoryInputs
+import com.neo.downloader.monitor.ProcessingDownloadItemState
 import kotlin.reflect.KClass
 
 typealias TADownloaderInUI = DownloaderInUi<

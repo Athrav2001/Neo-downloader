@@ -12,8 +12,8 @@ import com.neo.downloader.shared.util.mvi.ContainsScreenState
 import com.neo.downloader.shared.util.mvi.SupportsScreenState
 import com.neo.downloader.shared.util.mvi.supportEffects
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.downloader.downloaditem.DownloadStatus
-import ir.amirab.downloader.downloaditem.IDownloadItem
+import com.neo.downloader.downloaditem.DownloadStatus
+import com.neo.downloader.downloaditem.IDownloadItem
 import ir.amirab.util.ifThen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

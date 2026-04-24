@@ -2,8 +2,8 @@ package com.neo.downloader.shared.downloaderinui
 
 import com.neo.downloader.shared.downloaderinui.add.AddDownloadChecker
 import com.neo.downloader.shared.util.DownloadSystem
-import ir.amirab.downloader.connection.IResponseInfo
-import ir.amirab.downloader.downloaditem.IDownloadCredentials
+import com.neo.downloader.connection.IResponseInfo
+import com.neo.downloader.downloaditem.IDownloadCredentials
 import ir.amirab.util.flow.onEachLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow

@@ -22,7 +22,7 @@ import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.rememberChild
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.queue.QueueManager
 import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 import org.koin.core.component.inject

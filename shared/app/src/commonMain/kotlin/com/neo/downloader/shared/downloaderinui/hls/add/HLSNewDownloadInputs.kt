@@ -3,9 +3,9 @@ package com.neo.downloader.shared.downloaderinui.hls.add
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.downloaderinui.DownloadSize
 import com.neo.downloader.shared.downloaderinui.add.NewDownloadInputs
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadCredentials
+import com.neo.downloader.downloaditem.hls.HLSDownloadCredentials
 import com.neo.downloader.shared.downloaderinui.hls.HLSLinkChecker
-import ir.amirab.downloader.downloaditem.hls.HLSResponseInfo
+import com.neo.downloader.downloaditem.hls.HLSResponseInfo
 import com.neo.downloader.shared.downloaderinui.http.applyToHttpDownload
 import com.neo.downloader.shared.ui.configurable.item.BooleanConfigurable
 import com.neo.downloader.shared.ui.configurable.item.FileChecksumConfigurable
@@ -18,10 +18,10 @@ import com.neo.downloader.shared.util.FileChecksum
 import com.neo.downloader.shared.util.FilenameFixer
 import com.neo.downloader.shared.util.convertPositiveSpeedToHumanReadable
 import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsItem
-import ir.amirab.downloader.downloaditem.DownloadJobExtraConfig
-import ir.amirab.downloader.downloaditem.DownloadStatus
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadItem
-import ir.amirab.downloader.downloaditem.hls.HLSDownloadJobExtraConfig
+import com.neo.downloader.downloaditem.DownloadJobExtraConfig
+import com.neo.downloader.downloaditem.DownloadStatus
+import com.neo.downloader.downloaditem.hls.HLSDownloadItem
+import com.neo.downloader.downloaditem.hls.HLSDownloadJobExtraConfig
 import ir.amirab.util.HttpUrlUtils
 import ir.amirab.util.compose.StringSource
 import ir.amirab.util.compose.asStringSource

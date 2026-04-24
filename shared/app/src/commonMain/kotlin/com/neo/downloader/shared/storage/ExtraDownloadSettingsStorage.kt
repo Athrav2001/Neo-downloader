@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.storage
 
-import ir.amirab.downloader.db.TransactionalFileSaver
-import ir.amirab.downloader.utils.SuspendLockList
+import com.neo.downloader.db.TransactionalFileSaver
+import com.neo.downloader.utils.SuspendLockList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

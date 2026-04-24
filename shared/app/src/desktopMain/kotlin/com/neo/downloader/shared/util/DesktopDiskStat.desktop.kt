@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.util
 
-import ir.amirab.downloader.utils.IDiskStat
+import com.neo.downloader.utils.IDiskStat
 import java.io.File
 
 actual typealias PlatformDiskStat = DesktopDiskStat

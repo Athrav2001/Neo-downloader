@@ -3,10 +3,10 @@ package com.neo.downloader.shared.pages.home.queue
 import androidx.compose.runtime.Stable
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.downloader.db.QueueModel
-import ir.amirab.downloader.queue.DefaultQueueInfo
-import ir.amirab.downloader.queue.DownloadQueue
-import ir.amirab.downloader.queue.QueueManager
+import com.neo.downloader.db.QueueModel
+import com.neo.downloader.queue.DefaultQueueInfo
+import com.neo.downloader.queue.DownloadQueue
+import com.neo.downloader.queue.QueueManager
 import ir.amirab.util.compose.action.MenuItem
 import ir.amirab.util.compose.action.buildMenu
 import ir.amirab.util.compose.action.simpleAction
