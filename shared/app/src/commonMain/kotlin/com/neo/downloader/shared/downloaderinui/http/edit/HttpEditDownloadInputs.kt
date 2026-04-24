@@ -89,7 +89,7 @@ class HttpEditDownloadInputs(
             Res.string.settings_download_thread_count_description.asStringSource(),
             backedBy = editedDownloadItem.mapTwoWayStateFlow(
                 map = {
-                    it.preferredConnectionCount ?: 0
+                    it.preferredConnectionCount ?: ThreadCountLimitation.MAX_NORMAL_VALUE
                 },
                 unMap = {
                     copy(
@@ -99,8 +99,7 @@ class HttpEditDownloadInputs(
             ),
             range = 0..ThreadCountLimitation.MAX_ALLOWED_THREAD_COUNT,
             describe = {
-                if (it == 0) Res.string.use_global_settings.asStringSource()
-                else Res.string.download_item_settings_thread_count_describe
+                Res.string.download_item_settings_thread_count_describe
                     .asStringSourceWithARgs(
                         Res.string.download_item_settings_thread_count_describe_createArgs(
                             count = it.toString()

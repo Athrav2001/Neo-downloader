@@ -299,7 +299,7 @@ abstract class BaseSingleDownloadComponent<
             downloadManager.dlListDb.getById(downloadId)
         }
         threadCount = MutableStateFlow(
-            dItem?.preferredConnectionCount ?: 0
+            dItem?.preferredConnectionCount ?: ThreadCountLimitation.MAX_NORMAL_VALUE
         )
         speedLimit = MutableStateFlow(dItem?.speedLimit ?: 0)
         downloadManager.listOfJobsEvents
@@ -309,7 +309,7 @@ abstract class BaseSingleDownloadComponent<
             }
             .onEach { event ->
                 threadCount.update {
-                    event.downloadItem.preferredConnectionCount ?: 0
+                    event.downloadItem.preferredConnectionCount ?: ThreadCountLimitation.MAX_NORMAL_VALUE
                 }
                 speedLimit.update {
                     event.downloadItem.speedLimit
@@ -349,16 +349,12 @@ abstract class BaseSingleDownloadComponent<
                 description = Res.string.download_item_settings_thread_count_description.asStringSource(),
                 backedBy = threadCount,
                 describe = {
-                    if (it == 0) {
-                        Res.string.use_global_settings.asStringSource()
-                    } else {
-                        Res.string.download_item_settings_thread_count_describe
-                            .asStringSourceWithARgs(
-                                Res.string.download_item_settings_thread_count_describe_createArgs(
-                                    count = it.toString()
-                                )
+                    Res.string.download_item_settings_thread_count_describe
+                        .asStringSourceWithARgs(
+                            Res.string.download_item_settings_thread_count_describe_createArgs(
+                                count = it.toString()
                             )
-                    }
+                        )
                 },
                 range = 0..ThreadCountLimitation.MAX_ALLOWED_THREAD_COUNT,
                 renderMode = IntConfigurable.RenderMode.TextField,

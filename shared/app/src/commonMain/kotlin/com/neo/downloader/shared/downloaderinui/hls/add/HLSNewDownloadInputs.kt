@@ -150,7 +150,7 @@ class HLSNewDownloadInputs(
             Res.string.settings_download_thread_count_description.asStringSource(),
             backedBy = threadCount.mapTwoWayStateFlow(
                 map = {
-                    it ?: 0
+                    it ?: ThreadCountLimitation.MAX_NORMAL_VALUE
                 },
                 unMap = {
                     it.takeIf { it >= 1 }
@@ -158,8 +158,7 @@ class HLSNewDownloadInputs(
             ),
             range = 0..ThreadCountLimitation.MAX_ALLOWED_THREAD_COUNT,
             describe = {
-                if (it == 0) Res.string.use_global_settings.asStringSource()
-                else Res.string.download_item_settings_thread_count_describe
+                Res.string.download_item_settings_thread_count_describe
                     .asStringSourceWithARgs(
                         Res.string.download_item_settings_thread_count_describe_createArgs(
                             count = it.toString()
