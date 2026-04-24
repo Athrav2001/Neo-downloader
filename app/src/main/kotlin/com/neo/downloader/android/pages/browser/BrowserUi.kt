@@ -229,6 +229,7 @@ fun BrowserPage(
             tabWebViewHolder?.client?.requestGrabberScan(tabWebViewHolder.webView)
         },
         onDownloadOne = { url ->
+            browserComponent.closeGrabber()
             browserComponent.downloadGrabberUrls(listOf(url))
         },
         onDownloadAll = {

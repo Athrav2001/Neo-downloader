@@ -117,6 +117,7 @@ class DownloadInterceptor(
         if (items.isEmpty()) return
         mergeDetectedItems(tab.tabId, items)
         mergeDetectedRequests(tab.tabId, requests)
+        enrichDirectItems(tab.tabId, requests)
 
         val streamRequests = requests.filter { isStreamUrl(it.url) }
         streamRequests.forEach { request ->
@@ -380,9 +381,7 @@ class DownloadInterceptor(
         }
         if (variants.isEmpty()) return emptyList()
 
-        val output = mutableListOf<GrabberDetectedItem>()
         val bestByQuality = linkedMapOf<String, Pair<Int, GrabberDetectedItem>>()
-        val seenUnknownUrls = mutableSetOf<String>()
         for (variant in variants) {
             val stats = fetchVariantStats(
                 variantUrl = variant.url,
@@ -402,11 +401,7 @@ class DownloadInterceptor(
                 partsCount = stats.partsCount,
                 durationSeconds = stats.durationSeconds,
             )
-            if (variant.quality.equals("Unknown", ignoreCase = true)) {
-                if (seenUnknownUrls.add(variant.url)) {
-                    output += item
-                }
-            } else {
+            if (!variant.quality.equals("Unknown", ignoreCase = true)) {
                 val current = bestByQuality[variant.quality]
                 val score = variant.bandwidth ?: 0
                 if (current == null || score > current.first) {
@@ -414,7 +409,37 @@ class DownloadInterceptor(
                 }
             }
         }
-        return bestByQuality.values.map { it.second } + output
+        return bestByQuality.values.map { it.second }
+    }
+
+    private fun enrichDirectItems(
+        tabId: NDMBrowserTabId,
+        requests: List<NDMWebRequest>,
+    ) {
+        requests
+            .asSequence()
+            .filterNot { isStreamUrl(it.url) }
+            .take(8)
+            .forEach { request ->
+                scope.launch {
+                    val sizeBytes = withContext(Dispatchers.IO) {
+                        runCatching {
+                            val connection = URL(request.url).openConnection()
+                            connection.connectTimeout = 4_000
+                            connection.readTimeout = 6_000
+                            request.headers.forEach { (k, v) -> connection.setRequestProperty(k, v) }
+                            connection.getHeaderFieldLong("Content-Length", -1L).takeIf { it > 0L }
+                        }.getOrNull()
+                    }
+                    if (sizeBytes != null) {
+                        val current = detectedByTab[tabId]?.get(request.url) ?: return@launch
+                        val updated = current.copy(size = formatBytes(sizeBytes))
+                        if (updated != current) {
+                            mergeDetectedItems(tabId, listOf(updated))
+                        }
+                    }
+                }
+            }
     }
 
     private fun fetchVariantStats(
@@ -652,7 +677,7 @@ class DownloadInterceptor(
     companion object {
         private const val REMOVE_REQUESTS_DELAY = 20_000L
         private const val HANDLED_COOLDOWN_MILLIS = 12_000L
-        private val QUALITY_REGEX = Regex("""(?i)\b(144p|240p|360p|480p|720p|1080p|1440p|2160p|4k)\b""")
+        private val QUALITY_REGEX = Regex("""(?i)(144p|240p|360p|480p|720p|1080p|1440p|2160p|4k)""")
         private val SIZE_REGEX = Regex("""(\d+(?:\.\d+)?)\s*(kb|mb|gb|tb)""")
         private val USEFUL_EXTENSIONS = setOf(
             "mp4", "mkv", "avi", "mov", "wmv", "webm",
