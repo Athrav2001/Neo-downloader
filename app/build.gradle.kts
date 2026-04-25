@@ -135,8 +135,12 @@ tasks.register(CiUtils.getCreateBinaryFolderForCiTaskName()) {
 
 private val localProperties by lazy {
     val file = project.rootProject.projectDir.resolve("local.properties")
-    file.inputStream().use {
-        Properties().apply { load(it) }
+    if (!file.exists()) {
+        Properties()
+    } else {
+        file.inputStream().use {
+            Properties().apply { load(it) }
+        }
     }
 }
 
