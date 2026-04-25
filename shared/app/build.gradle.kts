@@ -114,6 +114,18 @@ buildConfig {
         }
     )
     buildConfigField(
+        "PROJECT_SOURCE_CODE",
+        provider { "" }
+    )
+    buildConfigField(
+        "DONATE_LINK",
+        provider { "" }
+    )
+    buildConfigField(
+        "PROJECT_GITHUB_OWNER",
+        provider { "" }
+    )
+    buildConfigField(
         "PROJECT_TRANSLATIONS",
         provider {
             "https://crowdin.com/project/neo-downloader"
