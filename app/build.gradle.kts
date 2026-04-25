@@ -96,7 +96,7 @@ androidComponents.onVariants { variant ->
             getFromEnvOrProperties("NDM_KEYSTORE_KEY_PASSWORD")
         })
         keyAlias.set(provider {
-            getFromEnvOrProperties("NDM_KEYSTORE_KEY_ALIAS")
+            getFromEnvOrProperties("NDM_KEYSTORE_KEY_ALIAS") ?: "neo"
         })
     }
 }
