@@ -92,7 +92,7 @@ class WebViewRegistry(
             webView.settings.builtInZoomControls = false
             webView.settings.setSupportMultipleWindows(false)
             webView.settings.javaScriptCanOpenWindowsAutomatically = false
-            webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
             webView.settings.loadsImagesAutomatically = true
             webView.settings.allowFileAccess = false
             webView.settings.allowContentAccess = false
@@ -122,9 +122,6 @@ class WebViewRegistry(
             }
             webView.setDownloadListener { url, userAgent, _, _, _ ->
                 scope.launch(Dispatchers.Main) {
-                    if (!webView.canGoBack() && webView.originalUrl == null) {
-                        browserComponent.closeTab(tab.tabId)
-                    }
                     browserComponent.downloadInterceptor.onDownloadStart(
                         url,
                         userAgent,
@@ -279,23 +276,8 @@ class NDMWebViewClient(
         }
 
         // Strict scheme allowlist from page content.
-        val allowedExternalSchemes = setOf("tel", "sms", "mailto", "intent")
+        val allowedExternalSchemes = setOf("tel", "sms", "mailto")
         if (scheme !in allowedExternalSchemes) {
-            return true
-        }
-
-        if (scheme == "intent") {
-            try {
-                val parsedIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
-                // Never launch arbitrary intent payloads directly from web content.
-                parsedIntent.getStringExtra("browser_fallback_url")?.let {
-                    if (URLUtil.isNetworkUrl(it)) {
-                        view.loadUrl(it)
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
             return true
         }
 

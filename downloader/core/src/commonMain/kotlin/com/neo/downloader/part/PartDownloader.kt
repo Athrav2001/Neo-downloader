@@ -176,9 +176,15 @@ abstract class PartDownloader<
     lateinit var onTooManyErrors: ((Throwable) -> Unit)
     private fun iCantRetryAnymore(throwable: Throwable) {
         lastCriticalException = throwable
-        val activeScope = scope ?: CoroutineScope(SupervisorJob() + Dispatchers.Default)
-        activeScope.launch {
+        val activeScope = scope
+        if (activeScope == null || !activeScope.coroutineContext.isActive) {
             onTooManyErrors(throwable)
+            return
+        }
+        activeScope.launch {
+            if (coroutineContext.isActive) {
+                onTooManyErrors(throwable)
+            }
         }
     }
 
