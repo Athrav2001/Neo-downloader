@@ -146,11 +146,7 @@ class NDMServiceNotificationManager(
         reason: KeepAliveServiceReason?,
         statusString: String?,
     ): Notification {
-        val flagOfPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        }
+        val flagOfPendingIntent = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         val serviceIsRunningText = Res.string.service_is_running.asStringSource().getString()
         val exit = Res.string.exit.asStringSource().getString()
         val stopAll = Res.string.stop_all.asStringSource().getString()
@@ -206,11 +202,7 @@ class NDMServiceNotificationManager(
     fun createDownloadItemNotification(
         downloadItemState: ProcessingDownloadItemState
     ): Notification {
-        val flagOfPendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-        } else {
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        }
+        val flagOfPendingIntent = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 
         val title = downloadItemState.name
 
