@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.util
 
 import androidx.compose.runtime.*
-import ir.amirab.util.flow.DerivedStateFlow
+import ir.neo.util.flow.DerivedStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 

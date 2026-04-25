@@ -2,8 +2,8 @@ package com.neo.downloader.shared.util
 
 import androidx.compose.runtime.*
 import com.neo.downloader.resources.Res
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSourceWithARgs
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSourceWithARgs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.datetime.DateTimePeriod

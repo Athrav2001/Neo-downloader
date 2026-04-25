@@ -4,7 +4,7 @@ import com.neo.downloader.shared.downloaderinui.add.AddDownloadChecker
 import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.connection.IResponseInfo
 import com.neo.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.util.flow.onEachLatest
+import ir.neo.util.flow.onEachLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*

@@ -9,8 +9,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import com.neo.downloader.shared.ui.widget.menu.custom.SubMenu
 import com.neo.downloader.shared.ui.widget.rememberMyPopupPositionProviderAtPosition
-import ir.amirab.util.compose.action.buildMenu
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.action.buildMenu
+import ir.neo.util.compose.asStringSource
 
 private class MyContextMenuRepresentation : ContextMenuRepresentation {
     @Composable

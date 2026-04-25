@@ -25,7 +25,7 @@ kotlin {
 
 android {
     compileSdk = 36
-    namespace = "ir.amirab.util.startup"
+    namespace = "ir.neo.util.startup"
     defaultConfig {
         minSdk = 26
     }

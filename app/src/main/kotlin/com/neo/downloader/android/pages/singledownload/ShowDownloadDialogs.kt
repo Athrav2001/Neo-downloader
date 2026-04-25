@@ -15,7 +15,7 @@ import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.monitor.CompletedDownloadItemState
 import com.neo.downloader.monitor.IDownloadItemState
 import com.neo.downloader.monitor.ProcessingDownloadItemState
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.delay
 
 @Composable

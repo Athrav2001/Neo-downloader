@@ -6,10 +6,10 @@ import com.neo.downloader.shared.util.category.Category
 import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.category.iconSource
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.compose.IIconResolver
-import ir.amirab.util.compose.IconSource
-import ir.amirab.util.flow.combineStateFlows
-import ir.amirab.util.osfileutil.FileUtils
+import ir.neo.util.compose.IIconResolver
+import ir.neo.util.compose.IconSource
+import ir.neo.util.flow.combineStateFlows
+import ir.neo.util.osfileutil.FileUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

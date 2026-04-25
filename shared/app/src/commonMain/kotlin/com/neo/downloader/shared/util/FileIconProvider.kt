@@ -8,8 +8,8 @@ import com.neo.downloader.shared.util.category.CategoryManager
 import com.neo.downloader.shared.util.category.DefaultCategories
 import com.neo.downloader.shared.util.category.iconSource
 import com.neo.downloader.shared.util.ui.IMyIcons
-import ir.amirab.util.compose.IIconResolver
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IIconResolver
+import ir.neo.util.compose.IconSource
 
 
 interface FileIconProvider {

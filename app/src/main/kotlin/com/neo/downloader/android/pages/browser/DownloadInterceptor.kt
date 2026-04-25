@@ -6,7 +6,7 @@ import com.neo.downloader.shared.pages.adddownload.AddDownloadCredentialsInUiPro
 import com.neo.downloader.downloaditem.IDownloadCredentials
 import com.neo.downloader.downloaditem.hls.HLSDownloadCredentials
 import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
-import ir.amirab.util.HttpUrlUtils
+import ir.neo.util.HttpUrlUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

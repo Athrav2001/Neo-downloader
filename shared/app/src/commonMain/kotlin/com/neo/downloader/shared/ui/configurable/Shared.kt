@@ -6,7 +6,7 @@ import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.ui.widget.Text
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically

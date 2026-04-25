@@ -10,7 +10,7 @@ import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.util.OnFullyDismissed
 import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 
 @Composable
 fun ConfigurableSheet(

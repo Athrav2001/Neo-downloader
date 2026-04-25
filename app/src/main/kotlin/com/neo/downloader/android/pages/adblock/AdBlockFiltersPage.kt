@@ -46,7 +46,7 @@ import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

@@ -69,10 +69,10 @@ import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.connection.proxy.Proxy
 import com.neo.downloader.connection.proxy.ProxyType
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.ifThen
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.ifThen
 
 object ProxyConfigurableRenderer : ConfigurableRenderer<ProxyConfigurable> {
     @Composable

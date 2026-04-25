@@ -1,6 +1,6 @@
 package com.neo.downloader.updateapplier
 
-import ir.amirab.util.platform.Platform
+import ir.neo.util.platform.Platform
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import okio.buffer

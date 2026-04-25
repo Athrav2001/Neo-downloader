@@ -5,11 +5,11 @@ import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.ui.widget.CheckBox
 import com.neo.downloader.shared.ui.widget.menu.custom.MenuColumn
 import com.neo.downloader.shared.util.div
-import ir.amirab.util.flow.saved
+import ir.neo.util.flow.saved
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -35,8 +35,8 @@ import com.neo.downloader.shared.util.ui.MultiplatformHorizontalScrollbar
 import com.neo.downloader.shared.util.ui.MultiplatformVerticalScrollbar
 import com.neo.downloader.shared.util.ui.needScroll
 import com.neo.downloader.shared.util.ui.theme.myShapes
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.shifted
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.shifted
 import kotlinx.coroutines.flow.*
 import sh.calvin.reorderable.ReorderableColumn
 import sh.calvin.reorderable.ReorderableListItemScope

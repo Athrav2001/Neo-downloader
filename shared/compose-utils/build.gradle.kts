@@ -24,7 +24,7 @@ kotlin {
 }
 android {
     compileSdk = 36
-    namespace = "ir.amirab.util.compose"
+    namespace = "ir.neo.util.compose"
     defaultConfig {
         minSdk = 26
     }

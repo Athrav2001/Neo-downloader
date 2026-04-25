@@ -47,7 +47,7 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
-import ir.amirab.SelectionUtil
+import ir.neo.SelectionUtil
 import com.neo.downloader.db.QueueModel
 import com.neo.downloader.downloaditem.DownloadJobStatus
 import com.neo.downloader.monitor.CompletedDownloadItemState
@@ -56,9 +56,9 @@ import com.neo.downloader.monitor.ProcessingDownloadItemState
 import com.neo.downloader.queue.DownloadQueue
 import com.neo.downloader.queue.QueueManager
 import com.neo.downloader.queue.activeQueuesFlow
-import ir.amirab.util.compose.action.buildMenu
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.compose.action.buildMenu
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow

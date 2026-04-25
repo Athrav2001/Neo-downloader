@@ -5,16 +5,16 @@ repositories {
     mavenCentral()
 }
 version = 1
-group = "ir.amirab.plugin"
+group = "ir.neo.plugin"
 dependencies {
-    implementation("ir.amirab.util:platform:1")
+    implementation("ir.neo.util:platform:1")
     implementation(libs.handlebarsJava)
 }
 gradlePlugin {
     plugins {
         create("installer-plugin") {
-            id = "ir.amirab.installer-plugin"
-            implementationClass = "ir.amirab.installer.InstallerPlugin"
+            id = "ir.neo.installer-plugin"
+            implementationClass = "ir.neo.installer.InstallerPlugin"
         }
     }
 }

@@ -3,7 +3,7 @@ package com.neo.downloader.destination
 import com.neo.downloader.anntation.HeavyCall
 import com.neo.downloader.part.DownloadPart
 import com.neo.downloader.utils.EmptyFileCreator
-import ir.amirab.util.tryAtomicMove
+import ir.neo.util.tryAtomicMove
 import okio.FileHandle
 import okio.FileSystem
 import okio.Path.Companion.toOkioPath

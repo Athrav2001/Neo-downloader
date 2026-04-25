@@ -15,11 +15,11 @@ import com.neo.downloader.shared.util.mvi.supportEffects
 import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsItem
 import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsManager
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.asStringSourceWithARgs
-import ir.amirab.util.flow.combineStateFlows
-import ir.amirab.util.flow.mapTwoWayStateFlow
-import ir.amirab.util.flow.onEachLatest
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.asStringSourceWithARgs
+import ir.neo.util.flow.combineStateFlows
+import ir.neo.util.flow.mapTwoWayStateFlow
+import ir.neo.util.flow.onEachLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow

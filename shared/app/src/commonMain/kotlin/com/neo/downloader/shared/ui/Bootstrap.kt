@@ -10,8 +10,8 @@ import com.neo.downloader.shared.ui.configurable.ConfigurableRendererRegistry
 import com.neo.downloader.shared.ui.configurable.LocalConfigurationRendererRegistry
 import com.neo.downloader.shared.util.LocalUseRelativeDateTime
 import com.neo.downloader.shared.util.ProvideSizeAndSpeedUnit
-import ir.amirab.util.compose.IIconResolver
-import ir.amirab.util.compose.LocalIconFromUriResolver
+import ir.neo.util.compose.IIconResolver
+import ir.neo.util.compose.LocalIconFromUriResolver
 
 
 @Composable

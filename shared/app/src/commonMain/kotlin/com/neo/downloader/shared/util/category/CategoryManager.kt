@@ -1,8 +1,8 @@
 package com.neo.downloader.shared.util.category
 
-import ir.amirab.util.ifThen
-import ir.amirab.util.shifted
-import ir.amirab.util.suspendGuardedEntry
+import ir.neo.util.ifThen
+import ir.neo.util.shifted
+import ir.neo.util.suspendGuardedEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview

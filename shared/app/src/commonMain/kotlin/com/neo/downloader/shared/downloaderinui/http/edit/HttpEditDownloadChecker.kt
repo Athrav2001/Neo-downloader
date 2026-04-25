@@ -12,9 +12,9 @@ import com.neo.downloader.downloaditem.IDownloadCredentials
 import com.neo.downloader.downloaditem.IDownloadItem
 import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 import com.neo.downloader.downloaditem.http.HttpDownloadItem
-import ir.amirab.util.FileNameValidator
-import ir.amirab.util.HttpUrlUtils
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.FileNameValidator
+import ir.neo.util.HttpUrlUtils
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

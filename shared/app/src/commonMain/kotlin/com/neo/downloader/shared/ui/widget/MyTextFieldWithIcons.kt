@@ -28,8 +28,8 @@ import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.IconSource
-import ir.amirab.util.ifThen
+import ir.neo.util.compose.IconSource
+import ir.neo.util.ifThen
 
 @Composable
 fun MyTextFieldWithIcons(

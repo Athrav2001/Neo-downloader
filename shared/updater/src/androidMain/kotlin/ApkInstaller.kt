@@ -1,5 +1,5 @@
 import com.neo.downloader.updateapplier.UpdateInstaller
-import ir.amirab.util.osfileutil.FileUtils
+import ir.neo.util.osfileutil.FileUtils
 import java.io.File
 
 class ApkInstaller(

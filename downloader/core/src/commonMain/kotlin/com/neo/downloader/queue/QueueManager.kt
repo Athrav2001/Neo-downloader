@@ -4,7 +4,7 @@ import com.neo.downloader.DownloadManagerMinimalControl
 import com.neo.downloader.db.IDownloadQueueDatabase
 import com.neo.downloader.db.DownloadQueuePersistedDataAccess
 import com.neo.downloader.db.QueueModel
-import ir.amirab.util.suspendGuardedEntry
+import ir.neo.util.suspendGuardedEntry
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex

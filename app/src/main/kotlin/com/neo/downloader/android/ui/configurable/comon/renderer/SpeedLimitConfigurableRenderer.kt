@@ -29,11 +29,11 @@ import com.neo.downloader.shared.ui.widget.DoubleTextField
 import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.util.LocalSpeedUnit
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.datasize.SizeConverter
-import ir.amirab.util.datasize.SizeFactors
-import ir.amirab.util.datasize.SizeUnit
-import ir.amirab.util.datasize.SizeWithUnit
-import ir.amirab.util.datasize.asConverterConfig
+import ir.neo.util.datasize.SizeConverter
+import ir.neo.util.datasize.SizeFactors
+import ir.neo.util.datasize.SizeUnit
+import ir.neo.util.datasize.SizeWithUnit
+import ir.neo.util.datasize.asConverterConfig
 
 object SpeedLimitConfigurableRenderer : ConfigurableRenderer<SpeedLimitConfigurable> {
     @Composable

@@ -32,10 +32,10 @@ import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.action.MenuItem
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.localizationmanager.WithLanguageDirection
-import ir.amirab.util.compose.modifiers.autoMirror
+import ir.neo.util.compose.action.MenuItem
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.localizationmanager.WithLanguageDirection
+import ir.neo.util.compose.modifiers.autoMirror
 
 @Composable
 private fun RenderMenuInSinglePage(

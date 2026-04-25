@@ -17,7 +17,7 @@ import com.neo.downloader.exception.ServerResumeSupportChangeException
 import com.neo.downloader.exception.TooManyErrorException
 import com.neo.downloader.part.*
 import com.neo.downloader.utils.*
-import ir.amirab.util.tryLocked
+import ir.neo.util.tryLocked
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

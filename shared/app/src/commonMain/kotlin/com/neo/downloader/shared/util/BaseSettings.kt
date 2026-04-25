@@ -2,8 +2,8 @@ package com.neo.downloader.shared.util
 
 import androidx.datastore.core.DataStore
 import arrow.optics.Lens
-import ir.amirab.util.flow.mapTwoWayStateFlow
-import ir.amirab.util.config.MapConfig
+import ir.neo.util.flow.mapTwoWayStateFlow
+import ir.neo.util.config.MapConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking

@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.util
 
 import androidx.compose.runtime.Immutable
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 
 sealed class BrowserType(

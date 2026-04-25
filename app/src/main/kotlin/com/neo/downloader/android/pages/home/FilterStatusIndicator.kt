@@ -23,8 +23,8 @@ import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.IconSource
-import ir.amirab.util.compose.modifiers.autoMirror
+import ir.neo.util.compose.IconSource
+import ir.neo.util.compose.modifiers.autoMirror
 
 
 @Composable

@@ -9,8 +9,8 @@ import com.neo.downloader.shared.storage.ExtraDownloadSettingsStorage
 import com.neo.downloader.shared.ui.configurable.item.BooleanConfigurable
 import com.neo.downloader.shared.util.*
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.flow.mapTwoWayStateFlow
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.flow.mapTwoWayStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlin.getValue
 

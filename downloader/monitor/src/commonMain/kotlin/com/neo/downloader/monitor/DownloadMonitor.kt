@@ -4,12 +4,12 @@ import com.neo.downloader.DownloadManagerEvents
 import com.neo.downloader.downloaditem.DownloadJobStatus
 import com.neo.downloader.downloaditem.DownloadStatus
 import com.neo.downloader.utils.intervalFlow
-import ir.amirab.util.flow.saved
+import ir.neo.util.flow.saved
 import com.neo.downloader.DownloadManager
 import com.neo.downloader.downloaditem.DownloadJob
 import com.neo.downloader.downloaditem.IDownloadItem
 import com.neo.downloader.queue.ManualDownloadQueue
-import ir.amirab.util.flow.combineStateFlows
+import ir.neo.util.flow.combineStateFlows
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob

@@ -4,7 +4,7 @@ import android.app.Application
 import com.neo.downloader.android.BuildConfig
 import com.neo.downloader.shared.util.AppVersion
 import com.neo.downloader.shared.util.SharedConstants
-import ir.amirab.util.platform.Platform
+import ir.neo.util.platform.Platform
 import okio.Path.Companion.toOkioPath
 
 object AppInfo {

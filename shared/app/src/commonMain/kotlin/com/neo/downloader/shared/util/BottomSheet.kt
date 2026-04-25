@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import com.neo.downloader.shared.util.ui.widget.MPBackHandler
-import ir.amirab.util.compose.modifiers.hijackClick
-import ir.amirab.util.compose.modifiers.silentClickable
+import ir.neo.util.compose.modifiers.hijackClick
+import ir.neo.util.compose.modifiers.silentClickable
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map

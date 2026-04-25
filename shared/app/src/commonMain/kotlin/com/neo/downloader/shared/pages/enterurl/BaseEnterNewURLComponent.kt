@@ -9,8 +9,8 @@ import com.neo.downloader.shared.util.mvi.ContainsEffects
 import com.neo.downloader.shared.util.mvi.supportEffects
 import com.arkivanov.decompose.ComponentContext
 import com.neo.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.util.flow.combineStateFlows
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.flow.combineStateFlows
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

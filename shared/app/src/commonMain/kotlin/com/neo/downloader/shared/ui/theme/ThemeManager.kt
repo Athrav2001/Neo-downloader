@@ -5,11 +5,11 @@ import androidx.compose.ui.graphics.Color
 import com.neo.downloader.shared.util.ui.theme.ISystemThemeDetector
 import com.neo.downloader.shared.util.ui.MyColors
 import com.neo.downloader.resources.Res
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.flow.combineStateFlows
-import ir.amirab.util.flow.mapStateFlow
-import ir.amirab.util.guardedEntry
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.flow.combineStateFlows
+import ir.neo.util.flow.mapStateFlow
+import ir.neo.util.guardedEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*

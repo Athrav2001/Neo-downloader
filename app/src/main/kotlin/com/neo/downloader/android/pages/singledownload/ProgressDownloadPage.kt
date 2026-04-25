@@ -5,7 +5,7 @@ import androidx.compose.animation.animateContentSize
 import com.neo.downloader.shared.ui.configurable.RenderConfigurable
 import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.WithContentAlpha
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
@@ -47,9 +47,9 @@ import com.neo.downloader.downloaditem.DownloadJobStatus
 import com.neo.downloader.monitor.*
 import com.neo.downloader.part.PartDownloadStatus
 import com.neo.downloader.utils.ExceptionUtils
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 enum class SingleDownloadPageSections(
     val title: StringSource,

@@ -2,7 +2,7 @@ package com.neo.downloader.shared.ui.widget.menu.custom
 
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
-import ir.amirab.util.compose.action.MenuItem
+import ir.neo.util.compose.action.MenuItem
 import com.neo.downloader.shared.util.div
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee

@@ -24,9 +24,9 @@ import com.neo.downloader.monitor.ProcessingDownloadItemFactoryInputs
 import com.neo.downloader.monitor.ProcessingDownloadItemState
 import com.neo.downloader.monitor.RangeBasedProcessingDownloadItemState
 import com.neo.downloader.monitor.UiRangedPart
-import ir.amirab.util.HttpUrlUtils
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.HttpUrlUtils
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 

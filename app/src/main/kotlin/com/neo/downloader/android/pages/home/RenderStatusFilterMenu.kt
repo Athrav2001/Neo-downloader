@@ -27,8 +27,8 @@ import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.modifiers.hijackClick
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.modifiers.hijackClick
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun RenderStatusFilterMenu(

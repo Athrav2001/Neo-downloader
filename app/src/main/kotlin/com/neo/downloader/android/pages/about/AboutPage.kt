@@ -40,13 +40,13 @@ import com.neo.downloader.shared.ui.widget.TransparentIconActionButton
 import com.neo.downloader.shared.util.AppVersion
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.URLOpener
-import ir.amirab.util.HttpUrlUtils
-import ir.amirab.util.compose.IconSource
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.dpToPx
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.URLOpener
+import ir.neo.util.HttpUrlUtils
+import ir.neo.util.compose.IconSource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.dpToPx
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun AboutPage(

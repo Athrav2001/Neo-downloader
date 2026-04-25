@@ -6,8 +6,8 @@ import com.neo.downloader.monitor.IDownloadItemState
 import com.neo.downloader.monitor.ProcessingDownloadItemState
 import com.neo.downloader.monitor.statusOrFinished
 import com.neo.downloader.utils.ExceptionUtils
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 
 fun createStatusString(it: IDownloadItemState): StringSource {
     if (it is ProcessingDownloadItemState && it.isWaiting) {

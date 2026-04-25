@@ -62,9 +62,9 @@ import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.db.QueueModel
 import com.neo.downloader.queue.DownloadQueue
-import ir.amirab.util.compose.action.MenuItem
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.action.MenuItem
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 internal fun QueuesSection(

@@ -17,7 +17,7 @@ import com.neo.downloader.shared.ui.configurable.ConfigurableRenderer
 import com.neo.downloader.shared.ui.configurable.ConfigurableUiProps
 import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 
 object PermissionConfigurableRenderer : ConfigurableRenderer<PermissionConfigurable> {
     @Composable

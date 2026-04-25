@@ -22,8 +22,8 @@ import com.neo.downloader.shared.util.ui.LocalTextStyle
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.HttpUrlUtils
-import ir.amirab.util.ifThen
+import ir.neo.util.HttpUrlUtils
+import ir.neo.util.ifThen
 
 
 @Composable

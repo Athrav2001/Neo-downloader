@@ -50,13 +50,13 @@ import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.WithContentAlpha
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.URLOpener
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.dpToPx
-import ir.amirab.util.compose.localizationmanager.LanguageNameProvider
-import ir.amirab.util.compose.localizationmanager.MyLocale
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.ifThen
+import ir.neo.util.URLOpener
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.dpToPx
+import ir.neo.util.compose.localizationmanager.LanguageNameProvider
+import ir.neo.util.compose.localizationmanager.MyLocale
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.ifThen
 import kotlinx.serialization.json.Json
 import org.koin.core.component.get
 

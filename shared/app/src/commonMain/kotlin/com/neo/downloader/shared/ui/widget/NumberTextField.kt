@@ -2,7 +2,7 @@ package com.neo.downloader.shared.ui.widget
 
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.util.ui.WithContentAlpha
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 
 private val DefaultShape
     @Composable

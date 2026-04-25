@@ -23,15 +23,15 @@ import com.neo.downloader.shared.ui.widget.MyTextFieldIcon
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.ui.widget.*
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.util.div
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.IconSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.IconSource
+import ir.neo.util.compose.resources.myStringResource
 import com.neo.downloader.shared.util.ResponsiveDialogScope
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 import java.io.File
 @Composable
 fun CategorySheet(

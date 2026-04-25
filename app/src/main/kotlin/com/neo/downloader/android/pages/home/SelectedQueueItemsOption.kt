@@ -12,7 +12,7 @@ import com.neo.downloader.shared.ui.widget.IconActionButton
 import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.ui.widget.TransparentIconActionButton
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 
 @Immutable
 data class QueueSelectedItemsMenuProps(

@@ -5,7 +5,7 @@ import com.neo.downloader.shared.ui.configurable.ConfigurableGroup
 import com.neo.downloader.shared.ui.theme.ThemeManager
 import com.neo.downloader.shared.util.BaseComponent
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.compose.localizationmanager.LanguageManager
+import ir.neo.util.compose.localizationmanager.LanguageManager
 
 class InitialSetupComponent(
     ctx: ComponentContext,

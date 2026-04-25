@@ -14,7 +14,7 @@ import com.neo.downloader.shared.util.mvi.supportEffects
 import com.arkivanov.decompose.ComponentContext
 import com.neo.downloader.downloaditem.DownloadStatus
 import com.neo.downloader.downloaditem.IDownloadItem
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn

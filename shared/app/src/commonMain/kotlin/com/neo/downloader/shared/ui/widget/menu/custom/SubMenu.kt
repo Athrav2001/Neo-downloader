@@ -45,9 +45,9 @@ import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.action.MenuItem
-import ir.amirab.util.compose.modifiers.autoMirror
-import ir.amirab.util.ifThen
+import ir.neo.util.compose.action.MenuItem
+import ir.neo.util.compose.modifiers.autoMirror
+import ir.neo.util.ifThen
 
 enum class MenuDisabledItemBehavior {
     Filter,

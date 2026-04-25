@@ -12,9 +12,9 @@ import com.neo.downloader.utils.DuplicateFilterByPath
 import com.neo.downloader.utils.EmptyFileCreator
 import com.neo.downloader.utils.FileNameUtil
 import com.neo.downloader.utils.OnDuplicateStrategy.*
-import ir.amirab.util.FileNameValidator
-import ir.amirab.util.PathValidator
-import ir.amirab.util.suspendGuardedEntry
+import ir.neo.util.FileNameValidator
+import ir.neo.util.PathValidator
+import ir.neo.util.suspendGuardedEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async

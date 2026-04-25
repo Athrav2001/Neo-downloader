@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.singledownloadpage
 
 import androidx.compose.runtime.Immutable
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 
 @Immutable
 data class SingleDownloadPagePropertyItem(

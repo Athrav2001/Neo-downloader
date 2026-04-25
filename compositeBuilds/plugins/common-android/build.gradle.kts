@@ -6,7 +6,7 @@ repositories {
     google()
 }
 version = 1
-group = "ir.amirab.plugin"
+group = "ir.neo.plugin"
 dependencies {
     implementation(libs.pluginAndroidGradle)
     implementation(libs.handlebarsJava)

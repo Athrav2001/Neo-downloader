@@ -8,7 +8,7 @@ import com.neo.downloader.destination.DestWriter
 import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 import com.neo.downloader.part.MediaSegment
 import com.neo.downloader.part.PartDownloader
-import ir.amirab.util.HttpUrlUtils
+import ir.neo.util.HttpUrlUtils
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
 import okio.Throttler

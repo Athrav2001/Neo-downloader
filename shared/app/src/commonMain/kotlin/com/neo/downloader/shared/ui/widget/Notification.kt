@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.shared.util.ui.theme.myShapes
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

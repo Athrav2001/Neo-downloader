@@ -5,8 +5,8 @@ import androidx.compose.runtime.remember
 import com.neo.downloader.shared.util.LocalSizeUnit
 import com.neo.downloader.shared.util.convertDurationToHumanReadable
 import com.neo.downloader.shared.util.convertPositiveSizeToHumanReadable
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.datasize.ConvertSizeConfig
+import ir.neo.util.compose.StringSource
+import ir.neo.util.datasize.ConvertSizeConfig
 
 sealed class DownloadSize : Comparable<DownloadSize> {
     abstract fun comparePriority(): Int

@@ -4,7 +4,7 @@ import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.util.div
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState

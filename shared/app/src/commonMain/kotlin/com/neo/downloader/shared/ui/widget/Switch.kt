@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.ui.widget
 
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.util.div
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background

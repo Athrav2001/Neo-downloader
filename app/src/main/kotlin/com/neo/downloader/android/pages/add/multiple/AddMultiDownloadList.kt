@@ -38,8 +38,8 @@ import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.ifThen
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.ifThen
 
 @Composable
 fun AddMultiDownloadList(

@@ -23,7 +23,7 @@ import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.WithContentColor
 import com.neo.downloader.shared.util.ui.theme.myShapes
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 import kotlinx.coroutines.delay
 
 private const val TooltipDelay = 500L

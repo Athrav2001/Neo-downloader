@@ -5,8 +5,8 @@ import com.neo.downloader.connection.response.headers.getContentRange
 import com.neo.downloader.connection.response.headers.extractFileNameFromContentDisposition
 import com.neo.downloader.exception.UnSuccessfulResponseException
 import com.neo.downloader.utils.FileNameUtil
-import ir.amirab.util.HttpUrlUtils
-import ir.amirab.util.ifThen
+import ir.neo.util.HttpUrlUtils
+import ir.neo.util.ifThen
 
 data class HttpResponseInfo(
     val statusCode: Int,

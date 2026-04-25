@@ -20,9 +20,9 @@ import com.neo.downloader.downloaditem.hls.HLSResponseInfo
 import com.neo.downloader.downloaditem.hls.IHLSCredentials
 import com.neo.downloader.monitor.ProcessingDownloadItemFactoryInputs
 import com.neo.downloader.monitor.ProcessingDownloadItemState
-import ir.amirab.util.HttpUrlUtils
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.HttpUrlUtils
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 

@@ -15,7 +15,7 @@ import com.neo.downloader.monitor.CompletedDownloadItemState
 import com.neo.downloader.monitor.DownloadItemStateFactory
 import com.neo.downloader.monitor.ProcessingDownloadItemFactoryInputs
 import com.neo.downloader.monitor.ProcessingDownloadItemState
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 import kotlinx.coroutines.CoroutineScope
 
 /**

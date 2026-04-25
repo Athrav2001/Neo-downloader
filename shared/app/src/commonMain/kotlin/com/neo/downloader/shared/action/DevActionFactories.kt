@@ -3,10 +3,10 @@ package com.neo.downloader.shared.action
 import com.neo.downloader.shared.pagemanager.NotificationSender
 import com.neo.downloader.shared.ui.widget.MessageDialogType
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.util.compose.action.AnAction
-import ir.amirab.util.compose.action.MenuItem
-import ir.amirab.util.compose.action.simpleAction
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.action.AnAction
+import ir.neo.util.compose.action.MenuItem
+import ir.neo.util.compose.action.simpleAction
+import ir.neo.util.compose.asStringSource
 
 
 fun createDummyExceptionAction(): AnAction {

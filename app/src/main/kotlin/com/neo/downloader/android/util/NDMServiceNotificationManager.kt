@@ -23,7 +23,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.neo.downloader.android.ui.MainActivity
 import com.neo.downloader.resources.Res
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 import com.neo.downloader.android.R
 import com.neo.downloader.android.pages.singledownload.SingleDownloadPageActivity
 import com.neo.downloader.android.service.KeepAliveServiceReason
@@ -184,9 +184,7 @@ class NDMServiceNotificationManager(
             0, exit, PendingIntent.getBroadcast(
                 context,
                 AndroidConstants.SERVICE_NOTIFICATION_ID,
-                Intent(AndroidConstants.Intents.EXIT_ACTION).apply {
-                    setClassName(context.packageName, "com.neo.downloader.android.util.NDMAppManager")
-                },
+                Intent(AndroidConstants.Intents.EXIT_ACTION),
                 flagOfPendingIntent,
             )
         )
@@ -194,9 +192,7 @@ class NDMServiceNotificationManager(
             0, stopAll, PendingIntent.getBroadcast(
                 context,
                 AndroidConstants.SERVICE_NOTIFICATION_ID,
-                Intent(AndroidConstants.Intents.STOP_ALL_ACTION).apply {
-                    setClassName(context.packageName, "com.neo.downloader.android.util.NDMAppManager")
-                },
+                Intent(AndroidConstants.Intents.STOP_ALL_ACTION),
                 flagOfPendingIntent,
             )
         )

@@ -20,8 +20,8 @@ import com.neo.downloader.shared.ui.widget.ProvideNotificationManager
 import com.neo.downloader.shared.util.PopUpContainer
 import com.neo.downloader.shared.util.ResponsiveBox
 import com.neo.downloader.shared.util.ui.ProvideDebugInfo
-import ir.amirab.util.compose.IIconResolver
-import ir.amirab.util.compose.localizationmanager.LanguageManager
+import ir.neo.util.compose.IIconResolver
+import ir.neo.util.compose.localizationmanager.LanguageManager
 import kotlin.collections.component1
 import kotlin.collections.component2
 

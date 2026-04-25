@@ -2,7 +2,7 @@ package com.neo.downloader.shared.util
 
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import ir.amirab.util.startup.AbstractStartupManager
+import ir.neo.util.startup.AbstractStartupManager
 
 object AutoStartManager : KoinComponent {
     private val startManager by inject<AbstractStartupManager>()

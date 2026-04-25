@@ -8,7 +8,7 @@ import android.os.PowerManager
 import androidx.annotation.RequiresApi
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 
 object NDMPermissions {
     private fun getReadRightStorage(): AppPermission {

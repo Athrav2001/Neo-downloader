@@ -34,9 +34,9 @@ import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.layout.RelativeAlignment
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.layout.RelativeAlignment
 
 @Composable
 fun StartUpPageTemplate(

@@ -19,7 +19,7 @@ import com.neo.downloader.shared.util.OnFullyDismissed
 import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.ResponsiveDialogScope
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun QueueConfigSheet(

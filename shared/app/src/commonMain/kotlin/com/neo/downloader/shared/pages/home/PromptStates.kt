@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.neo.downloader.shared.util.category.Category
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 
 @Stable
 class DeletePromptState(

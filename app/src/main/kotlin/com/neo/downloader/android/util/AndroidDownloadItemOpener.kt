@@ -3,7 +3,7 @@ package com.neo.downloader.android.util
 import com.neo.downloader.shared.util.DownloadItemOpener
 import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.downloaditem.IDownloadItem
-import ir.amirab.util.osfileutil.FileUtils
+import ir.neo.util.osfileutil.FileUtils
 import java.io.File
 
 class AndroidDownloadItemOpener(

@@ -13,10 +13,10 @@ import com.neo.downloader.monitor.CompletedDownloadItemState
 import com.neo.downloader.monitor.IDownloadItemState
 import com.neo.downloader.monitor.statusOrFinished
 import com.neo.downloader.queue.QueueManager
-import ir.amirab.util.compose.action.buildMenu
-import ir.amirab.util.compose.action.simpleAction
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.compose.action.buildMenu
+import ir.neo.util.compose.action.simpleAction
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

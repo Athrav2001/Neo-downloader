@@ -4,10 +4,10 @@ import com.neo.downloader.android.pages.browser.adblock.AdBlockFiltersManager
 import com.neo.downloader.android.pages.browser.adblock.AdBlockFilterSource
 import com.neo.downloader.shared.util.BaseComponent
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.compose.action.MenuItem
-import ir.amirab.util.compose.action.buildMenu
-import ir.amirab.util.compose.action.simpleAction
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.action.MenuItem
+import ir.neo.util.compose.action.buildMenu
+import ir.neo.util.compose.action.simpleAction
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

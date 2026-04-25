@@ -1,8 +1,8 @@
 package com.neo.downloader.android.util
 
 import com.neo.downloader.shared.ui.theme.ThemeManager
-import ir.amirab.util.compose.localizationmanager.LanguageManager
-import ir.amirab.util.guardedEntry
+import ir.neo.util.compose.localizationmanager.LanguageManager
+import ir.neo.util.guardedEntry
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

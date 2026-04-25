@@ -27,7 +27,7 @@ import com.arkivanov.decompose.router.slot.dismiss
 import com.neo.downloader.downloaditem.DownloadJobExtraConfig
 import com.neo.downloader.downloaditem.IDownloadCredentials
 import com.neo.downloader.queue.QueueManager
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

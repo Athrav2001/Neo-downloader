@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.ui.widget.sort
 
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 
 fun <ITEM, TComparatorProvider : ComparatorProvider<ITEM>> Sort<TComparatorProvider>.sorted(
     list: List<ITEM>

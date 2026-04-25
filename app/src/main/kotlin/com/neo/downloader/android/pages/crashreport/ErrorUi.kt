@@ -26,7 +26,7 @@ import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun ErrorWindow(

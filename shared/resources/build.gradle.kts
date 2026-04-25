@@ -11,7 +11,7 @@ val propertiesToKotlinTask by tasks.registering(PropertiesToKotlinTask::class) {
     outputDir.set(file("build/tasks/propertiesToKotlinTask"))
     generatedFileName.set("String.kt")
     packageName.set(ourPackageName)
-    myStringResourceClass.set("ir.amirab.resources.contracts.MyStringResource")
+    myStringResourceClass.set("ir.neo.resources.contracts.MyStringResource")
     propertyFiles.from("src/commonMain/resources/com/neo/downloader/resources/locales/en_US.properties")
 }
 val generateResourceMap by tasks.registering(GenerateResourceMap::class) {

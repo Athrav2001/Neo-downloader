@@ -1,6 +1,6 @@
 package com.neo.downloader.shared.util.ui
 
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 
 interface IMyIcons {
     val appIcon: IconSource

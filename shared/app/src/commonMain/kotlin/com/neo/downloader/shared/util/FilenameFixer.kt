@@ -1,8 +1,8 @@
 package com.neo.downloader.shared.util
 
-import ir.amirab.util.ifThen
-import ir.amirab.util.platform.Platform
-import ir.amirab.util.platform.isWindows
+import ir.neo.util.ifThen
+import ir.neo.util.platform.Platform
+import ir.neo.util.platform.isWindows
 
 /**
  * This utility class removes characters that are not supported by the current OS.

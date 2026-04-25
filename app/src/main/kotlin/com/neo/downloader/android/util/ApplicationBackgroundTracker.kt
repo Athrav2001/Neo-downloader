@@ -3,7 +3,7 @@ package com.neo.downloader.android.util
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 

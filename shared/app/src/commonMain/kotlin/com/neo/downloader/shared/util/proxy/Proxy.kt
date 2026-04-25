@@ -1,8 +1,8 @@
 package com.neo.downloader.shared.util.proxy
 
 import com.neo.downloader.connection.proxy.Proxy
-import ir.amirab.util.platform.Platform
-import ir.amirab.util.platform.isAndroid
+import ir.neo.util.platform.Platform
+import ir.neo.util.platform.isAndroid
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

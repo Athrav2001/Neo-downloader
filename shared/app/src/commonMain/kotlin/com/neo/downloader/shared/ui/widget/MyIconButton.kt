@@ -1,9 +1,9 @@
 package com.neo.downloader.shared.ui.widget
 
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.util.div
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.LocalIndication
@@ -32,8 +32,8 @@ import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.WithContentColor
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.modifiers.autoMirror
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.modifiers.autoMirror
 
 @Composable
 fun alphaFlicker(): Float {

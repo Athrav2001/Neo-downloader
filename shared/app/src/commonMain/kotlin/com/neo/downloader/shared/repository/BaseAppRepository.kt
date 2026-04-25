@@ -11,9 +11,9 @@ import com.neo.downloader.shared.util.proxy.ProxyManager
 import com.neo.downloader.DownloadManager
 import com.neo.downloader.DownloadSettings
 import com.neo.downloader.monitor.IDownloadMonitor
-import ir.amirab.util.datasize.ConvertSizeConfig
-import ir.amirab.util.flow.mapStateFlow
-import ir.amirab.util.flow.withPrevious
+import ir.neo.util.datasize.ConvertSizeConfig
+import ir.neo.util.flow.mapStateFlow
+import ir.neo.util.flow.withPrevious
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn

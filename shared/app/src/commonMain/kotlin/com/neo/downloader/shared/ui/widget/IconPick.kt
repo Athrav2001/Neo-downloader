@@ -19,12 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.ui.widget.menu.custom.MyDropDown
 import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 
 @Composable
 fun IconPick(

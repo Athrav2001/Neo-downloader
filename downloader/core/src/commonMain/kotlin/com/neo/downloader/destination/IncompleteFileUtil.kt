@@ -1,7 +1,7 @@
 package com.neo.downloader.destination
 
-import ir.amirab.util.platform.Platform
-import ir.amirab.util.platform.isWindows
+import ir.neo.util.platform.Platform
+import ir.neo.util.platform.isWindows
 import java.io.File
 
 object IncompleteFileUtil {

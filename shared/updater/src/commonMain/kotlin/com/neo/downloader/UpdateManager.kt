@@ -3,7 +3,7 @@ package com.neo.downloader
 import com.neo.downloader.updateapplier.UpdateApplier
 import com.neo.downloader.updatechecker.UpdateChecker
 import com.neo.downloader.updatechecker.UpdateInfo
-import ir.amirab.util.AppVersionTracker
+import ir.neo.util.AppVersionTracker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

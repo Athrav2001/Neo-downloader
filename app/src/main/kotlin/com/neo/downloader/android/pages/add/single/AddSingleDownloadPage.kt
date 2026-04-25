@@ -26,7 +26,7 @@ import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.mvi.HandleEffects
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 
 
 import com.neo.downloader.shared.util.ui.WithContentAlpha
@@ -49,7 +49,7 @@ import com.neo.downloader.shared.util.ResponsiveDialogScope
 import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.utils.OnDuplicateStrategy
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 
 @Composable
 fun ResponsiveDialogScope.AddSingleDownloadPage(

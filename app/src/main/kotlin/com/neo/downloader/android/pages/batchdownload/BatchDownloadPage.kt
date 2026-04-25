@@ -29,9 +29,9 @@ import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.VerticalScrollableContent
 import com.neo.downloader.shared.util.ui.theme.myShapes
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 
 @Composable
 fun BatchDownloadSheet(

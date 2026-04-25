@@ -35,8 +35,8 @@ import com.neo.downloader.shared.ui.widget.TransparentIconActionButton
 import com.neo.downloader.shared.util.ui.VerticalScrollableContent
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 
 @Composable

@@ -25,7 +25,7 @@ import com.neo.downloader.shared.ui.widget.MyTextField
 import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.util.FileChecksum
 import com.neo.downloader.shared.util.FileChecksumAlgorithm
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 
 object FileChecksumConfigurableRenderer : ConfigurableRenderer<FileChecksumConfigurable> {
     @Composable

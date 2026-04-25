@@ -6,9 +6,9 @@ import com.neo.downloader.shared.util.DownloadSystem
 import com.neo.downloader.connection.IResponseInfo
 import com.neo.downloader.downloaditem.IDownloadCredentials
 import com.neo.downloader.utils.DuplicateFilterByPath
-import ir.amirab.util.FileNameValidator
-import ir.amirab.util.osfileutil.FileUtils
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.FileNameValidator
+import ir.neo.util.osfileutil.FileUtils
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import java.io.File

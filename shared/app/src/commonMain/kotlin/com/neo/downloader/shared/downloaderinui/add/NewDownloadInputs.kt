@@ -10,9 +10,9 @@ import com.neo.downloader.connection.IResponseInfo
 import com.neo.downloader.downloaditem.DownloadJobExtraConfig
 import com.neo.downloader.downloaditem.IDownloadCredentials
 import com.neo.downloader.downloaditem.IDownloadItem
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 

@@ -1,9 +1,9 @@
 package buildlogic
 
 import io.github.z4kn4fein.semver.Version
-import ir.amirab.installer.InstallerTargetFormat
-import ir.amirab.util.platform.Arch
-import ir.amirab.util.platform.Platform
+import ir.neo.installer.InstallerTargetFormat
+import ir.neo.util.platform.Arch
+import ir.neo.util.platform.Platform
 import org.gradle.api.Project
 import java.io.File
 

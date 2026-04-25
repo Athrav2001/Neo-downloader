@@ -3,7 +3,7 @@ package com.neo.downloader.android.pages.editdownload
 import androidx.compose.runtime.Composable
 
 import com.neo.downloader.shared.util.ui.WithContentAlpha
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
@@ -29,7 +29,7 @@ import com.neo.downloader.android.ui.SheetHeader
 import com.neo.downloader.android.ui.SheetTitle
 import com.neo.downloader.android.ui.SheetUI
 import com.neo.downloader.shared.ui.widget.*
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.downloaderinui.edit.CanEditDownloadResult
 import com.neo.downloader.shared.downloaderinui.edit.CanEditWarnings
@@ -45,9 +45,9 @@ import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.URLOpener
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.URLOpener
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.compose.asStringSource
 
 @Composable
 fun EditDownloadSheet(

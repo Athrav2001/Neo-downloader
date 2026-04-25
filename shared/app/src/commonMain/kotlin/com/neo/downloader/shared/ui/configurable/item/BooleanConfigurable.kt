@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.ui.configurable.item
 
 import com.neo.downloader.shared.ui.configurable.Configurable
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

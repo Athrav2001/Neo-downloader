@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.util.category
 
 import com.neo.downloader.shared.util.ui.IMyIcons
-import ir.amirab.util.compose.IconSource
+import ir.neo.util.compose.IconSource
 import java.io.File
 
 class DefaultCategories(

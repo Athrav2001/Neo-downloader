@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.os.Environment
 import androidx.activity.result.contract.ActivityResultContract
 import com.neo.downloader.android.util.activity.NDMActivity
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 import okio.Path
 import okio.Path.Companion.toPath
 

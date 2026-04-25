@@ -20,10 +20,10 @@ import com.neo.downloader.connection.response.HttpResponseInfo
 import com.neo.downloader.downloaditem.DownloadJobExtraConfig
 import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
 import com.neo.downloader.downloaditem.http.HttpDownloadItem
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.asStringSourceWithARgs
-import ir.amirab.util.flow.mapTwoWayStateFlow
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.asStringSourceWithARgs
+import ir.neo.util.flow.mapTwoWayStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn

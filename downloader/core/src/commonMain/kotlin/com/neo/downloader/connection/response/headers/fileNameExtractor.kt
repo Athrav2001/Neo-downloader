@@ -1,6 +1,6 @@
 package com.neo.downloader.connection.response.headers
 
-import ir.amirab.util.FilenameDecoder
+import ir.neo.util.FilenameDecoder
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 

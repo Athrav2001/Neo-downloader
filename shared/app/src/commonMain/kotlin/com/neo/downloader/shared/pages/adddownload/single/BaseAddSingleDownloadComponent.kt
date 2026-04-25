@@ -14,7 +14,7 @@ import com.neo.downloader.downloaditem.DownloadStatus
 import com.neo.downloader.queue.QueueManager
 import com.neo.downloader.utils.OnDuplicateStrategy
 import com.neo.downloader.utils.orDefault
-import ir.amirab.util.flow.*
+import ir.neo.util.flow.*
 import kotlinx.coroutines.flow.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -34,7 +34,7 @@ import com.neo.downloader.downloaditem.DownloadJobExtraConfig
 import com.neo.downloader.downloaditem.EmptyContext
 import com.neo.downloader.downloaditem.IDownloadCredentials
 import com.neo.downloader.queue.DefaultQueueInfo
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.select
 import org.koin.core.component.inject

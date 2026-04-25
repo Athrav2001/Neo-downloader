@@ -15,8 +15,8 @@ import com.neo.downloader.shared.util.ResponsiveDialog
 import com.neo.downloader.shared.util.ResponsiveDialogScope
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.icon.MyIcons
-import ir.amirab.util.compose.action.MenuItem
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.action.MenuItem
+import ir.neo.util.compose.asStringSource
 
 @Composable
 private fun ResponsiveDialogScope.RenderMenuInSheetUi(

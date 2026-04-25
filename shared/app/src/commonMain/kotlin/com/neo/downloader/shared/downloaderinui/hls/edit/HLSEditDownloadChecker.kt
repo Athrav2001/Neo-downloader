@@ -9,8 +9,8 @@ import com.neo.downloader.shared.downloaderinui.hls.HLSLinkChecker
 import com.neo.downloader.downloaditem.hls.HLSResponseInfo
 import com.neo.downloader.shared.downloaderinui.http.edit.EditDownloadChecker
 import com.neo.downloader.downloaditem.hls.HLSDownloadItem
-import ir.amirab.util.FileNameValidator
-import ir.amirab.util.HttpUrlUtils
+import ir.neo.util.FileNameValidator
+import ir.neo.util.HttpUrlUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn

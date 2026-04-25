@@ -89,9 +89,9 @@ import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.ifThen
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.ifThen
 import java.net.URI
 import java.util.Locale
 

@@ -14,8 +14,8 @@ import com.neo.downloader.exception.DownloadValidationException
 import com.neo.downloader.exception.TooManyErrorException
 import com.neo.downloader.part.*
 import com.neo.downloader.utils.*
-import ir.amirab.util.tryAtomicMove
-import ir.amirab.util.tryLocked
+import ir.neo.util.tryAtomicMove
+import ir.neo.util.tryLocked
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

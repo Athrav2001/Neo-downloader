@@ -4,7 +4,7 @@ import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.downloaditem.DownloadStatus
 import com.neo.downloader.monitor.IDownloadItemState
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 
 object DefinedStatusCategories {
     fun values() = listOf(All, Finished, Unfinished)

@@ -106,24 +106,7 @@ buildConfig {
             "https://neo.downloader.com"
         }
     )
-    buildConfigField(
-        "PROJECT_SOURCE_CODE",
-        provider {
-            "https://github.com/amir1376/neo-downloader"
-        }
-    )
-    buildConfigField(
-        "DONATE_LINK",
-        provider {
-            "https://github.com/amir1376/neo-downloader/blob/master/DONATE.md"
-        }
-    )
-    buildConfigField(
-        "PROJECT_GITHUB_OWNER",
-        provider {
-            "amir1376"
-        }
-    )
+    
     buildConfigField(
         "PROJECT_GITHUB_REPO",
         provider {

@@ -14,7 +14,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.window.Popup
 import com.neo.downloader.shared.ui.widget.rememberMyPopupPositionProviderAtPosition
-import ir.amirab.util.compose.action.MenuItem
+import ir.neo.util.compose.action.MenuItem
 
 @Composable
 @OptIn(ExperimentalComposeUiApi::class)

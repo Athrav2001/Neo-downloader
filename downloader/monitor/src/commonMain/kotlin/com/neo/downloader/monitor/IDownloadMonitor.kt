@@ -1,7 +1,7 @@
 package com.neo.downloader.monitor
 
 import com.neo.downloader.downloaditem.DownloadJobStatus
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface IDownloadMonitor {

@@ -19,7 +19,7 @@ import com.neo.downloader.shared.util.FileIconProvider
 import com.neo.downloader.shared.util.ui.WithContentAlpha
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.monitor.IDownloadItemState
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 
 
 @Composable

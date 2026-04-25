@@ -1,6 +1,6 @@
 package com.neo.downloader.resources
 
-import ir.amirab.resources.contracts.MyLanguageResource
+import ir.neo.resources.contracts.MyLanguageResource
 import okio.FileSystem
 import okio.Path.Companion.toPath
 

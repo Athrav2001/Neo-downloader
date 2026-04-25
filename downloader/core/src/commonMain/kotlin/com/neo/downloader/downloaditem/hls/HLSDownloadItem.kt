@@ -6,7 +6,7 @@ import com.neo.downloader.downloaditem.DownloadStatus
 import com.neo.downloader.downloaditem.IDownloadCredentials
 import com.neo.downloader.downloaditem.IDownloadItem
 import com.neo.downloader.downloaditem.http.IHttpBasedDownloadCredentials
-import ir.amirab.util.HttpUrlUtils
+import ir.neo.util.HttpUrlUtils
 import kotlinx.serialization.Serializable
 @Serializable
 data class HLSDownloadItem(

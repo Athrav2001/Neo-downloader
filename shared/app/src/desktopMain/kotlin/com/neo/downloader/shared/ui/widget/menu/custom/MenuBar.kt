@@ -2,8 +2,8 @@ package com.neo.downloader.shared.ui.widget.menu.custom
 
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
-import ir.amirab.util.ifThen
-import ir.amirab.util.compose.action.MenuItem
+import ir.neo.util.ifThen
+import ir.neo.util.compose.action.MenuItem
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState

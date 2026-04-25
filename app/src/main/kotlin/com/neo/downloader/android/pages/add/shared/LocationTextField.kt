@@ -24,8 +24,8 @@ import com.neo.downloader.android.pages.directorypicker.rememberAndroidDirectory
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.compose.asStringSource
 import java.io.File
 
 @Composable

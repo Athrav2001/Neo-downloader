@@ -73,9 +73,9 @@ import com.arkivanov.decompose.router.stack.pushToFront
 import com.neo.downloader.monitor.isDownloadActiveFlow
 import com.neo.downloader.queue.DefaultQueueInfo
 import com.neo.downloader.queue.QueueManager
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.localizationmanager.LanguageManager
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.localizationmanager.LanguageManager
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

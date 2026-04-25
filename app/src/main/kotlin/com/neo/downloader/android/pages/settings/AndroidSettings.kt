@@ -7,7 +7,7 @@ import com.neo.downloader.android.util.pagemanager.PermissionsPageManager
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.ui.configurable.item.BooleanConfigurable
 import com.neo.downloader.shared.ui.configurable.item.NavigatableConfigurable
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.flow.MutableStateFlow
 
 

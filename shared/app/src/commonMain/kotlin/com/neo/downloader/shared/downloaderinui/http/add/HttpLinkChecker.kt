@@ -6,7 +6,7 @@ import com.neo.downloader.shared.downloaderinui.LinkChecker
 import com.neo.downloader.connection.HttpDownloaderClient
 import com.neo.downloader.connection.response.HttpResponseInfo
 import com.neo.downloader.downloaditem.http.HttpDownloadCredentials
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

@@ -10,9 +10,9 @@ import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.ui.widget.NotificationType
 import com.neo.downloader.shared.ui.widget.ShowNotification
 import com.neo.downloader.shared.util.mvi.HandleEffects
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.StringSource.*
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.StringSource.*
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

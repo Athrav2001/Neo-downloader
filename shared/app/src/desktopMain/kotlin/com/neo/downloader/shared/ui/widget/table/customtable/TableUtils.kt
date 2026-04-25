@@ -27,9 +27,9 @@ import com.neo.downloader.shared.ui.widget.sort.Sort
 import com.neo.downloader.shared.ui.widget.sort.SortIndicatorMode
 import com.neo.downloader.shared.ui.widget.sort.sorted
 import com.neo.downloader.shared.ui.widget.sort.toSortIndicatorMode
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.flow.mapStateFlow
-import ir.amirab.util.swapped
+import ir.neo.util.compose.StringSource
+import ir.neo.util.flow.mapStateFlow
+import ir.neo.util.swapped
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.merge

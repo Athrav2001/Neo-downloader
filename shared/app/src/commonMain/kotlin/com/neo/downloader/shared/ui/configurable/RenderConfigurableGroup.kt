@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.shared.util.ui.theme.myShapes
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 
 @Composable
 fun RenderConfigurableGroup(

@@ -21,7 +21,7 @@ kotlin {
             api(libs.kotlin.datetime)
             api(libs.semver)
             api(libs.arrow.optics)
-            api("ir.amirab.util:platform:1")
+            api("ir.neo.util:platform:1")
         }
         val desktopMain by getting
         desktopMain.dependencies {
@@ -35,7 +35,7 @@ kotlin {
 }
 android {
     compileSdk = 36
-    namespace = "ir.amirab.util"
+    namespace = "ir.neo.util"
     defaultConfig {
         minSdk = 26
     }

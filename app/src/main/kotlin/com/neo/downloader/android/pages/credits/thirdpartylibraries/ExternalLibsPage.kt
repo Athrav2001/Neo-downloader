@@ -40,10 +40,10 @@ import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.dpToPx
-import ir.amirab.util.compose.resources.myStringResource
-import ir.amirab.util.ifThen
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.dpToPx
+import ir.neo.util.compose.resources.myStringResource
+import ir.neo.util.ifThen
 
 
 @Composable

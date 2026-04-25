@@ -3,7 +3,7 @@ package com.neo.downloader.downloaditem
 import com.neo.downloader.DownloadManager
 import com.neo.downloader.destination.DownloadDestination
 import com.neo.downloader.utils.ExceptionUtils
-import ir.amirab.util.suspendGuardedEntry
+import ir.neo.util.suspendGuardedEntry
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -2,9 +2,9 @@ package com.neo.downloader.shared.downloaderinui.edit
 
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.convertDurationToHumanReadable
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.asStringSourceWithARgs
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.asStringSourceWithARgs
 
 sealed interface CanEditWarnings {
     fun asStringSource(): StringSource

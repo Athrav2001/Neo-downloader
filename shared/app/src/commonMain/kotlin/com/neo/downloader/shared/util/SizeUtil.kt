@@ -1,17 +1,17 @@
 package com.neo.downloader.shared.util
 
-import ir.amirab.util.datasize.CommonSizeConvertConfigs
-import ir.amirab.util.datasize.ConvertSizeConfig
-import ir.amirab.util.datasize.SizeWithUnit
+import ir.neo.util.datasize.CommonSizeConvertConfigs
+import ir.neo.util.datasize.ConvertSizeConfig
+import ir.neo.util.datasize.SizeWithUnit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import com.neo.downloader.resources.Res
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.datasize.*
-import ir.amirab.util.datasize.SizeWithUnit.Companion.DefaultFormat
-import ir.amirab.util.datasize.SizeWithUnit.Companion.SmallFormat
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.datasize.*
+import ir.neo.util.datasize.SizeWithUnit.Companion.DefaultFormat
+import ir.neo.util.datasize.SizeWithUnit.Companion.SmallFormat
 import java.text.NumberFormat
 
 val LocalSpeedUnit = compositionLocalOf {

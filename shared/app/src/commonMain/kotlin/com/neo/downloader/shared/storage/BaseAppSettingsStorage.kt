@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.storage
 
 import com.neo.downloader.shared.ui.theme.ThemeSettingsStorage
-import ir.amirab.util.compose.localizationmanager.LanguageStorage
+import ir.neo.util.compose.localizationmanager.LanguageStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 
 interface IAppSettingsModel {

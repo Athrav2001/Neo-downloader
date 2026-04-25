@@ -27,8 +27,8 @@ import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsManager
 import com.neo.downloader.shared.util.ui.MyColors
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.retainedComponent
-import ir.amirab.util.compose.IIconResolver
-import ir.amirab.util.compose.localizationmanager.LanguageManager
+import ir.neo.util.compose.IIconResolver
+import ir.neo.util.compose.localizationmanager.LanguageManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent

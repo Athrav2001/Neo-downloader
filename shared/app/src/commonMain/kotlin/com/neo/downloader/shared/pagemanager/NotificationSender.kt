@@ -2,7 +2,7 @@ package com.neo.downloader.shared.pagemanager
 
 import com.neo.downloader.shared.ui.widget.MessageDialogType
 import com.neo.downloader.shared.ui.widget.NotificationType
-import ir.amirab.util.compose.StringSource
+import ir.neo.util.compose.StringSource
 
 interface NotificationSender {
     fun sendDialogNotification(title: StringSource, description: StringSource, type: MessageDialogType)

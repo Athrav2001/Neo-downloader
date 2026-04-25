@@ -3,7 +3,7 @@ package com.neo.downloader.downloaditem.hls
 import arrow.core.Option
 import arrow.core.getOrElse
 import com.neo.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.util.HttpUrlUtils
+import ir.neo.util.HttpUrlUtils
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

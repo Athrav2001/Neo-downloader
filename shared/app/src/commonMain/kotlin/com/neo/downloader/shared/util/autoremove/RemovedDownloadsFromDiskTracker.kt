@@ -6,11 +6,11 @@ import io.github.irgaly.kfswatch.KfsEvent
 import com.neo.downloader.downloaditem.contexts.CanPerformRemove
 import com.neo.downloader.downloaditem.contexts.RemovedBy
 import com.neo.downloader.monitor.*
-import ir.amirab.util.flow.withPrevious
-import ir.amirab.util.ifThen
-import ir.amirab.util.osfileutil.FileUtils
-import ir.amirab.util.platform.Platform
-import ir.amirab.util.platform.isWindows
+import ir.neo.util.flow.withPrevious
+import ir.neo.util.ifThen
+import ir.neo.util.osfileutil.FileUtils
+import ir.neo.util.platform.Platform
+import ir.neo.util.platform.isWindows
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File

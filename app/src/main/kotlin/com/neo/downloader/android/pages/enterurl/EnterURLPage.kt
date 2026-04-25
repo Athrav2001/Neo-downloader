@@ -50,8 +50,8 @@ import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun ResponsiveDialogScope.EnterNewURLPage(

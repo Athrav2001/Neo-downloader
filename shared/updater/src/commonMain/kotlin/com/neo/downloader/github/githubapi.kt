@@ -1,6 +1,6 @@
 package com.neo.downloader.github
 
-import ir.amirab.util.await
+import ir.neo.util.await
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

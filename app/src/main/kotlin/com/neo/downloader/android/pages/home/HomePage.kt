@@ -67,8 +67,8 @@ import com.neo.downloader.shared.util.rememberChild
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.myColors
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.modifiers.silentClickable
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.modifiers.silentClickable
 import kotlinx.coroutines.launch
 
 

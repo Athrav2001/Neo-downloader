@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.MyDateAndTimeFormats
 import com.neo.downloader.db.QueueModel
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.asStringSource
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
 import kotlinx.datetime.toLocalDateTime

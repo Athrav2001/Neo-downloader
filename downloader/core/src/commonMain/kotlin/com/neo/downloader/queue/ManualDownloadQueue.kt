@@ -7,8 +7,8 @@ import com.neo.downloader.downloaditem.contexts.StoppedBy
 import com.neo.downloader.downloaditem.contexts.User
 import com.neo.downloader.utils.swap
 import com.neo.downloader.utils.swapped
-import ir.amirab.util.coroutines.debounce
-import ir.amirab.util.guardedEntry
+import ir.neo.util.coroutines.debounce
+import ir.neo.util.guardedEntry
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.util.Collections

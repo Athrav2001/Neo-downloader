@@ -11,8 +11,8 @@ import com.neo.downloader.shared.ui.configurable.ConfigurableGroup
 import com.neo.downloader.shared.ui.theme.ThemeManager
 import com.neo.downloader.shared.util.proxy.ProxyManager
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.compose.localizationmanager.LanguageManager
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.compose.localizationmanager.LanguageManager
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.component.KoinComponent

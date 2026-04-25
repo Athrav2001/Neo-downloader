@@ -3,10 +3,10 @@ package com.neo.downloader.shared.util.category
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
-import ir.amirab.util.compose.IIconResolver
-import ir.amirab.util.compose.IconSource
-import ir.amirab.util.compose.LocalIconFromUriResolver
-import ir.amirab.util.wildcardMatch
+import ir.neo.util.compose.IIconResolver
+import ir.neo.util.compose.IconSource
+import ir.neo.util.compose.LocalIconFromUriResolver
+import ir.neo.util.wildcardMatch
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

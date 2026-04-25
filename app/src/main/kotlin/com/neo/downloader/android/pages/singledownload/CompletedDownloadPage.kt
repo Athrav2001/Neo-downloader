@@ -22,7 +22,7 @@ import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.WithContentColor
 import com.neo.downloader.shared.util.ui.widget.MyIcon
 import com.neo.downloader.monitor.CompletedDownloadItemState
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun CompletedDownloadPage(

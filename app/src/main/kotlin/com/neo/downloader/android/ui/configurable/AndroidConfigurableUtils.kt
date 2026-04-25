@@ -34,8 +34,8 @@ import com.neo.downloader.shared.util.ui.WithContentAlpha
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.modifiers.autoMirror
-import ir.amirab.util.ifThen
+import ir.neo.util.compose.modifiers.autoMirror
+import ir.neo.util.ifThen
 
 
 @Composable

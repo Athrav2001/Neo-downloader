@@ -28,11 +28,11 @@ import com.neo.downloader.monitor.DurationBasedProcessingDownloadItemState
 import com.neo.downloader.monitor.IDownloadItemState
 import com.neo.downloader.monitor.IDownloadMonitor
 import com.neo.downloader.monitor.ProcessingDownloadItemState
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.asStringSourceWithARgs
-import ir.amirab.util.flow.combineStateFlows
-import ir.amirab.util.flow.createMutableStateFlowFromFlow
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.asStringSourceWithARgs
+import ir.neo.util.flow.combineStateFlows
+import ir.neo.util.flow.createMutableStateFlowFromFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

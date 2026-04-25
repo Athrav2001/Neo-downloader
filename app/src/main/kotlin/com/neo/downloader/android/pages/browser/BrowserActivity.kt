@@ -9,7 +9,7 @@ import com.neo.downloader.android.util.AndroidIntentUtils
 import com.neo.downloader.android.util.activity.NDMActivity
 import com.neo.downloader.shared.util.mvi.HandleEffects
 import com.arkivanov.decompose.defaultComponentContext
-import ir.amirab.util.HttpUrlUtils
+import ir.neo.util.HttpUrlUtils
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

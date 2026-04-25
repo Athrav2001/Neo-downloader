@@ -23,9 +23,9 @@ import com.neo.downloader.shared.ui.widget.ActionButton
 import com.neo.downloader.shared.ui.widget.TransparentIconActionButton
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 @Immutable
 data class InputParams<T>(

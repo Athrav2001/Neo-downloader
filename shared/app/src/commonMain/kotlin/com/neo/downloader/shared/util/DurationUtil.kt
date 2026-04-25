@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.util
 
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 import kotlin.math.roundToInt
 
 /**

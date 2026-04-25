@@ -5,9 +5,9 @@ import com.neo.downloader.shared.util.BaseComponent
 import com.neo.downloader.shared.util.mvi.ContainsEffects
 import com.neo.downloader.shared.util.mvi.supportEffects
 import com.arkivanov.decompose.ComponentContext
-import ir.amirab.util.HttpUrlUtils
-import ir.amirab.util.flow.combineStateFlows
-import ir.amirab.util.flow.mapStateFlow
+import ir.neo.util.HttpUrlUtils
+import ir.neo.util.flow.combineStateFlows
+import ir.neo.util.flow.mapStateFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

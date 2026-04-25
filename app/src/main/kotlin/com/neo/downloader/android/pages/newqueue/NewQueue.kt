@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import com.neo.downloader.android.ui.configurable.SheetInput
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.ui.widget.MyTextField
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun NewQueueSheet(

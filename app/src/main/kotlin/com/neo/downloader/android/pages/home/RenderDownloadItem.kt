@@ -72,8 +72,8 @@ import com.neo.downloader.monitor.ProcessingDownloadItemState
 import com.neo.downloader.monitor.isFinished
 import com.neo.downloader.monitor.statusOrFinished
 import com.neo.downloader.utils.ExceptionUtils
-import ir.amirab.util.compose.StringSource
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.StringSource
+import ir.neo.util.compose.asStringSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.datetime.TimeZone

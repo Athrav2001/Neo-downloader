@@ -1,8 +1,8 @@
 package com.neo.downloader
 
 import io.github.z4kn4fein.semver.Version
-import ir.amirab.util.platform.Arch
-import ir.amirab.util.platform.Platform
+import ir.neo.util.platform.Arch
+import ir.neo.util.platform.Platform
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
 

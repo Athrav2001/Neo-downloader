@@ -2,7 +2,7 @@ package com.neo.downloader.shared.downloaderinui
 
 import com.neo.downloader.connection.IResponseInfo
 import com.neo.downloader.downloaditem.IDownloadCredentials
-import ir.amirab.util.HttpUrlUtils
+import ir.neo.util.HttpUrlUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

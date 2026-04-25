@@ -1,6 +1,6 @@
 package com.neo.downloader.db
 
-import ir.amirab.util.tryAtomicMove
+import ir.neo.util.tryAtomicMove
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.json.Json

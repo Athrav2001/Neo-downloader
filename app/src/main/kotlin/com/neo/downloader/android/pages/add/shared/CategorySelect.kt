@@ -15,7 +15,7 @@ import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.ui.widget.IconActionButton
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.category.Category
@@ -23,8 +23,8 @@ import com.neo.downloader.shared.util.category.rememberIconPainter
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.widget.MyIcon
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun CategorySelect(

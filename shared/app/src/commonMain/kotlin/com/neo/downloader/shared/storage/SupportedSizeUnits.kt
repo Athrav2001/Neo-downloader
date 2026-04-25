@@ -1,7 +1,7 @@
 package com.neo.downloader.shared.storage
 
-import ir.amirab.util.datasize.CommonSizeConvertConfigs
-import ir.amirab.util.datasize.ConvertSizeConfig
+import ir.neo.util.datasize.CommonSizeConvertConfigs
+import ir.neo.util.datasize.ConvertSizeConfig
 
 enum class SupportedSizeUnits {
     BinaryBits,

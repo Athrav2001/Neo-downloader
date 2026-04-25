@@ -33,10 +33,10 @@ import com.neo.downloader.shared.util.ui.VerticalScrollableContent
 import com.neo.downloader.shared.util.ui.theme.myShapes
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import io.github.oikvpqya.compose.fastscroller.rememberScrollbarAdapter
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 import com.neo.downloader.queue.DownloadQueue
-import ir.amirab.util.compose.action.AnAction
-import ir.amirab.util.compose.asStringSource
+import ir.neo.util.compose.action.AnAction
+import ir.neo.util.compose.asStringSource
 
 @Composable
 fun ShowAddToQueueDialog(

@@ -10,8 +10,8 @@ import com.neo.downloader.shared.storage.SupportedSizeUnits
 import com.neo.downloader.shared.util.downloadlocation.PlatformDownloadLocationProvider
 import com.neo.downloader.shared.util.ConfigBaseSettingsByMapConfig
 import com.neo.downloader.shared.util.ui.theme.DEFAULT_UI_SCALE
-import ir.amirab.util.config.*
-import ir.amirab.util.enumValueOrNull
+import ir.neo.util.config.*
+import ir.neo.util.enumValueOrNull
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 

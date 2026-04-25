@@ -3,7 +3,7 @@ package com.neo.downloader.shared.ui.widget
 import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.LocalTextStyle
 import com.neo.downloader.shared.util.ui.myColors
-import ir.amirab.util.ifThen
+import ir.neo.util.ifThen
 import com.neo.downloader.shared.util.div
 import androidx.compose.animation.*
 import androidx.compose.foundation.background

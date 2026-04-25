@@ -20,7 +20,7 @@ kotlin {
             api(libs.kotlin.coroutines.core)
             implementation(project(":shared:utils"))
             implementation(libs.semver)
-            implementation("ir.amirab.util:platform:1")
+            implementation("ir.neo.util:platform:1")
         }
         val desktopMain by getting
         desktopMain.dependencies {

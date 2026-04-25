@@ -1,9 +1,9 @@
 package com.neo.downloader.shared.util.ui
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import ir.amirab.util.compose.IIconResolver
-import ir.amirab.util.compose.IconSource
-import ir.amirab.util.compose.contants.ICON_PROTOCOL
+import ir.neo.util.compose.IIconResolver
+import ir.neo.util.compose.IconSource
+import ir.neo.util.compose.contants.ICON_PROTOCOL
 
 abstract class BaseMyColors : IMyIcons, IIconResolver {
     val iconMap = mutableMapOf<String, IconSource>()

@@ -1,7 +1,7 @@
 package com.neo.downloader.destination
 
 import com.neo.downloader.part.DownloadPart
-import ir.amirab.util.tryAtomicMove
+import ir.neo.util.tryAtomicMove
 import java.io.File
 
 abstract class DownloadDestination(

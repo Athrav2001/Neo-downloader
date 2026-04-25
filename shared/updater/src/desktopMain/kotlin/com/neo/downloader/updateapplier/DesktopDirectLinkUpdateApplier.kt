@@ -2,8 +2,8 @@ package com.neo.downloader.updateapplier
 
 import com.neo.downloader.updatechecker.UpdateInfo
 import com.neo.downloader.updatechecker.UpdateSource
-import ir.amirab.util.platform.Platform
-import ir.amirab.util.platform.isMac
+import ir.neo.util.platform.Platform
+import ir.neo.util.platform.isMac
 import java.io.File
 
 class DesktopDirectLinkUpdateApplier(

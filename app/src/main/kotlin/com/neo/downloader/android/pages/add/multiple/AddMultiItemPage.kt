@@ -27,8 +27,8 @@ import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.category.Category
 import com.neo.downloader.shared.util.ui.icon.MyIcons
 import com.neo.downloader.shared.util.ui.theme.mySpacings
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun AddMultiItemPage(

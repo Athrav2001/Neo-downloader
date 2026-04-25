@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.dp
 import com.neo.downloader.resources.Res
 import com.neo.downloader.shared.util.ui.theme.myShapes
-import ir.amirab.util.compose.resources.myStringResource
+import ir.neo.util.compose.resources.myStringResource
 
 @Composable
 fun AddUrlButton(

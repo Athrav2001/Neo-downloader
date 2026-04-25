@@ -33,7 +33,7 @@ import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.ui.LocalContentColor
 import com.neo.downloader.shared.util.ui.theme.mySpacings
 import com.neo.downloader.shared.util.ui.theme.myTextSizes
-import ir.amirab.util.compose.pxToDp
+import ir.neo.util.compose.pxToDp
 
 @Immutable
 data class PageContentParams(

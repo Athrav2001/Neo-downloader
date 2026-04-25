@@ -34,10 +34,10 @@ import com.neo.downloader.downloaditem.contexts.User
 import com.neo.downloader.queue.DownloadQueue
 import com.neo.downloader.queue.QueueManager
 import com.neo.downloader.queue.queueModelsFlow
-import ir.amirab.util.compose.asStringSource
-import ir.amirab.util.coroutines.combine
-import ir.amirab.util.flow.combineStateFlows
-import ir.amirab.util.osfileutil.FileUtils
+import ir.neo.util.compose.asStringSource
+import ir.neo.util.coroutines.combine
+import ir.neo.util.flow.combineStateFlows
+import ir.neo.util.osfileutil.FileUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
