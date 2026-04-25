@@ -2,7 +2,6 @@ package ir.amirab.plugin.common_android.task
 
 import okio.Path.Companion.toPath
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
@@ -23,7 +22,13 @@ sealed interface KeystoreContent {
         ): KeystoreContent {
             val splitIndex = uriString.indexOf(':')
             if (splitIndex == -1) {
-                throw GradleException("Invalid KeystoreContent it should be <type>:<data>")
+                val maybeFile = File(uriString)
+                return if (maybeFile.exists()) {
+                    FromFile(maybeFile)
+                } else {
+                    // Backward compatibility: allow raw base64 secret values too.
+                    FromBase64(uriString)
+                }
             }
             val type = uriString.substring(0, splitIndex)
             val data = uriString.substring(splitIndex + 1)
