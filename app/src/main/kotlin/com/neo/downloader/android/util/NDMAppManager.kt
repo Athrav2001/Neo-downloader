@@ -295,7 +295,7 @@ class NDMAppManager(
                 addAction(AndroidConstants.Intents.STOP_ALL_ACTION)
                 addAction(AndroidConstants.Intents.EXIT_ACTION)
             },
-            ContextCompat.RECEIVER_NOT_EXPORTED,
+            ContextCompat.RECEIVER_EXPORTED,
         )
         return {
             for (receiver in listOf(receiver)) {
