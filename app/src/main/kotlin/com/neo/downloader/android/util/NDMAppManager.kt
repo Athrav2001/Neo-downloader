@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -222,25 +223,34 @@ class NDMAppManager(
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.action) {
                     AndroidConstants.Intents.STOP_ACTION -> {
-                        intent
-                            .getLongExtra(AndroidConstants.Intents.TOGGLE_DOWNLOAD_ACTION_DOWNLOAD_ID, -1)
-                            .takeIf { it > -1 }
-                            ?.let {
-                                scope.launch {
-                                    downloadSystem.manualPause(it)
+                        try {
+                            intent
+                                .getLongExtra(AndroidConstants.Intents.TOGGLE_DOWNLOAD_ACTION_DOWNLOAD_ID, -1)
+                                .takeIf { it > -1 }
+                                ?.let {
+                                    scope.launch {
+                                        downloadSystem.manualPause(it)
+                                    }
                                 }
-                            }
+                        } catch (e: Exception) {
+                            Log.e("NDMAppManager", "STOP_ACTION failed", e)
+                        }
                     }
 
                     AndroidConstants.Intents.RESUME_ACTION -> {
-                        intent
-                            .getLongExtra(AndroidConstants.Intents.TOGGLE_DOWNLOAD_ACTION_DOWNLOAD_ID, -1)
-                            .takeIf { it > -1 }
-                            ?.let {
-                                scope.launch {
-                                    downloadSystem.userManualResume(it)
+                        try {
+                            intent
+                                .getLongExtra(AndroidConstants.Intents.TOGGLE_DOWNLOAD_ACTION_DOWNLOAD_ID, -1)
+                                .takeIf { it > -1 }
+                                ?.let {
+                                    scope.launch {
+                                        downloadSystem.userManualResume(it)
+                                    }
                                 }
-                            }
+                        } catch (e: Exception) {
+                            Log.e("NDMAppManager", "RESUME_ACTION failed", e)
+                        }
+                    }
                     }
 
                     AndroidConstants.Intents.TOGGLE_ACTION -> {
@@ -259,18 +269,34 @@ class NDMAppManager(
                     }
 
                     AndroidConstants.Intents.STOP_ALL_ACTION -> {
-                        scope.launch {
-                            downloadSystem.stopAnything()
+                        try {
+                            if (!isDownloadSystemBooted()) {
+                                android.util.Log.w("NDMAppManager", "STOP_ALL: system not booted yet")
+                                return@let
+                            }
+                            scope.launch {
+                                downloadSystem.stopAnything()
+                            }
+                        } catch (e: Exception) {
+                            android.util.Log.e("NDMAppManager", "STOP_ALL failed", e)
                         }
                     }
 
                     AndroidConstants.Intents.EXIT_ACTION -> {
-                        val job = scope.launch {
-                            downloadSystem.stopAnything()
-                            stopOurService()
-                        }
-                        job.invokeOnCompletion {
-                            exitProcess(0)
+                        try {
+                            if (!isDownloadSystemBooted()) {
+                                android.util.Log.w("NDMAppManager", "EXIT: system not booted yet")
+                            } else {
+                                val job = scope.launch {
+                                    downloadSystem.stopAnything()
+                                    stopOurService()
+                                }
+                                job.invokeOnCompletion {
+                                    exitProcess(0)
+                                }
+                            }
+                        } catch (e: Exception) {
+                            android.util.Log.e("NDMAppManager", "EXIT failed", e)
                         }
                     }
                 }

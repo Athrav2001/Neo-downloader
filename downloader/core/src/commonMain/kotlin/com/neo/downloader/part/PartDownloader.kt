@@ -74,7 +74,7 @@ abstract class PartDownloader<
             lastCriticalException = null
             lastException = null
             val result = runCatching {
-                while (coroutineContext.isActive || !stop) {
+                while (coroutineContext.isActive && !stop) {
                     if (tries > 0) {
                         delay(RetryDelay)
 //                        println("#${part.from}retrying $tries")
