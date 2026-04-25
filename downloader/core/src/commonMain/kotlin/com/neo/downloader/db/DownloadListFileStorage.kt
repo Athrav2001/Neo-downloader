@@ -15,6 +15,12 @@ class DownloadListFileStorage(
 
     private val fileLocks = SuspendLockList<Long>()
 
+    init {
+        if (!downloadListFolder.exists()) {
+            downloadListFolder.mkdirs()
+        }
+    }
+
     fun getDownloadItemFile(id: Long): File {
         return downloadListFolder.resolve("$id.json")
     }
@@ -95,7 +101,7 @@ class DownloadListFileStorage(
     }
 
     private fun getLastIdFromFiles(): Long {
-        return downloadListFolder.listFiles()!!.filter {
+        return downloadListFolder.listFiles().orEmpty().filter {
             it.name.endsWith(".json") && it.isFile
         }.maxOfOrNull {
             it.name

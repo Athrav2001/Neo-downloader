@@ -54,7 +54,7 @@ class DownloadManager(
 
     private suspend fun createJobForPendingDownloads() {
         dlListDb.getAll().filter {
-            it.status != DownloadStatus.Completed
+            it.status != DownloadStatus.Completed && it.status != DownloadStatus.Error
         }.forEach {
             createJob(it).boot()
         }

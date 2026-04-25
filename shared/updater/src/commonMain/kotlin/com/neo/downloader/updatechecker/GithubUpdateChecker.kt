@@ -46,7 +46,7 @@ class GithubUpdateChecker(
         }
         return UpdateInfo(
             version = foundVersion
-                ?: Version.parse(release.version.substring("v".length)),
+                ?: Version.parse(release.version.removePrefix("v")),
             platform = currentPlatform,
             arch = currentArch,
             changeLog = release.body ?: "",

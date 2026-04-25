@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URL
 import java.util.Locale
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.roundToInt
 
 typealias NDMWebRequestId = String
@@ -45,11 +46,11 @@ class DownloadInterceptor(
     private val onNewDownload: (newDownloads: List<AddDownloadCredentialsInUiProps>) -> Unit,
     private val onDetectedListUpdated: (tabId: NDMBrowserTabId, items: List<GrabberDetectedItem>) -> Unit = { _, _ -> },
 ) : RequestInterceptor {
-    private val requests = mutableMapOf<String, NDMWebRequest>()
-    private val recentlyHandledUrls = mutableMapOf<String, Long>()
-    private val detectedByTab = mutableMapOf<NDMBrowserTabId, MutableMap<String, GrabberDetectedItem>>()
-    private val detectedRequestsByTab = mutableMapOf<NDMBrowserTabId, MutableMap<String, NDMWebRequest>>()
-    private val runningM3u8Expansion = mutableSetOf<String>()
+    private val requests = ConcurrentHashMap<String, NDMWebRequest>()
+    private val recentlyHandledUrls = ConcurrentHashMap<String, Long>()
+    private val detectedByTab = ConcurrentHashMap<NDMBrowserTabId, ConcurrentHashMap<String, GrabberDetectedItem>>()
+    private val detectedRequestsByTab = ConcurrentHashMap<NDMBrowserTabId, ConcurrentHashMap<String, NDMWebRequest>>()
+    private val runningM3u8Expansion = ConcurrentHashMap.newKeySet<String>()
 
     fun onDownloadStart(
         url: String?,
@@ -128,6 +129,7 @@ class DownloadInterceptor(
     fun getDetectedItems(tabId: NDMBrowserTabId): List<GrabberDetectedItem> {
         return detectedByTab[tabId]
             ?.values
+            ?.toList()
             ?.sortedBy { it.name.lowercase(Locale.US) }
             .orEmpty()
     }
@@ -565,7 +567,7 @@ class DownloadInterceptor(
     }
 
     private fun mergeDetectedItems(tabId: NDMBrowserTabId, items: List<GrabberDetectedItem>) {
-        val tabMap = detectedByTab.getOrPut(tabId) { linkedMapOf() }
+        val tabMap = detectedByTab.getOrPut(tabId) { ConcurrentHashMap() }
         var changed = false
         items.forEach { item ->
             if (tabMap[item.url] != item) {
@@ -579,7 +581,7 @@ class DownloadInterceptor(
     }
 
     private fun mergeDetectedRequests(tabId: NDMBrowserTabId, requests: List<NDMWebRequest>) {
-        val tabMap = detectedRequestsByTab.getOrPut(tabId) { linkedMapOf() }
+        val tabMap = detectedRequestsByTab.getOrPut(tabId) { ConcurrentHashMap() }
         requests.forEach { request ->
             tabMap[request.url] = request
         }

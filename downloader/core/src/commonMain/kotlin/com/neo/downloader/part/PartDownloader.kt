@@ -10,7 +10,6 @@ import com.neo.downloader.utils.ExceptionUtils
 import com.neo.downloader.utils.printStackIfNOtUsual
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
@@ -177,7 +176,8 @@ abstract class PartDownloader<
     lateinit var onTooManyErrors: ((Throwable) -> Unit)
     private fun iCantRetryAnymore(throwable: Throwable) {
         lastCriticalException = throwable
-        GlobalScope.launch {
+        val activeScope = scope ?: CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        activeScope.launch {
             onTooManyErrors(throwable)
         }
     }
@@ -362,4 +362,3 @@ abstract class PartDownloader<
         data object NoAndStopDownloadJob : CanRetryResult
     }
 }
-

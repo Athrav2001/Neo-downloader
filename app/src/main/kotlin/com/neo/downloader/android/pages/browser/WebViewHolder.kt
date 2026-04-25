@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Message
 import android.util.Log
 import android.webkit.CookieManager
+import android.webkit.URLUtil
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
@@ -93,11 +94,13 @@ class WebViewRegistry(
             webView.settings.javaScriptCanOpenWindowsAutomatically = true
             webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
             webView.settings.loadsImagesAutomatically = true
-            webView.settings.allowFileAccess = true
-            webView.settings.allowContentAccess = true
+            webView.settings.allowFileAccess = false
+            webView.settings.allowContentAccess = false
+            webView.settings.allowFileAccessFromFileURLs = false
+            webView.settings.allowUniversalAccessFromFileURLs = false
             webView.settings.mediaPlaybackRequiresUserGesture = false
             CookieManager.getInstance().setAcceptCookie(true)
-            CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true)
+            CookieManager.getInstance().setAcceptThirdPartyCookies(webView, false)
             applyUserAgent(webView, browserComponent.getEffectiveUserAgent())
             webView.isLongClickable = true
             webView.setOnLongClickListener {
@@ -215,22 +218,23 @@ class NDMWebViewClient(
             }
         }
         if (request != null) {
-            scope.launch(Dispatchers.Main) {
+            val requestUrl = request.url?.toString()
+            val referer = request.requestHeaders["Referer"]
+            val ndmWebView = view as? NDMWebView
+            val tab = ndmWebView?.tabId?.let { browserComponent.getTabById(it) }
+            scope.launch(Dispatchers.Default) {
                 requestInterceptor.interceptRequest(
                     NDMWebRequest(
                         url = request.url.toString(),
                         headers = request.requestHeaders,
-                        page = view?.originalUrl ?: view?.url
+                        page = referer,
                     )
                 )
-                val ndmWebView = view as? NDMWebView
-                val tab = ndmWebView?.tabId?.let { browserComponent.getTabById(it) }
-                val requestUrl = request.url?.toString()
                 if (tab != null && requestUrl != null) {
                     requestInterceptor.onDetectedLinks(
                         urls = listOf(requestUrl),
                         userAgent = request.requestHeaders["User-Agent"],
-                        page = ndmWebView.originalUrl ?: ndmWebView.url,
+                        page = referer,
                         tab = tab,
                     )
                 }
@@ -265,24 +269,33 @@ class NDMWebViewClient(
         request: WebResourceRequest
     ): Boolean {
 
-        val url = request.url.toString()
+        val uri = request.url
+        val url = uri.toString()
+        val scheme = uri.scheme?.lowercase() ?: return true
 
         // Let WebView load normal web pages
-        if (url.startsWith("http://") || url.startsWith("https://")) {
+        if (URLUtil.isNetworkUrl(url)) {
             return false
         }
 
-        // Handle intent:// URIs
-        if (url.startsWith("intent://")) {
+        // Block unknown schemes from page content.
+        val allowedExternalSchemes = setOf("tel", "sms", "mailto", "market", "intent")
+        if (scheme !in allowedExternalSchemes) {
+            return true
+        }
+
+        if (scheme == "intent") {
             try {
-                val intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
+                val parsedIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
                 val pm = view.context.packageManager
 
-                if (intent.resolveActivity(pm) != null) {
-                    view.context.startActivity(intent)
+                if (parsedIntent.resolveActivity(pm) != null) {
+                    view.context.startActivity(parsedIntent)
                 } else {
-                    intent.getStringExtra("browser_fallback_url")?.let {
-                        view.loadUrl(it)
+                    parsedIntent.getStringExtra("browser_fallback_url")?.let {
+                        if (URLUtil.isNetworkUrl(it)) {
+                            view.loadUrl(it)
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -291,9 +304,8 @@ class NDMWebViewClient(
             return true
         }
 
-        // Handle ALL other schemes (deep links)
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(Intent.ACTION_VIEW, uri)
             val pm = view.context.packageManager
 
             if (intent.resolveActivity(pm) != null) {
