@@ -35,34 +35,34 @@ jobs:
         run: |
           sdkmanager --install "platforms;android-36" "build-tools;36.1.0"
 
-      - name: Build Release APK
+      - name: Build Signed Release APK
         shell: bash
         run: |
-          ./gradlew :app:assembleRelease
+          ./gradlew :app:assembleRelease :app:createReleaseSignedBinaryRelease
 
       - name: Stop Gradle Daemons
         shell: bash
         run: |
           ./gradlew -stop
 
-      - name: Upload Android artifact (arm64-v8a release)
+      - name: Upload Android artifact (arm64-v8a signed release)
         uses: actions/upload-artifact@v4
         with:
-          path: ./app/build/outputs/apk/release/*arm64-v8a*.apk
+          path: ./app/build/generatedSignedApks/*arm64-v8a*.apk
           name: app-android-arm64-v8a-release
           if-no-files-found: error
 
-      - name: Upload Android artifact (armeabi-v7a release)
+      - name: Upload Android artifact (armeabi-v7a signed release)
         uses: actions/upload-artifact@v4
         with:
-          path: ./app/build/outputs/apk/release/*armeabi-v7a*.apk
+          path: ./app/build/generatedSignedApks/*armeabi-v7a*.apk
           name: app-android-armeabi-v7a-release
           if-no-files-found: error
 
-      - name: Upload Android artifact (universal release)
+      - name: Upload Android artifact (universal signed release)
         uses: actions/upload-artifact@v4
         with:
-          path: ./app/build/outputs/apk/release/*universal*.apk
+          path: ./app/build/generatedSignedApks/*universal*.apk
           name: app-android-universal-release
           if-no-files-found: error
 
@@ -74,6 +74,6 @@ jobs:
           generate_release_notes: true
           prerelease: true
           files: |
-            ./app/build/outputs/apk/release/*arm64-v8a*.apk
-            ./app/build/outputs/apk/release/*armeabi-v7a*.apk
-            ./app/build/outputs/apk/release/*universal*.apk
+            ./app/build/generatedSignedApks/*arm64-v8a*.apk
+            ./app/build/generatedSignedApks/*armeabi-v7a*.apk
+            ./app/build/generatedSignedApks/*universal*.apk
