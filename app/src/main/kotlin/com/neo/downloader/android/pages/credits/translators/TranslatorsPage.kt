@@ -9,7 +9,6 @@ import androidx.compose.animation.togetherWith
 import com.neo.downloader.android.di.Di
 import com.neo.downloader.resources.NDMResources
 import com.neo.downloader.shared.ui.widget.MaybeLinkText
-import kotlinx.coroutines.runBlocking
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -21,6 +20,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -308,21 +308,21 @@ private fun convertLanguageToMyLocale(language: String): MyLocale {
 
 @Composable
 private fun rememberLanguageTranslationInfo(): List<LanguageTranslationInfo> {
-    return remember {
-        val json = Di.get<Json>()
-        val translatorData = runBlocking {
+    val json = remember { Di.get<Json>() }
+    val list by produceState(initialValue = emptyList<LanguageTranslationInfo>(), json) {
+        value = runCatching {
             NDMResources.getTranslatorsContent()
-        }.let {
-            json.decodeFromString<TranslatorData>(it)
-        }
-        translatorData.map {
-            val name = LanguageNameProvider.getName(convertLanguageToMyLocale(it.key))
-            LanguageTranslationInfo(
-                locale = it.key,
-                englishName = name.englishName,
-                nativeName = name.nativeName,
-                translators = it.value,
-            )
-        }
+                .let { json.decodeFromString<TranslatorData>(it) }
+                .map {
+                    val name = LanguageNameProvider.getName(convertLanguageToMyLocale(it.key))
+                    LanguageTranslationInfo(
+                        locale = it.key,
+                        englishName = name.englishName,
+                        nativeName = name.nativeName,
+                        translators = it.value,
+                    )
+                }
+        }.getOrDefault(emptyList())
     }
+    return list
 }

@@ -296,7 +296,7 @@ abstract class BaseAddSingleDownloadComponent(
                 categoryId = getCategoryIfUseCategoryIsOn()?.id,
             ).invokeOnCompletion {
                 if (queueId != null && startQueue) {
-                    GlobalScope.launch {
+                    scope.launch {
                         downloadSystem.startQueue(queueId)
                     }
                 }
