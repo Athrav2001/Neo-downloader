@@ -7,7 +7,6 @@ plugins {
     id(Plugins.Kotlin.serialization)
 }
 kotlin {
-    jvm("desktop")
     androidTarget("android") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
@@ -21,10 +20,6 @@ kotlin {
             implementation(project(":shared:utils"))
             implementation(libs.semver)
             implementation("ir.neo.util:platform:1")
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(libs.jna.platform)
         }
     }
 }

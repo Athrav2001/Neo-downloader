@@ -6,7 +6,6 @@ plugins {
     id(Plugins.Android.library)
 }
 kotlin {
-    jvm("desktop")
     androidTarget("android") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
@@ -22,10 +21,6 @@ kotlin {
             api(libs.semver)
             api(libs.arrow.optics)
             api("ir.neo.util:platform:1")
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            api(libs.jna.platform)
         }
         androidMain.dependencies {
             implementation(libs.koin.core)

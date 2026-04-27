@@ -13,7 +13,6 @@ plugins {
     id(Plugins.buildConfig)
 }
 kotlin {
-    jvm("desktop")
     androidTarget("android") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
@@ -58,12 +57,6 @@ kotlin {
         androidMain.dependencies {
             api(libs.androidx.core.ktx)
             api(libs.androidx.activity.compose)
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(libs.osThemeDetector.get().toString()) {
-                exclude(group = "net.java.dev.jna")
-            }
         }
     }
 }

@@ -6,7 +6,6 @@ plugins {
     id(Plugins.Android.library)
 }
 kotlin {
-    jvm("desktop")
     androidTarget("android") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)

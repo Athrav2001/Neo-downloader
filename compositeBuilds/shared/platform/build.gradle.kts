@@ -5,7 +5,7 @@ repositories{
     mavenCentral()
 }
 kotlin {
-    jvm("desktop")
+    jvm()
 }
 version=1
 group="ir.neo.util"

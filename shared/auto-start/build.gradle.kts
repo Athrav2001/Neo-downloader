@@ -5,7 +5,6 @@ plugins {
     id(Plugins.Android.library)
 }
 kotlin {
-    jvm("desktop")
     androidTarget("android") {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_21)
@@ -14,11 +13,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":shared:utils"))
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            //    // for windows, we use registry
-            implementation(libs.jna.platform)
         }
     }
 }
