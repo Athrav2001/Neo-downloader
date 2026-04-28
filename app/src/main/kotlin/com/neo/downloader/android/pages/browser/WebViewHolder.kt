@@ -90,8 +90,8 @@ class WebViewRegistry(
             webView.settings.domStorageEnabled = true
             webView.settings.setSupportZoom(true)
             webView.settings.builtInZoomControls = false
-            webView.settings.setSupportMultipleWindows(false)
-            webView.settings.javaScriptCanOpenWindowsAutomatically = false
+            webView.settings.setSupportMultipleWindows(true)
+            webView.settings.javaScriptCanOpenWindowsAutomatically = true
             webView.settings.mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
             webView.settings.loadsImagesAutomatically = true
             webView.settings.allowFileAccess = false
@@ -201,7 +201,6 @@ class NDMWebViewClient(
                 return super.shouldInterceptRequest(view, request)
             }
             val pageUrlFromHeaders = request.requestHeaders["Referer"]
-                ?: view?.url
                 ?: (view as? NDMWebView)?.openedBy
             if (isCriticalBrowsingRequest(request.url.toString(), pageUrlFromHeaders)) {
                 return super.shouldInterceptRequest(view, request)
