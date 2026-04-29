@@ -805,6 +805,7 @@ private fun YouTubeDownloadDialog(
                         items(formats) { format ->
                             Row(
                                 Modifier.fillMaxWidth().clickable {
+                                    onDismiss()
                                     onDownload(resolvedYouTubeUrl, format.id)
                                 }.padding(vertical = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically,
