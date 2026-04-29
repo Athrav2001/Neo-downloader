@@ -78,6 +78,7 @@ import com.neo.downloader.shared.ui.widget.Text
 import com.neo.downloader.shared.ui.widget.TransparentIconActionButton
 import com.neo.downloader.shared.util.ClipboardUtil
 import com.neo.downloader.shared.util.ResponsiveDialog
+import kotlinx.coroutines.launch
 import com.neo.downloader.shared.util.div
 import com.neo.downloader.shared.util.rememberResponsiveDialogState
 import com.neo.downloader.shared.util.ui.LocalContentColor
@@ -725,6 +726,7 @@ private fun YouTubeDownloadDialog(
     onDownload: (url: String, formatId: String) -> Unit,
 ) {
     var youTubeUrl by remember { mutableStateOf("") }
+    var resolvedYouTubeUrl by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     var formats by remember { mutableStateOf<List<FormatOption>>(emptyList()) }
     val scope = rememberCoroutineScope()
@@ -757,18 +759,25 @@ private fun YouTubeDownloadDialog(
                 ActionButton(
                     text = if (isLoading) "Loading..." else "Fetch Qualities",
                     onClick = {
+                        val sanitizedUrl = youTubeUrl.trim()
+                        if (sanitizedUrl.isBlank()) return@ActionButton
+                        resolvedYouTubeUrl = sanitizedUrl
+                        formats = emptyList()
                         isLoading = true
                         scope.launch {
-                            YtDlpManager.getFormats(youTubeUrl).onSuccess { fetchedFormats ->
-                                formats = fetchedFormats
-                            }.onFailure { e ->
-                                // TODO: show error message
-                                e.printStackTrace()
+                            try {
+                                YtDlpManager.getFormats(sanitizedUrl).onSuccess { fetchedFormats ->
+                                    formats = fetchedFormats
+                                }.onFailure { e ->
+                                    // TODO: show error message
+                                    e.printStackTrace()
+                                }
+                            } finally {
+                                isLoading = false
                             }
-                            isLoading = false
                         }
                     },
-                    enabled = youTubeUrl.isNotBlank() && !isLoading,
+                    enabled = youTubeUrl.trim().isNotBlank() && !isLoading,
                 )
                 Spacer(Modifier.height(8.dp))
                 if (formats.isNotEmpty()) {
@@ -776,7 +785,7 @@ private fun YouTubeDownloadDialog(
                         items(formats) { format ->
                             Row(
                                 Modifier.fillMaxWidth().clickable {
-                                    onDownload(youTubeUrl, format.id)
+                                    onDownload(resolvedYouTubeUrl, format.id)
                                 }.padding(vertical = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
