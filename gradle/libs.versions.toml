@@ -37,6 +37,7 @@ agp = "8.12.3"
 androidx-core = "1.17.0"
 androidx-activity-compose = "1.12.4"
 androidx-swipeRefreshLayout = "1.1.0"
+youtubedlAndroid = "0.18.1"
 
 [libraries]
 
@@ -113,6 +114,7 @@ androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-swipeRefreshLayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "androidx-swipeRefreshLayout" }
+youtubedl-android-library = { module = "io.github.junkfood02.youtubedl-android:library", version.ref = "youtubedlAndroid" }
 
 osThemeDetector = { module = "com.github.Dansoftowner:jSystemThemeDetector", version.ref = "osThemeDetector" }
 markdownRenderer-core = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "markdownRenderer" }
