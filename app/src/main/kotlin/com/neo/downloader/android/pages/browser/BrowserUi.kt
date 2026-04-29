@@ -271,7 +271,10 @@ fun BrowserPage(
             onDismiss = browserComponent::closeYouTubeDialog,
             onDownload = { url, formatId ->
                 browserComponent.downloadYouTube(url, formatId)
-            }
+            },
+            onPreResolve = { url, formatId ->
+                browserComponent.preResolveYouTube(url, formatId)
+            },
         )
     }
 
@@ -723,12 +726,14 @@ private fun GrabberBulkDownloadSheet(
 @Composable
 private fun YouTubeDownloadDialog(
     onDismiss: () -> Unit,
-    onDownload: (url: String, formatId: String) -> Unit,
+    onDownload: suspend (url: String, formatId: String) -> Boolean,
+    onPreResolve: suspend (url: String, formatId: String) -> Unit,
 ) {
     var youTubeUrl by remember { mutableStateOf("") }
     var resolvedYouTubeUrl by remember { mutableStateOf("") }
     var fetchError by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
+    var isResolvingSelection by remember { mutableStateOf(false) }
     var formats by remember { mutableStateOf<List<FormatOption>>(emptyList()) }
     val scope = rememberCoroutineScope()
 
@@ -784,6 +789,12 @@ private fun YouTubeDownloadDialog(
                                     formats = fetchedFormats
                                     if (fetchedFormats.isEmpty()) {
                                         fetchError = "No downloadable formats found for this link"
+                                    } else {
+                                        fetchedFormats.take(4).forEach { format ->
+                                            scope.launch {
+                                                runCatching { onPreResolve(sanitizedUrl, format.id) }
+                                            }
+                                        }
                                     }
                                 }.onFailure { e ->
                                     fetchError = e.message ?: "Failed to fetch qualities"
@@ -805,8 +816,16 @@ private fun YouTubeDownloadDialog(
                         items(formats) { format ->
                             Row(
                                 Modifier.fillMaxWidth().clickable {
-                                    onDismiss()
-                                    onDownload(resolvedYouTubeUrl, format.id)
+                                    if (isResolvingSelection) return@clickable
+                                    isResolvingSelection = true
+                                    scope.launch {
+                                        runCatching { onPreResolve(resolvedYouTubeUrl, format.id) }
+                                        val ok = runCatching {
+                                            onDownload(resolvedYouTubeUrl, format.id)
+                                        }.getOrDefault(false)
+                                        isResolvingSelection = false
+                                        if (ok) onDismiss()
+                                    }
                                 }.padding(vertical = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
@@ -816,6 +835,10 @@ private fun YouTubeDownloadDialog(
                             }
                         }
                     }
+                }
+                if (isResolvingSelection) {
+                    Spacer(Modifier.height(10.dp))
+                    Text("Loading selected quality...", color = myColors.onSurface / 0.8f)
                 }
             }
         }

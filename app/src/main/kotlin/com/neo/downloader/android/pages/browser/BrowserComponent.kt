@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.text.orEmpty
 import android.util.Log
 import com.neo.downloader.android.ytdlp.YtDlpManager
@@ -58,6 +59,7 @@ class BrowserComponent(
     ) : BaseComponent(
     componentContext,
 ), ContainsEffects<BrowserComponent.Effects> by supportEffects() {
+    private val preResolvedYouTube = ConcurrentHashMap<String, com.neo.downloader.android.ytdlp.ResolvedDownload>()
     private val _grabberItemsByTab = MutableStateFlow<Map<NDMBrowserTabId, List<GrabberDetectedItem>>>(emptyMap())
     val grabberItemsByTab = _grabberItemsByTab.asStateFlow()
     private val _showGrabberSheet = MutableStateFlow(false)
@@ -428,20 +430,33 @@ class BrowserComponent(
         )
     }
 
-    fun downloadYouTube(url: String, formatId: String) {
-        this.scope.launch {
-            YtDlpManager.getResolvedDownload(url, formatId).onSuccess { resolved ->
-                val tab = tabs.value.activeTab ?: return@onSuccess
+    suspend fun downloadYouTube(url: String, formatId: String): Boolean {
+        val key = "$url|$formatId"
+        val cached = preResolvedYouTube.remove(key)
+        val resolvedResult = if (cached != null) Result.success(cached) else YtDlpManager.getResolvedDownload(url, formatId)
+        return resolvedResult.fold(
+            onSuccess = { resolved ->
+                val tab = tabs.value.activeTab ?: return@fold false
                 downloadInterceptor.triggerDownloadsWithHeaders(
                     urlsWithHeaders = listOf(resolved.url to resolved.headers),
                     userAgent = getEffectiveUserAgent(),
                     page = tab.tabState.lastLoadedUrl,
                     tab = tab,
                 )
-            }.onFailure { e ->
+                true
+            },
+            onFailure = { e ->
                 Log.e("BrowserComponent", "Failed to get download URL", e)
-                // TODO: show toast or notification
+                false
             }
+        )
+    }
+
+    suspend fun preResolveYouTube(url: String, formatId: String) {
+        val key = "$url|$formatId"
+        if (preResolvedYouTube.containsKey(key)) return
+        YtDlpManager.getResolvedDownload(url, formatId).onSuccess {
+            preResolvedYouTube[key] = it
         }
     }
 
