@@ -8,9 +8,11 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
+import android.webkit.CookieManager
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.net.URL
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -79,6 +81,12 @@ object YtDlpManager {
         }
     }
 
+    private fun addCookiesIfAvailable(request: YTDLRequest, url: String) {
+        val cookieManager = CookieManager.getInstance()
+        val cookieString = cookieManager.getCookie(url) ?: return
+        request.addOption("--add-header", "Cookie: $cookieString")
+    }
+
     suspend fun getFormats(url: String): Result<List<FormatOption>> = withContext(Dispatchers.IO) {
         try {
             val request = YTDLRequest(url).apply {
@@ -88,6 +96,7 @@ object YtDlpManager {
                 addOption("--ignore-errors")
                 addOption("--no-warnings")
             }
+            addCookiesIfAvailable(request, url)
             val response = execute(request)
             if (response.exitCode != 0) {
                 return@withContext Result.failure(Exception("yt-dlp exited with code ${response.exitCode}: ${response.err}"))
@@ -143,6 +152,7 @@ object YtDlpManager {
                 addOption("-f", formatId)
                 addOption("-g") // get direct URL
                 addOption("--skip-download")
+                addCookiesIfAvailable(this, url)
             }
             val response = execute(request)
             if (response.exitCode != 0) {
@@ -165,6 +175,7 @@ object YtDlpManager {
             val request = YTDLRequest(url).apply {
                 addOption("-f", formatId)
                 addOption("-o", outputPath)
+                addCookiesIfAvailable(this, url)
                 // Add any other options like --no-playlist, etc.
             }
             val response = execute(request)
