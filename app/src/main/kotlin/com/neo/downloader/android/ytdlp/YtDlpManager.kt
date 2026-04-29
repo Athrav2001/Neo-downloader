@@ -2,8 +2,6 @@ package com.neo.downloader.android.ytdlp
 
 import android.content.Context
 import android.util.Log
-import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.ReturnCode
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
@@ -32,9 +30,9 @@ object YtDlpManager {
         val baseDir = File(context.noBackupFilesDir, "ytdlp")
         baseDir.mkdirs()
         ytDlpPath = File(baseDir, "yt-dlp")
-        // Download yt-dlp if not present
+        // Copy yt-dlp from assets if not present
         if (!ytDlpPath.exists()) {
-            downloadYtDlp()
+            copyYtDlpFromAssets(context)
         }
         // Set executable permission
         if (ytDlpPath.exists()) {
@@ -45,25 +43,17 @@ object YtDlpManager {
         initialized = true
     }
 
-    private fun downloadYtDlp() {
-        // Download from GitHub releases (similar to ytdlnis-src)
-        val url = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"
+    private fun copyYtDlpFromAssets(context: Context) {
         try {
-            val request = Request.Builder().url(url).build()
-            val response = client.newCall(request).execute()
-            if (response.isSuccessful) {
-                val input = response.body?.byteStream()
-                val output = FileOutputStream(ytDlpPath)
-                input?.copyTo(output)
-                output.close()
-                input?.close()
-                ytDlpPath.setExecutable(true)
-                Log.d(TAG, "yt-dlp downloaded successfully")
-            } else {
-                Log.e(TAG, "Failed to download yt-dlp: ${response.code}")
-            }
+            val assetManager = context.assets
+            val input = assetManager.open("yt-dlp")
+            val output = FileOutputStream(ytDlpPath)
+            input.copyTo(output)
+            output.close()
+            input.close()
+            Log.d(TAG, "yt-dlp copied from assets successfully")
         } catch (e: Exception) {
-            Log.e(TAG, "Error downloading yt-dlp", e)
+            Log.e(TAG, "Error copying yt-dlp from assets", e)
         }
     }
 
@@ -189,12 +179,6 @@ object YtDlpManager {
         }
     }
 
-    suspend fun convertTsToMp4(tsPath: String, mp4Path: String): Boolean = withContext(Dispatchers.IO) {
-        val command = "-i $tsPath -c copy $mp4Path"
-        val session = FFmpegKit.execute(command)
-        return ReturnCode.isSuccess(session.returnCode)
-    }
-
     private suspend fun execute(request: YTDLRequest): ExecutionResult = withContext(Dispatchers.IO) {
         val command = mutableListOf(pythonPath, ytDlpPath.absolutePath)
         command.addAll(request.buildCommand())
@@ -213,7 +197,6 @@ object YtDlpManager {
 
 class YTDLRequest(private val url: String) {
     private val options = mutableListOf<String>()
-    private val id = url.hashCode().toString()
 
     fun addOption(key: String, value: String? = null) {
         options.add(key)
@@ -231,7 +214,7 @@ class YTDLRequest(private val url: String) {
         return cmd
     }
 
-    val id: String get() = id
+    val id: String get() = url.hashCode().toString()
 }
 
 data class FormatOption(

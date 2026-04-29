@@ -39,9 +39,11 @@ import ir.neo.util.ifThen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import java.util.UUID
 import kotlin.text.orEmpty
+import android.util.Log
 import com.neo.downloader.android.ytdlp.YtDlpManager
 
 class BrowserComponent(
@@ -423,7 +425,7 @@ class BrowserComponent(
     }
 
     fun downloadYouTube(url: String, formatId: String) {
-        scope.launch {
+        this.scope.launch {
             YtDlpManager.getDownloadUrl(url, formatId).onSuccess { directUrl ->
                 downloadGrabberUrls(listOf(directUrl))
             }.onFailure { e ->
