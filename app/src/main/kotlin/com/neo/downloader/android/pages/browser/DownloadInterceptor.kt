@@ -179,7 +179,6 @@ class DownloadInterceptor(
     ) {
         val downloads = urlsWithHeaders
             .distinctBy { it.first }
-            .filter { isUsefulDownloadUrl(it.first) }
             .map { (url, forcedHeaders) ->
                 val request = getDetectedRequest(tab.tabId, url) ?: getWebRequestOrDefault(
                     url = url,
