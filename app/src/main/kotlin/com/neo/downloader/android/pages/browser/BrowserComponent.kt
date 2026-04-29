@@ -67,8 +67,12 @@ class BrowserComponent(
     private val _showYouTubeDialog = MutableStateFlow(false)
     val showYouTubeDialog = _showYouTubeDialog.asStateFlow()
     fun openYouTubeDownload() {
-        YtDlpManager.init(context)
-        _showYouTubeDialog.value = true
+        val initOk = runCatching {
+            YtDlpManager.init(context)
+        }.onFailure {
+            Log.e("BrowserComponent", "YouTubeDL init failed", it)
+        }.isSuccess
+        _showYouTubeDialog.value = initOk
         closeMainMenu()
     }
     fun closeYouTubeDialog() {
