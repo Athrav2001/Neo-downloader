@@ -80,7 +80,7 @@ object YtDlpManager {
     suspend fun getFormats(url: String): Result<List<FormatOption>> = withContext(Dispatchers.IO) {
         try {
             val request = YTDLRequest(url).apply {
-                addOption("--print", "%(formats)s")
+                addOption("--dump-single-json")
                 addOption("--skip-download")
                 addOption("--quiet")
                 addOption("--ignore-errors")
@@ -102,11 +102,23 @@ object YtDlpManager {
     private fun parseFormatsJson(jsonStr: String): List<FormatOption> {
         val list = mutableListOf<FormatOption>()
         try {
-            val arr = JSONArray(jsonStr.trim())
-            for (i in 0 until arr.length()) {
-                val obj = arr.getJSONObject(i)
+            val root = JSONObject(jsonStr.trim())
+            val formatsArray = root.optJSONArray("formats")
+                ?: root.optJSONArray("requested_formats")
+                ?: run {
+                    val entries = root.optJSONArray("entries")
+                    val firstEntry = entries?.optJSONObject(0)
+                    firstEntry?.optJSONArray("formats")
+                        ?: firstEntry?.optJSONArray("requested_formats")
+                }
+                ?: JSONArray()
+
+            for (i in 0 until formatsArray.length()) {
+                val obj = formatsArray.optJSONObject(i) ?: continue
                 val id = obj.optString("format_id", "")
+                if (id.isBlank()) continue
                 val note = obj.optString("format_note", "")
+                val ext = obj.optString("ext", "")
                 val height = obj.optInt("height", 0)
                 val filesize = obj.optLong("filesize", -1L)
                 val filesizeApprox = obj.optLong("filesize_approx", -1L)
@@ -115,13 +127,24 @@ object YtDlpManager {
                     filesizeApprox > 0 -> formatSize(filesizeApprox)
                     else -> null
                 }
-                val quality = if (note.isNotEmpty()) note else if (height > 0) "${height}p" else "Unknown"
+                val quality = when {
+                    note.isNotEmpty() && ext.isNotEmpty() -> "$note · $ext"
+                    note.isNotEmpty() -> note
+                    height > 0 && ext.isNotEmpty() -> "${height}p · $ext"
+                    height > 0 -> "${height}p"
+                    ext.isNotEmpty() -> ext
+                    else -> "Unknown"
+                }
                 list.add(FormatOption(id, quality, size, null, null, null))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to parse formats JSON", e)
         }
-        return list.sortedByDescending { it.quality }.distinctBy { it.quality }
+        return list
+            .distinctBy { it.id }
+            .sortedByDescending { format ->
+                """\d+""".toRegex().find(format.quality)?.value?.toIntOrNull() ?: 0
+            }
     }
 
     private fun formatSize(bytes: Long): String {
