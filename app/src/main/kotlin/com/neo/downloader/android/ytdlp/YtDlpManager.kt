@@ -83,7 +83,14 @@ object YtDlpManager {
                     }
                 }
             val headersObj = fmtObj.optJSONObject("http_headers")
+            val rootHeadersObj = root.optJSONObject("http_headers")
             val headers = buildMap {
+                if (rootHeadersObj != null) {
+                    rootHeadersObj.keys().forEach { key ->
+                        val value = rootHeadersObj.optString(key, "")
+                        if (value.isNotBlank()) put(key, value)
+                    }
+                }
                 if (headersObj != null) {
                     headersObj.keys().forEach { key ->
                         val value = headersObj.optString(key, "")
@@ -92,6 +99,8 @@ object YtDlpManager {
                 }
                 if (!containsKey("Referer")) put("Referer", "https://www.youtube.com/")
                 if (!containsKey("Origin")) put("Origin", "https://www.youtube.com")
+                if (!containsKey("Sec-Fetch-Site")) put("Sec-Fetch-Site", "cross-site")
+                if (!containsKey("Sec-Fetch-Mode")) put("Sec-Fetch-Mode", "cors")
             }
             ResolvedDownload(directUrl, headers)
         }.onFailure { Log.e(TAG, "getResolvedDownload failed", it) }
