@@ -653,8 +653,17 @@ class DownloadInterceptor(
                 prefetchedSizeLabel = detectedItem?.size,
                 prefetchedPartsCount = detectedItem?.partsCount,
                 prefetchedDurationSeconds = detectedItem?.durationSeconds,
+                forcedThreadCount = webRequest.url.takeIf(::isLikelyYouTubeMediaUrl)?.let { 1 },
             )
         )
+    }
+
+    private fun isLikelyYouTubeMediaUrl(url: String): Boolean {
+        return runCatching { URL(url).host.lowercase(Locale.US) }
+            .getOrNull()
+            ?.let { host ->
+                host.contains("googlevideo.com") || host.contains("youtube.com") || host.contains("youtu.be")
+            } == true
     }
 
     private fun buildSuggestedName(

@@ -17,6 +17,7 @@ data class AddDownloadCredentialsInUiProps(
         val prefetchedSizeLabel: String? = null,
         val prefetchedPartsCount: Int? = null,
         val prefetchedDurationSeconds: Double? = null,
+        val forcedThreadCount: Int? = null,
     ) {
         fun getAndFixSuggestedName(): String? {
             return suggestedName?.let(FilenameFixer::fix)

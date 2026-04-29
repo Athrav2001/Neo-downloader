@@ -28,6 +28,7 @@ import com.neo.downloader.shared.repository.BaseAppRepository
 import com.neo.downloader.shared.storage.BaseAppSettingsStorage
 import com.neo.downloader.shared.storage.ILastSavedLocationsStorage
 import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsManager
+import com.neo.downloader.shared.util.perhostsettings.PerHostSettingsItem
 import com.neo.downloader.shared.util.perhostsettings.getSettingsForURL
 import com.neo.downloader.NewDownloadItemProps
 import com.neo.downloader.downloaditem.DownloadJobExtraConfig
@@ -151,6 +152,14 @@ abstract class BaseAddSingleDownloadComponent(
     }
 
     init {
+        initialCredentials.extraConfig.forcedThreadCount?.let { forcedThreads ->
+            downloadInputsComponent.applyHostSettingsToExtraConfig(
+                PerHostSettingsItem(
+                    host = "forced",
+                    threadCount = forcedThreads,
+                )
+            )
+        }
         credentials
             .map { it.link }
             .distinctUntilChanged()
