@@ -66,13 +66,22 @@ object YtDlpManager {
             }
             val root = JSONObject(response.out.trim())
             val formatsArray = root.optJSONArray("formats") ?: JSONArray()
-            val fmtObj = (0 until formatsArray.length())
+            val requestedFormats = root.optJSONArray("requested_formats") ?: JSONArray()
+            val requestedObj = (0 until requestedFormats.length())
+                .asSequence()
+                .mapNotNull { requestedFormats.optJSONObject(it) }
+                .firstOrNull { it.optString("format_id", "") == formatId }
+            val fmtObj = requestedObj ?: (0 until formatsArray.length())
                 .asSequence()
                 .mapNotNull { formatsArray.optJSONObject(it) }
                 .firstOrNull { it.optString("format_id", "") == formatId }
                 ?: throw IllegalStateException("Requested format not found")
             val directUrl = fmtObj.optString("url", "").trim()
-                .ifBlank { throw IllegalStateException("No direct stream URL returned") }
+                .ifBlank {
+                    root.optString("url", "").trim().ifBlank {
+                        throw IllegalStateException("No direct stream URL returned")
+                    }
+                }
             val headersObj = fmtObj.optJSONObject("http_headers")
             val headers = buildMap {
                 if (headersObj != null) {
@@ -81,6 +90,8 @@ object YtDlpManager {
                         if (value.isNotBlank()) put(key, value)
                     }
                 }
+                if (!containsKey("Referer")) put("Referer", "https://www.youtube.com/")
+                if (!containsKey("Origin")) put("Origin", "https://www.youtube.com")
             }
             ResolvedDownload(directUrl, headers)
         }.onFailure { Log.e(TAG, "getResolvedDownload failed", it) }
