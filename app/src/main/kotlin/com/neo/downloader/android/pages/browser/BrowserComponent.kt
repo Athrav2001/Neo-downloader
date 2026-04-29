@@ -430,8 +430,14 @@ class BrowserComponent(
 
     fun downloadYouTube(url: String, formatId: String) {
         this.scope.launch {
-            YtDlpManager.getDownloadUrl(url, formatId).onSuccess { directUrl ->
-                downloadGrabberUrls(listOf(directUrl))
+            YtDlpManager.getResolvedDownload(url, formatId).onSuccess { resolved ->
+                val tab = tabs.value.activeTab ?: return@onSuccess
+                downloadInterceptor.triggerDownloadsWithHeaders(
+                    urlsWithHeaders = listOf(resolved.url to resolved.headers),
+                    userAgent = getEffectiveUserAgent(),
+                    page = tab.tabState.lastLoadedUrl,
+                    tab = tab,
+                )
             }.onFailure { e ->
                 Log.e("BrowserComponent", "Failed to get download URL", e)
                 // TODO: show toast or notification

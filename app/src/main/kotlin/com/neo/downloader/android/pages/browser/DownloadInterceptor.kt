@@ -171,6 +171,37 @@ class DownloadInterceptor(
         }
     }
 
+    fun triggerDownloadsWithHeaders(
+        urlsWithHeaders: List<Pair<String, Map<String, String>>>,
+        userAgent: String?,
+        page: String?,
+        tab: NDMBrowserTab,
+    ) {
+        val downloads = urlsWithHeaders
+            .distinctBy { it.first }
+            .filter { isUsefulDownloadUrl(it.first) }
+            .map { (url, forcedHeaders) ->
+                val request = getDetectedRequest(tab.tabId, url) ?: getWebRequestOrDefault(
+                    url = url,
+                    userAgent = userAgent,
+                    page = page,
+                    webViewState = tab.tabState,
+                )
+                request.copy(headers = request.headers + forcedHeaders)
+            }
+            .map { webRequest ->
+                createAddDownloadProps(
+                    webRequest = webRequest,
+                    pageTitle = tab.tabState.pageTitle,
+                    detectedItem = detectedByTab[tab.tabId]?.get(webRequest.url),
+                )
+            }
+
+        if (downloads.isNotEmpty()) {
+            onNewDownload(downloads)
+        }
+    }
+
     override fun interceptRequest(
         request: NDMWebRequest,
     ) {

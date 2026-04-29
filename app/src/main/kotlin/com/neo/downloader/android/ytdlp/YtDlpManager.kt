@@ -49,11 +49,12 @@ object YtDlpManager {
         }.onFailure { Log.e(TAG, "getFormats failed", it) }
     }
 
-    suspend fun getDownloadUrl(url: String, formatId: String): Result<String> = withContext(Dispatchers.IO) {
+    suspend fun getResolvedDownload(url: String, formatId: String): Result<ResolvedDownload> = withContext(Dispatchers.IO) {
         runCatching {
             val request = YoutubeDLRequest(url).apply {
                 addOption("-f", formatId)
-                addOption("-g")
+                addOption("--dump-single-json")
+                addOption("--skip-download")
                 addOption("--no-playlist")
                 addOption("--quiet")
                 addOption("--no-warnings")
@@ -63,13 +64,26 @@ object YtDlpManager {
             if (response.exitCode != 0) {
                 throw IllegalStateException("yt-dlp failed: ${response.err}")
             }
-            val directUrl = response.out
-                .lineSequence()
-                .map { it.trim() }
-                .firstOrNull { it.startsWith("http") }
-                ?: throw IllegalStateException("No direct stream URL returned")
-            directUrl
-        }.onFailure { Log.e(TAG, "getDownloadUrl failed", it) }
+            val root = JSONObject(response.out.trim())
+            val formatsArray = root.optJSONArray("formats") ?: JSONArray()
+            val fmtObj = (0 until formatsArray.length())
+                .asSequence()
+                .mapNotNull { formatsArray.optJSONObject(it) }
+                .firstOrNull { it.optString("format_id", "") == formatId }
+                ?: throw IllegalStateException("Requested format not found")
+            val directUrl = fmtObj.optString("url", "").trim()
+                .ifBlank { throw IllegalStateException("No direct stream URL returned") }
+            val headersObj = fmtObj.optJSONObject("http_headers")
+            val headers = buildMap {
+                if (headersObj != null) {
+                    headersObj.keys().forEach { key ->
+                        val value = headersObj.optString(key, "")
+                        if (value.isNotBlank()) put(key, value)
+                    }
+                }
+            }
+            ResolvedDownload(directUrl, headers)
+        }.onFailure { Log.e(TAG, "getResolvedDownload failed", it) }
     }
 
     private fun parseFormatsJson(jsonStr: String): List<FormatOption> {
@@ -150,4 +164,9 @@ data class FormatOption(
     val bitrate: Int? = null,
     val fps: Int? = null,
     val codec: String? = null,
+)
+
+data class ResolvedDownload(
+    val url: String,
+    val headers: Map<String, String>,
 )
