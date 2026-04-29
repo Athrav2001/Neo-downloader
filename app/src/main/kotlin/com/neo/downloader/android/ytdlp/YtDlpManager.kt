@@ -31,6 +31,11 @@ object YtDlpManager {
         }
     }
 
+    private fun addYouTubeExtractorArgs(request: YoutubeDLRequest) {
+        // Prefer stable clients for direct media URLs on Android.
+        request.addOption("--extractor-args", "youtube:player_client=android,web")
+    }
+
     suspend fun getFormats(url: String): Result<List<FormatOption>> = withContext(Dispatchers.IO) {
         runCatching {
             val request = YoutubeDLRequest(url).apply {
@@ -40,6 +45,7 @@ object YtDlpManager {
                 addOption("--quiet")
                 addOption("--no-warnings")
             }
+            addYouTubeExtractorArgs(request)
             addCookiesIfAvailable(request, url)
             val response = YoutubeDL.getInstance().execute(request)
             if (response.exitCode != 0) {
@@ -59,6 +65,7 @@ object YtDlpManager {
                 addOption("--quiet")
                 addOption("--no-warnings")
             }
+            addYouTubeExtractorArgs(request)
             addCookiesIfAvailable(request, url)
             val response = YoutubeDL.getInstance().execute(request)
             if (response.exitCode != 0) {
@@ -101,6 +108,18 @@ object YtDlpManager {
                 if (!containsKey("Origin")) put("Origin", "https://www.youtube.com")
                 if (!containsKey("Sec-Fetch-Site")) put("Sec-Fetch-Site", "cross-site")
                 if (!containsKey("Sec-Fetch-Mode")) put("Sec-Fetch-Mode", "cors")
+
+                // Also inject live WebView cookies for the resolved direct host.
+                val cookieManager = CookieManager.getInstance()
+                val hostCookie = cookieManager.getCookie(directUrl).orEmpty()
+                val ytCookie = cookieManager.getCookie("https://www.youtube.com/").orEmpty()
+                val mergedCookie = listOf(hostCookie, ytCookie)
+                    .filter { it.isNotBlank() }
+                    .joinToString("; ")
+                    .trim()
+                if (mergedCookie.isNotBlank()) {
+                    put("Cookie", mergedCookie)
+                }
             }
             ResolvedDownload(directUrl, headers)
         }.onFailure { Log.e(TAG, "getResolvedDownload failed", it) }
