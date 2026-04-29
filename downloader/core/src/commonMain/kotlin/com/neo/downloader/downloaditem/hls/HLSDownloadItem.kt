@@ -28,7 +28,7 @@ data class HLSDownloadItem(
     override var password: String? = null,
     override var userAgent: String? = null,
     var duration: Double? = null,
-    var remuxToMp4: Boolean = false,
+    var remuxToMp4: Boolean = true,
 ) : IDownloadItem, IHLSCredentials {
     override fun copy(
         id: Option<Long>,
@@ -103,7 +103,7 @@ data class HLSDownloadItem(
             speedLimit: Long = 0,
             fileChecksum: String? = null,
             duration: Double? = null,
-            remuxToMp4: Boolean = false,
+            remuxToMp4: Boolean = true,
         ): HLSDownloadItem {
             return HLSDownloadItem(
                 link = credentials.link,
