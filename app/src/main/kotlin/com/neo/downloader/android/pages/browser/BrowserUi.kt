@@ -776,6 +776,9 @@ private fun YouTubeDownloadDialog(
                         if (sanitizedUrl.isBlank()) return@ActionButton
                         resolvedYouTubeUrl = sanitizedUrl
                         fetchError = null
+                        val sanitizedUrl = youTubeUrl.trim()
+                        if (sanitizedUrl.isBlank()) return@ActionButton
+                        resolvedYouTubeUrl = sanitizedUrl
                         formats = emptyList()
                         isLoading = true
                         scope.launch {
@@ -787,6 +790,8 @@ private fun YouTubeDownloadDialog(
                                     }
                                 }.onFailure { e ->
                                     fetchError = e.message ?: "Failed to fetch qualities"
+                                }.onFailure { e ->
+                                    // TODO: show error message
                                     e.printStackTrace()
                                 }
                             } finally {
